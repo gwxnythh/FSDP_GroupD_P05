@@ -18,7 +18,7 @@ Digital Banking Accessible for Everyone
 ## Target Audience
 
 ## Features
-#### Lorem Ipsum - Ggwendolynn []
+#### Improved UI - Ggwendolynn []
 ##### Tasks (Lorem Ipsum):
  - Lorem Ipsum
 
@@ -26,11 +26,11 @@ Digital Banking Accessible for Everyone
 ##### Tasks (Lorem Ipsum):
  - Lorem Ipsum
 
- #### Lorem Ipsum - Jovan []
+ #### Vibration/Haptic Touch - Jovan []
 ##### Tasks (Lorem Ipsum):
  - Lorem Ipsum
 
- #### Lorem Ipsum - Han Yan []
+ #### Voice Recognition - Han Yan []
 ##### Tasks (Lorem Ipsum):
  - Lorem Ipsum
 
