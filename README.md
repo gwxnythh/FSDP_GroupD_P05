@@ -4,7 +4,7 @@
   - Valerie Kho Yi Ting (S10262676)
   - Ggwendolynn Lee Rasni (S10262576)
   - Jovan Tan Hao (S1026..)
-  - Tan Han Yan ()
+  - Tan Han Yan (S10262621)
   - Gan Yu Hong ()
 
 ## Problem Statement
