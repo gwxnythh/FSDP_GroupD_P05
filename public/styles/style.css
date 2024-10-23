@@ -1,0 +1,379 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #e30613;
+    --secondary-color: #424347;
+    --tertiary-color: #4e5255;
+    --text-color: #000000;
+}
+
+/* Common container styling for all sections */
+.banner,
+.shortcuts,
+.accounts {
+    width: calc(100% - 800px);
+    margin: 0 400px;
+    padding: 40px 0;
+}
+
+.banner-content,
+.shortcuts-content,
+.accounts-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/*============== Header ==============*/
+header {
+    background-color: #f8f9fa;
+    box-shadow: 0px 4px 2px -2px gray;
+}
+
+/* Top row styling */
+.header-top {
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 400px;
+    color: white;
+}
+
+.header-logo img {
+    height: 40px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-icons i {
+    font-size: 20px;
+}
+
+.header-icons img,
+.header-icons button {
+    height: 30px;
+    cursor: pointer;
+}
+
+.header-icons select {
+    height: 30px;
+}
+
+/* Bottom row styling */
+.header-bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding: 5px 0px;
+    margin: 0 400px;
+}
+
+.header-bottom a {
+    text-decoration: none;
+    padding: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+.header-icons select {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.header-icons button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: normal;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.header-icons .logout-btn i {
+    margin-right: 5px;
+}
+
+.header-icons button:hover {
+    background-color: var(--tertiary-color);
+    padding: 5px 20px;
+}
+
+.header-icons select:hover {
+    background-color: var(--tertiary-color);
+}
+
+/*============== Banner Section ==============*/
+.banner {
+    margin-top: 20px;
+    border-radius: 15px;
+    background-color: #f5f5f5;
+    /* change */
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.banner-text {
+    flex: 1;
+}
+
+.banner-image {
+    flex: 1;
+}
+
+.banner-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.banner h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.learn-more {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #007bff;
+    /* change */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.learn-more:hover {
+    background-color: var(--tertiary-color);
+}
+
+/*============== Shortcuts Section ==============*/
+.shortcuts-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.shortcuts-title {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.shortcuts-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 0px;
+}
+
+.shortcut-item {
+    flex: 1;
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* transition: transform 0.3s ease; */
+}
+
+.shortcut-item:hover {
+    /* transform: translateY(-5px); */
+    background-color: var(--tertiary-color);
+    color: white;
+}
+
+.shortcut-item:hover a {
+    color: white;
+}
+
+.shortcut-item:hover i,
+.shortcut-item:hover h3 {
+    color: white;
+}
+
+.shortcut-item i {
+    font-size: 48px;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.shortcut-item h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.shortcut-item a {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .shortcuts-content {
+        flex-direction: column;
+    }
+
+    .shortcut-item {
+        margin-bottom: 20px;
+    }
+}
+
+/*============== Accounts Section ==============*/
+.accounts-dropdown {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.account-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    background-color: var(--secondary-color);
+}
+
+.account-header:hover {
+    background-color: var(--tertiary-color);
+}
+
+.account-header i {
+    font-size: 24px;
+    color: #666;
+    transition: transform 0.3s ease;
+}
+
+.account-header.active i {
+    transform: rotate(180deg);
+}
+
+.account-info h3 {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.account-info p {
+    font-size: 14px;
+    color: white;
+}
+
+.accounts-list {
+    display: none;
+}
+
+.accounts-list.show {
+    display: block;
+}
+
+.account-item {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.account-item:hover {
+    background-color: #f8f9fa;
+}
+
+.account-item:last-child {
+    border-bottom: none;
+}
+
+.account-details h4 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.account-number {
+    font-size: 14px;
+    color: #666;
+}
+
+.account-balance {
+    text-align: right;
+}
+
+.account-balance p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.account-balance h4 {
+    font-size: 18px;
+    color: #333;
+}
+
+/*============== Responsive design ==============*/
+@media (max-width: 1200px) {
+
+    .banner,
+    .shortcuts,
+    .accounts {
+        width: calc(100% - 100px);
+        margin: 0 50px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .banner,
+    .shortcuts,
+    .accounts {
+        width: 100%;
+        margin: 0;
+    }
+
+    .banner-content,
+    .shortcuts-content,
+    .accounts-content {
+        padding: 0 20px;
+    }
+}

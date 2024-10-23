@@ -1,0 +1,161 @@
+<!-- Home Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OCBC</title>
+    <!-- ============ Favicon ============ -->
+    <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
+    <!-- ============ Styles ============ -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <!-- ============ Navigation Bar ============ -->
+    <header>
+        <!-- Top row -->
+        <div class="header-top">
+            <!-- Logo -->
+            <div class="header-logo">
+                <img src="images/ocbc_logo.png" alt="OCBC Logo">
+            </div>
+
+            <!-- ============ Right Side of Navbar ============ -->
+            <div class="header-icons">
+                <div class="header-welcome">
+                    <p>Welcome, <span>Guest</span></p>
+                </div>
+
+                <!-- Notification -->
+                <i class='bx bxs-bell'></i>
+                <!-- Help -->
+                <i class='bx bxs-help-circle'></i>
+                <!-- Settings -->
+                <i class='bx bxs-cog'></i>
+
+                <!-- Language Dropdown -->
+                <select name="language" id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+
+                <!-- Logout Button -->
+                <button class="logout-btn"><i class='bx bx-log-out'></i>Logout</button>
+            </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="header-bottom">
+            <a href="#">View Accounts</a>
+            <a href="#">Transfers & Payments</a>
+            <a href="#">Investments & Insurance</a>
+            <a href="#">Customer Service</a>
+            <a href="#">Apply</a>
+            <a href="#">Rewards</a>
+        </div>
+    </header>
+
+    <!-- ============ Alerting Banner ============ -->
+    <section class="banner">
+        <div class="banner-content">
+            <div class="banner-text">
+                <h2>Protect your funds from scams with the new OCBC Money Lock</h2>
+                <p>Lock the funds in your existing current and/or savings account(s) to protect them from scams and have
+                    peace of mind.</p>
+                <a href="#" class="learn-more">Learn more</a>
+            </div>
+            <div class="banner-image">
+                <!-- Need to change banner image alt -->
+                <img src="your-image.jpg" alt="Banner Image">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ Shortcuts (Transfers/Account Balance) ============ -->
+    <section class="shortcuts">
+        <div class="shortcuts-container">
+            <h1 class="shortcuts-title">Shortcuts</h1>
+            <div class="shortcuts-content">
+                <div class="shortcut-item">
+                    <a href="#"><i class='bx bx-transfer-alt'></i>
+                        <h3>Transfer</h3>
+                    </a>
+                </div>
+
+                <div class="shortcut-item">
+                    <a href="#"><i class='bx bx-credit-card'></i>
+                        <h3>Pay Bills</h3>
+                    </a>
+
+                </div>
+
+                <div class="shortcut-item">
+                    <a href="#"><i class='bx bx-scan'></i>
+                        <h3>Scan & Pay</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ Accounts Section ============ -->
+    <section class="accounts">
+        <div class="accounts-content">
+            <div class="accounts-dropdown">
+                <div class="account-header" onclick="toggleAccounts()">
+                    <div class="account-info">
+                        <h3>My Accounts</h3>
+                        <p>Select an account to view details</p>
+                    </div>
+                    <i class='bx bx-chevron-down'></i>
+                </div>
+
+                <div class="accounts-list" id="accountsList">
+                    <!-- Account 1 -->
+                    <div class="account-item">
+                        <div class="account-details">
+                            <h4>360 Account</h4>
+                            <p class="account-number">123-456-001</p>
+                        </div>
+                        <div class="account-balance">
+                            <p>SGD</p>
+                            <h4>50,000.00</h4>
+                        </div>
+                    </div>
+
+                    <!-- Account 2 -->
+                    <div class="account-item">
+                        <div class="account-details">
+                            <h4>Savings Account</h4>
+                            <p class="account-number">888-123456-002</p>
+                        </div>
+                        <div class="account-balance">
+                            <p>SGD</p>
+                            <h4>25,000.00</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ Scripts ============ -->
+    <script src="script.js"></script>
+    <script>
+        /* Display Account(s) Dropdown */
+        function toggleAccounts() {
+            const accountsList = document.getElementById('accountsList');
+            const accountHeader = document.querySelector('.account-header');
+
+            accountsList.classList.toggle('show');
+            accountHeader.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
