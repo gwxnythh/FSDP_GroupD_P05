@@ -13,12 +13,12 @@ async function seedDatabase() {
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
         `);
 
-        // Create the Users table first
+        // Create the Users table first with updated PIN column type
         await sql.query(`
             CREATE TABLE Users (
                 UserID NVARCHAR(10) PRIMARY KEY, -- Use custom ID format like U1, U2, etc.
                 AccessCode NVARCHAR(14) NOT NULL UNIQUE CHECK (AccessCode LIKE '%[a-zA-Z0-9]%' AND LEN(AccessCode) BETWEEN 6 AND 14),
-                PIN CHAR(6) NOT NULL CHECK (PIN LIKE '[0-9][0-9][0-9][0-9][0-9][0-9]'),
+                PIN NVARCHAR(60) NOT NULL, -- Updated data type to accommodate hashed values
                 FullName NVARCHAR(100) NOT NULL,
                 Email NVARCHAR(100),
                 IsActive BIT NOT NULL DEFAULT 1,
@@ -79,6 +79,7 @@ async function seedDatabase() {
                 ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com'),
                 ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com');
         `);
+
 
         // Insert data into the Accounts table
         await sql.query(`
