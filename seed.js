@@ -1,5 +1,6 @@
 const sql = require('mssql');
 const dbConfig = require("./dbConfig");
+const bcrypt = require('bcryptjs');
 
 async function seedDatabase() {
     try {
@@ -55,15 +56,28 @@ async function seedDatabase() {
             );
         `);
 
+        // Hash passwords
+        let salt = await bcrypt.genSalt(10);
+        const hashedPassword1 = await bcrypt.hash('123456', salt);
+        salt = await bcrypt.genSalt(10);
+        const hashedPassword2 = await bcrypt.hash('654321', salt);
+        salt = await bcrypt.genSalt(10);
+        const hashedPassword3 = await bcrypt.hash('789123' , salt);
+        salt = await bcrypt.genSalt(10);
+        const hashedPassword4 = await bcrypt.hash('101010', salt);
+        salt = await bcrypt.genSalt(10);
+        const hashedPassword5 = await bcrypt.hash('202020', salt);
+
+
         // Insert data into the Users table
         await sql.query(`
             INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email)
             VALUES 
-                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com'),
-                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com'),
-                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com'),
-                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com'),
-                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com');
+                ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com'),
+                ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com'),
+                ('U3', 'Access789', '${hashedPassword3}', 'Michael Brown', 'michael@example.com'),
+                ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com'),
+                ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com');
         `);
 
         // Insert data into the Accounts table
