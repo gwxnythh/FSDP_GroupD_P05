@@ -22,7 +22,7 @@ app.use(staticMiddleware);
 // Accounts routes
 app.get("/accounts", accountsController.getAllAccounts);
 app.get("/accounts/:id", accountsController.getAccountById);
-
+app.put("/accounts/:id",accountsController.updateBalance);
 
 
 

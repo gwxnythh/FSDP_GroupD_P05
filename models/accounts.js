@@ -56,6 +56,21 @@ class Accounts {
             )
         );
     }
+    
+    static async updateBalance(AccountID, newBalance) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Accounts SET Balance = @Balance WHERE AccountID = @AccountID`;
+
+        const request = connection.request();
+        request.input("AccountID", AccountID);
+        request.input("Balance", newBalance);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected[0] > 0; // Return true if the update was successful
+    }
 
     
 }
