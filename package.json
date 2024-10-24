@@ -1,0 +1,18 @@
+{
+  "name": "fsdp_groupd_p05",
+  "version": "1.0.0",
+  "description": "- Valerie Kho Yi Ting (S10262676)\r   - Ggwendolynn Lee Rasni (S10262576)\r   - Jovan Tan Hao (S1026..)\r   - Tan Han Yan (S10262621)\r   - Gan Yu Hong ()",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mssql": "^11.0.1"
+  }
+}
