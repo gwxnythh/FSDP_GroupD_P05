@@ -11,6 +11,7 @@ async function seedDatabase() {
             IF OBJECT_ID('dbo.Transactions', 'U') IS NOT NULL DROP TABLE dbo.Transactions;
             IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
+            IF OBJECT_ID('dbo.RefreshTokens', 'U') IS NOT NULL DROP TABLE dbo.RefreshTokens;
         `);
 
         // Create the Users table first with updated PIN column type
@@ -21,6 +22,7 @@ async function seedDatabase() {
                 PIN NVARCHAR(60) NOT NULL, -- Updated data type to accommodate hashed values
                 FullName NVARCHAR(100) NOT NULL,
                 Email NVARCHAR(100),
+                PhoneNumber CHAR(8) NOT NULL CHECK (PhoneNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'), -- Must be 8 digits,
                 IsActive BIT NOT NULL DEFAULT 1,
                 CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
             );
@@ -56,6 +58,14 @@ async function seedDatabase() {
             );
         `);
 
+        // Create the RefreshTokens table
+        await sql.query(`
+                CREATE TABLE RefreshTokens (
+                    token_id INT PRIMARY KEY IDENTITY(1,1),
+                    refreshToken VARCHAR(255) NOT NULL UNIQUE
+                );
+            `)
+
         // Hash passwords
         let salt = await bcrypt.genSalt(10);
         const hashedPassword1 = await bcrypt.hash('123456', salt);
@@ -71,13 +81,13 @@ async function seedDatabase() {
 
         // Insert data into the Users table
         await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email)
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, PhoneNumber)
             VALUES 
-                ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com'),
-                ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com'),
-                ('U3', 'Access789', '${hashedPassword3}', 'Michael Brown', 'michael@example.com'),
-                ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com'),
-                ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com');
+                ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com', '91234567'),
+                ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com', '98765432'),
+                ('U3', 'Access789', '${hashedPassword3}', 'Michael Brown', 'michael@example.com', '87654321'),
+                ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com', '96543210'),
+                ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com', '95432109');
         `);
 
 

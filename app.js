@@ -4,13 +4,28 @@ const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
 const seedDatabase = require("./seed");
-
+const accountsController = require("./controllers/accountsController");
+const transactionsController = require("./controllers/transactionsController");
+const usersController = require("./controllers/usersController");
+const validateAccounts = require("./middlewares/validateAccounts")
+const validateTransactions = require("./middlewares/validateTransactions")
+const authenticate = require("./middlewares/authenticate")
+const validateUsers = require("./middlewares/validateUsers")
 const app = express(); // Create an instance of express
 const port = process.env.PORT || 3000; // Use environment variable or default port
-
+const staticMiddleware = express.static("public");
 // Include body-parser middleware to handle JSON data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For form data handling
+app.use(staticMiddleware);
+
+// Accounts routes
+app.get("/accounts", accountsController.getAllAccounts);
+app.get("/accounts/:id", accountsController.getAccountById);
+
+
+
+
 
 // Start the server and connect to DB
 app.listen(port, async () => {
