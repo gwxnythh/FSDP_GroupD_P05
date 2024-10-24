@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OCBC - Transactions</title>
+    <!-- ============ Favicon ============ -->
+    <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
+    <!-- ============ Styles ============ -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- ============ Navigation Bar ============ -->
+    <header>
+        <!-- Top row -->
+        <div class="header-top">
+            <!-- Logo -->
+            <div class="header-logo">
+                <img src="images/ocbc_logo.png" alt="OCBC Logo">
+            </div>
+
+            <!-- ============ Right Side of Navbar ============ -->
+            <div class="header-icons">
+                <div class="header-welcome">
+                    <p>Welcome, <span>Guest</span></p>
+                </div>
+
+                <!-- Notification -->
+                <i class='bx bxs-bell'></i>
+                <!-- Help -->
+                <i class='bx bxs-help-circle'></i>
+                <!-- Settings -->
+                <i class='bx bxs-cog'></i>
+
+                <!-- Language Dropdown -->
+                <select name="language" id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+
+                <!-- Logout Button -->
+                <a href="login.html"><button class="logout-btn"><i class='bx bx-log-out'></i>Logout</button></a>
+            </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="header-bottom">
+            <a href="index.html">View Accounts</a>
+            <a href="#">Transfers & Payments</a>
+            <a href="transaction.html">Transactions</a>
+            <a href="#">Customer Service</a>
+            <a href="#">Apply</a>
+            <a href="#">Rewards</a>
+        </div>
+    </header>
+
+    <section class="transaction-section">
+        <div class="transaction-balance">
+            <!-- <div class="balance-left">
+                <div class="balance-label">Balance</div>
+                <div class="balance-amount"><span>0</span></div>
+            </div>
+            <div class="paynow-container">
+                <div class="paynow-icon">
+                    <i class='bx bx-transfer'></i>
+                </div>
+                <span class="paynow-text">PayNow</span>
+            </div> -->
+            <div class="balance-container">
+                <div class="balance">
+                    Balance
+                    <br>
+                    $0
+                </div>
+                <a href="#" class="pay-button">
+                    <i class="phone-icon"></i>
+                    PayNow
+                </a>
+            </div>
+        </div>
+
+        
+        <h1 class="transaction-title">Lastest Transactions</h1>
+    </section>
+
+</body>
+
+</html>
