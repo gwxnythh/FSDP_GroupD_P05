@@ -53,6 +53,7 @@ async function seedDatabase() {
                 TransactionDate DATETIME NOT NULL DEFAULT GETDATE(),
                 Status NVARCHAR(50) NOT NULL CHECK (Status IN ('Completed', 'Pending', 'Failed')),
                 Description NVARCHAR(255),
+                ReferenceNo CHAR(7),
                 FOREIGN KEY (FromAccountID) REFERENCES Accounts(AccountID),
                 FOREIGN KEY (ToAccountID) REFERENCES Accounts(AccountID)
             );
@@ -104,13 +105,13 @@ async function seedDatabase() {
 
         // Insert data into the Transactions table
         await sql.query(`
-            INSERT INTO Transactions (TransactionID, FromAccountID, ToAccountID, Amount, Status, Description)
+            INSERT INTO Transactions (TransactionID, FromAccountID, ToAccountID, Amount, Status, Description,ReferenceNo)
             VALUES 
-                ('T1', 'A1', 'A3', 500.00, 'Completed', 'Transfer to Jane Smith'),
-                ('T2', 'A2', 'A4', 200.00, 'Completed', 'Bill payment'),
-                ('T3', 'A3', 'A5', 1000.00, 'Completed', 'Loan repayment'),
-                ('T4', 'A4', 'A1', 300.00, 'Completed', 'Gift to John Doe'),
-                ('T5', 'A5', 'A2', 400.00, 'Completed', 'Transfer to John Doe Checking account');
+                ('T1', 'A1', 'A3', 500.00, 'Completed', 'Transfer to Jane Smith','1089550'),
+                ('T2', 'A2', 'A4', 200.00, 'Completed', 'Bill payment','1089551'),
+                ('T3', 'A3', 'A5', 1000.00, 'Completed', 'Loan repayment','1089552'),
+                ('T4', 'A4', 'A1', 300.00, 'Completed', 'Gift to John Doe','1089553'),
+                ('T5', 'A5', 'A2', 400.00, 'Completed', 'Transfer to John Doe Checking account','1089554');
         `);
 
         console.log('Sample data inserted successfully.');
