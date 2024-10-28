@@ -5,7 +5,7 @@
   - Ggwendolynn Lee Rasni (S10262576)
   - Jovan Tan Hao (S1026..)
   - Tan Han Yan (S10262621)
-  - Gan Yu Hong ()
+  - Gan Yu Hong (s10258441)
 
 ## Problem Statement
 Digital Banking Accessible for Everyone

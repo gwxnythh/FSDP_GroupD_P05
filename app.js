@@ -23,6 +23,10 @@ app.use(staticMiddleware);
 app.get("/accounts", accountsController.getAllAccounts);
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
+//Transactions routes
+app.get('/transactions', transactionsController.getAllTransactions);
+app.get("/transactions/account/:accountId", transactionsController.getTransactionsByAccountId);
+app.post('/transactions', transactionsController.createTransaction);
 
 
 
