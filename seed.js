@@ -66,6 +66,7 @@ async function seedDatabase() {
                     refreshToken VARCHAR(255) NOT NULL UNIQUE
                 );
             `)
+            /*
 
         // Hash passwords
         let salt = await bcrypt.genSalt(10);
@@ -79,6 +80,8 @@ async function seedDatabase() {
         salt = await bcrypt.genSalt(10);
         const hashedPassword5 = await bcrypt.hash('202020', salt);
 
+        
+
 
         // Insert data into the Users table
         await sql.query(`
@@ -90,7 +93,17 @@ async function seedDatabase() {
                 ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com', '96543210'),
                 ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com', '95432109');
         `);
-
+*/
+        // Insert data into the Users table
+        await sql.query(`
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, PhoneNumber)
+            VALUES 
+                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567'),
+                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432'),
+                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com', '87654321'),
+                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com', '96543210'),
+                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com', '95432109');
+        `);
 
         // Insert data into the Accounts table
         await sql.query(`
