@@ -17,6 +17,15 @@ function closeNav() {
     document.body.classList.remove("nav-open"); // Remove class to reset padding
 }
 
+
+// Dark mode toggle script
+document.getElementById('darkModeToggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+});
+
+
+
+
 /* PayNow Page Payment to */
 document.querySelectorAll('input[name="transfer-to"]').forEach((radio) => {
     radio.addEventListener('change', function() {

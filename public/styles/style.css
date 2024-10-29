@@ -6,16 +6,60 @@
 }
 
 :root {
+    --background-color: #ffffff;
     --primary-color: #e30613;
     --secondary-color: #424347;
     --tertiary-color: #4e5255;
     --text-color: #000000;
+    --header-background: #f8f9fa;
 }
 
 body {
     padding-left: 0;
     transition: padding-left 0.4s ease;
     padding-top: 150px;
+}
+
+body.dark-mode {
+    --primary-color: #e30613;
+    --secondary-color: #424347;
+    --tertiary-color: #4e5255;
+    --background-color: #333333;
+    --text-color: #ffffff;
+    --header-background: #1f1f1f;
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--header-background);
+}
+
+.header-icons i {
+    color: white;
+}
+
+
+.header-icons select,
+.header-icons button {
+    color: var(--text-color);
+}
+
+/* Specific dark mode element styles */
+.header-icons .dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* Button styling */
+button.logout-btn, .dark-mode-toggle {
+    color: var(--primary-color);
 }
 
 /* Common container styling for all sections */
@@ -40,24 +84,17 @@ body {
 /*============== Header ==============*/
 header {
     position: fixed;
-    /* Ensure the header stays at the top */
     top: 0;
     width: 100%;
-    /* Full width */
     z-index: 1001;
-    /* On top of the side navigation */
     background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 4px 2px -2px gray;
     position: fixed;
-    /* Makes the header fixed */
     top: 0;
-    /* Positions it at the top */
     left: 0;
-    /* Positions it at the left */
     right: 0;
-    /* Positions it at the right */
     z-index: 1000;
 }
 
@@ -962,22 +999,22 @@ body.login-body {
 
 /*============== Transfers Page ==============*/
 .transfers-container {
-    max-width: 1200px;
+    max-width: 800px; /* Decrease max-width to center it more effectively */
     margin: 2rem auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem; /* Adjust padding to reduce overall width */
 }
 
 .transfers-container .page-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
     color: #333;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 
 .transfers-container .title-illustration {
-    width: 300px;
+    width: 250px;
     margin-left: auto;
 }
 
@@ -985,11 +1022,11 @@ body.login-body {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .transfers-container .action-item {
@@ -997,7 +1034,7 @@ body.login-body {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -1008,8 +1045,8 @@ body.login-body {
 }
 
 .transfers-container .action-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background: #f8f9fa;
     border-radius: 50%;
     display: flex;
@@ -1024,26 +1061,30 @@ body.login-body {
 
 .transfers-container .manage-section {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1rem;
 }
 
-.transfers-container .section-title {
-    font-size: 1.5rem;
-    margin: 1rem;
-    color: #333;
+.transfers-container .manage-section .section-title {
+    background-color: var(--tertiary-color);
+    color: white;
+    font-size: 1.3rem;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0;
 }
 
 .transfers-container .manage-list {
     list-style: none;
+    padding: 0;
 }
 
 .transfers-container .manage-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.8rem;
     border-bottom: 1px solid #eee;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -1056,7 +1097,7 @@ body.login-body {
 .transfers-container .manage-item-left {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 
 .transfers-container .bottom-nav {
@@ -1069,7 +1110,7 @@ body.login-body {
     display: flex;
     justify-content: space-around;
     border-top: 1px solid #eee;
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .transfers-container .nav-item {
@@ -1085,3 +1126,4 @@ body.login-body {
 .transfers-container .nav-item.active {
     color: #e32726;
 }
+
