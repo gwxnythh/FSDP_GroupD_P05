@@ -185,6 +185,12 @@
             document.getElementById("sideNav").style.width = "0";
             document.body.classList.remove("nav-open"); // Remove class to reset padding
         }
+        
+        window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) { // Adjust the width as per your design needs
+            closeNav();
+        } 
+    });
     </script>
 </body>
 
