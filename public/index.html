@@ -44,7 +44,8 @@
                     <option value="fr">French</option>
                 </select>
                 <!-- Logout Button -->
-                <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i class='bx bx-log-out'></i>Logout</button></a>
+                <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i
+                            class='bx bx-log-out'></i>Logout</button></a>
             </div>
         </div>
 
@@ -67,14 +68,14 @@
     <!-- Side Navigation Menu -->
     <div id="sideNav" class="side-nav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
-        <a href="#">View Accounts</a>
-        <a href="#">Transfers & Payments</a>
-        <a href="#">Investments & Insurance</a>
+        <a href="index.html">View Accounts</a>
+        <a href="paynow.html">Transfers & Payments</a>
+        <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
         <a href="#">Apply</a>
         <a href="#">Rewards</a>
         <button id="sidenav-logout-btn" class="logout-btn">Logout</button>
-</div>
+    </div>
     </div>
 
     <!-- ============ Alerting Banner ============ -->
@@ -104,13 +105,13 @@
                 </div>
 
                 <div class="shortcut-item">
-                    <a href="#"><i class='bx bx-mobile-vibration' ></i></i>
+                    <a href="#"><i class='bx bx-mobile-vibration'></i></i>
                         <h3>PayNow</h3>
                     </a>
                 </div>
 
                 <div class="shortcut-item">
-                    <a href="#"><i class='bx bx-user' ></i>
+                    <a href="#"><i class='bx bx-user'></i>
                         <h3>Profile</h3>
                     </a>
                 </div>
@@ -151,45 +152,19 @@
                             <h4>25,000.00</h4>
                         </div>
                     </div>
-                 </div>
-                </div>            
+                </div>
             </div>
+        </div>
         </div>
     </section>
 
     <!-- ============ Footer Section ============ -->
     <footer>
-        
+
     </footer>
 
     <!-- ============ Scripts ============ -->
-    <script src="script.js"></script>
-    <script>
-        /* Display Account(s) Dropdown */
-        function toggleAccounts() {
-            const accountsList = document.getElementById('accountsList');
-            const accountHeader = document.querySelector('.account-header');
-
-            accountsList.classList.toggle('show');
-            accountHeader.classList.toggle('active');
-        }
-
-        function openNav() {
-            document.getElementById("sideNav").style.width = "250px"; // Adjust width as necessary
-            document.body.classList.add("nav-open"); // Add class to adjust padding
-        }
-
-        function closeNav() {
-            document.getElementById("sideNav").style.width = "0";
-            document.body.classList.remove("nav-open"); // Remove class to reset padding
-        }
-        
-        window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) { // Adjust the width as per your design needs
-            closeNav();
-        } 
-    });
-    </script>
+    <script src="scripts/script.js"></script>
 </body>
 
 </html>

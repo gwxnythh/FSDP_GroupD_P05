@@ -12,9 +12,11 @@
     --text-color: #000000;
 }
 
-/* body {
-    padding-top: 120px;
-} */
+body {
+    padding-left: 0;
+    transition: padding-left 0.4s ease;
+    padding-top: 150px;
+}
 
 /* Common container styling for all sections */
 .transaction-section,
@@ -37,18 +39,25 @@
 
 /*============== Header ==============*/
 header {
-    position: fixed; /* Ensure the header stays at the top */
+    position: fixed;
+    /* Ensure the header stays at the top */
     top: 0;
-    width: 100%; /* Full width */
-    z-index: 1001; /* On top of the side navigation */
+    width: 100%;
+    /* Full width */
+    z-index: 1001;
+    /* On top of the side navigation */
     background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 4px 2px -2px gray;
-    position: fixed; /* Makes the header fixed */
-    top: 0;          /* Positions it at the top */
-    left: 0;         /* Positions it at the left */
-    right: 0;        /* Positions it at the right */
+    position: fixed;
+    /* Makes the header fixed */
+    top: 0;
+    /* Positions it at the top */
+    left: 0;
+    /* Positions it at the left */
+    right: 0;
+    /* Positions it at the right */
     z-index: 1000;
 }
 
@@ -68,9 +77,12 @@ header {
 
 .header-icons {
     display: flex;
-    align-items: center; /* Center align items vertically */
-    gap: 10px; /* Add gap between items */
+    align-items: center;
+    /* Center align items vertically */
+    gap: 10px;
+    /* Add gap between items */
 }
+
 .header-icons i {
     font-size: 20px;
 }
@@ -89,14 +101,16 @@ header {
     background-color: var(--tertiary-color);
     color: white;
     border: none;
-    padding: 5px 15px; /* Adjust padding */
+    padding: 5px 15px;
+    /* Adjust padding */
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
-    background-color: #e30613; /* Change to desired hover color */
+    background-color: #e30613;
+    /* Change to desired hover color */
 }
 
 
@@ -166,40 +180,57 @@ header {
 @media (max-width: 768px) {
     .header-top {
         padding: 10px;
-        display: flex; /* Ensure flex display */
-        justify-content: space-between; /* Space between elements */
-        align-items: center; /* Center items vertically */
+        display: flex;
+        /* Ensure flex display */
+        justify-content: space-between;
+        /* Space between elements */
+        align-items: center;
+        /* Center items vertically */
     }
 
     .hamburger-menu {
-        display: block; /* Show hamburger menu on smaller screens */
+        display: block;
+        /* Show hamburger menu on smaller screens */
     }
 
     .header-icons {
-        display: flex; /* Show icons in mobile view */
-        flex-direction: row; /* Align icons horizontally */
-        justify-content: center; /* Center the icons in the header */
-        align-items: center; /* Center items vertically */
+        display: flex;
+        /* Show icons in mobile view */
+        flex-direction: row;
+        /* Align icons horizontally */
+        justify-content: center;
+        /* Center the icons in the header */
+        align-items: center;
+        /* Center items vertically */
 
-        margin: 0 auto; /* Center the header-icons */
-        gap: 15px; /* Add space between icons */
+        margin: 0 auto;
+        /* Center the header-icons */
+        gap: 15px;
+        /* Add space between icons */
     }
 
     .header-welcome {
-        display: none; /* Hide the welcome message in mobile view */
+        display: none;
+        /* Hide the welcome message in mobile view */
     }
 
     .header-bottom {
-        display: none; /* Hide bottom row in mobile view */
+        display: none;
+        /* Hide bottom row in mobile view */
     }
 
     /* Style the logout button */
     .header-icons .logout-btn {
-        height: 40px; /* Set a smaller height */
-        padding: 5px 10px; /* Reduce padding */
-        font-size: 14px; /* Adjust font size */
-        line-height: normal; /* Maintain normal line height */
-        margin: 0; /* Remove any margins */
+        height: 40px;
+        /* Set a smaller height */
+        padding: 5px 10px;
+        /* Reduce padding */
+        font-size: 14px;
+        /* Adjust font size */
+        line-height: normal;
+        /* Maintain normal line height */
+        margin: 0;
+        /* Remove any margins */
     }
 }
 
@@ -207,7 +238,6 @@ header {
 
 /*============== Banner Section ==============*/
 .banner {
-    margin-top: 150px; /* Adjust based on your header height */
     border-radius: 15px;
     background-color: #f5f5f5;
 }
@@ -455,39 +485,49 @@ header {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-  }
-  
-  /* Header Logout Button - hidden on small screens */
-  #header-logout-btn {
-    display: block; /* Default display */
-  }
+}
+
+/* Header Logout Button - hidden on small screens */
+#header-logout-btn {
+    display: block;
+    /* Default display */
+}
 
 .logout-btn:hover {
-    background-color: #e30613; /* Change to desired hover color */
+    background-color: #e30613;
+    /* Change to desired hover color */
 }
 
 @media (max-width: 768px) {
     #header-logout-btn {
-      display: none; /* Hide on small screens */
+        display: none;
+        /* Hide on small screens */
     }
-  }
-  
-  /* Side Navigation styles */
+}
+
+/* Side Navigation styles */
 .sidenav {
-    position: relative; /* Establishes a positioning context for absolute positioning */
+    position: relative;
+    /* Establishes a positioning context for absolute positioning */
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Full height for sidenav */
-  }
-  
-  /* Side Navigation Logout Button - positioned at the bottom left */
-  #sidenav-logout-btn {
-    position: absolute; /* Absolute positioning */
-    bottom: 20px; /* Adjust as necessary for spacing from bottom */
-    left: 20px; /* Adjust as necessary for spacing from left */
-    margin: 0; /* Reset margin */
-    padding: 10px 20px; /* Button padding */
-  }
+    height: 100vh;
+    /* Full height for sidenav */
+}
+
+/* Side Navigation Logout Button - positioned at the bottom left */
+#sidenav-logout-btn {
+    position: absolute;
+    /* Absolute positioning */
+    bottom: 20px;
+    /* Adjust as necessary for spacing from bottom */
+    left: 20px;
+    /* Adjust as necessary for spacing from left */
+    margin: 0;
+    /* Reset margin */
+    padding: 10px 20px;
+    /* Button padding */
+}
 
 /* Hamburger Menu Styling */
 .hamburger-menu {
@@ -512,18 +552,13 @@ header {
     }
 }
 
-/* Prevent content from shifting by adding padding instead of moving elements */
-body {
-    padding-left: 0;
-    transition: padding-left 0.4s ease;
-}
-
 body.nav-open {
     padding-left: 250px;
 }
 
 /*============== Responsive design ==============*/
 @media (max-width: 1200px) {
+
     .banner,
     .shortcuts,
     .accounts {
@@ -533,6 +568,7 @@ body.nav-open {
 }
 
 @media (max-width: 768px) {
+
     .banner,
     .shortcuts,
     .accounts {
@@ -653,7 +689,8 @@ body.login-body {
     text-align: center;
     position: fixed;
     z-index: 4;
-    transition: width 0.3s ease, height 0.3s ease; /* Add transition here */
+    transition: width 0.3s ease, height 0.3s ease;
+    /* Add transition here */
 }
 
 .login-container .login-logo img {
@@ -739,95 +776,312 @@ body.login-body {
 }
 
 /*============== Transaction Page ==============*/
-/* .transaction-balance {
-    padding: 24px;
-    color: white;
-    border-radius: 12px;
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 16px;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-    max-width: 100%;
+.transaction-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
-.balance-left {
-    display: block;
-    text-align: center;
-}
-.balance-amount {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-.balance-label {
-    font-size: 14px;
-    opacity: 0.9;
-}
-.paynow-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-self: end; 
-}
-.paynow-icon {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-bottom: 4px;
-}
-.paynow-icon:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-.paynow-icon i {
-    font-size: 20px;
-}
-.paynow-text {
-    font-size: 12px;
-    color: white;
-    opacity: 0.9;
-}
- */
 
- .balance-container {
-    width: 500px;
-    height: 100px;
-    border-radius: 15px;
-    background: linear-gradient(to right, red 50%, white 50%);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+.transaction-container .balance-card {
+    background: #e32726;
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-container .balance-info {
+    text-align: center;
+}
+
+.transaction-container .balance-label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.transaction-container .balance-amount {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.transaction-container .pay-now-btn {
+    background: white;
+    color: #e32726;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.transaction-container .transactions {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-container .transactions h2 {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.transaction-container .transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transaction-container .transaction-table th {
+    background: #f8f9fa;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+}
+
+.transaction-container .transaction-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.transaction-container .transaction-amount {
+    font-weight: bold;
+}
+
+.transaction-container .amount-positive {
+    color: #28a745;
+}
+
+.transaction-container .amount-negative {
+    color: #dc3545;
+}
+
+.transaction-container .transaction-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.transaction-container .status-completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.transaction-container .status-pending {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+/*============== PayNow Page ==============*/
+.paynow-container {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
 }
 
-.balance-container .balance {
-    color: white;
-    font-size: 36px;
-}
-
-.balance-container .pay-button {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 15px;
-    text-decoration: none;
-}
-
-.balance-container .phone-icon {
-    margin-right: 10px;
-}
-
-.transaction-section .transaction-title {
+.paynow-container .alert {
+    background-color: #f9f1d6;
+    padding: 15px;
     margin-bottom: 20px;
+    border-radius: 5px;
+    color: #555;
+}
+
+.paynow-container .alert li {
+    list-style: none;
+}
+
+.paynow-container .alert h3 {
+    margin-top: 0;
+}
+
+.paynow-container .section-header {
+    background-color: #777;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.paynow-container .form-section {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+}
+
+.paynow-container .form-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.paynow-container .form-section input,
+.form-section select {
+    /* width: 100%; */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.paynow-container .button {
+    background-color: #777;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.paynow-container .button:hover {
+    background-color: #555;
+}
+
+.paynow-container .radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.paynow-container .radio-group input {
+    margin-right: 5px;
+}
+
+.paynow-container .alert {
+    list-style: none;
+}
+
+/*============== Transfers Page ==============*/
+.transfers-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.transfers-container .page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transfers-container .title-illustration {
+    width: 300px;
+    margin-left: auto;
+}
+
+.transfers-container .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.transfers-container .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.transfers-container .action-item:hover {
+    background-color: #f5f6f7;
+}
+
+.transfers-container .action-icon {
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transfers-container .action-label {
+    color: #333;
+    font-weight: 500;
+}
+
+.transfers-container .manage-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1rem;
+}
+
+.transfers-container .section-title {
+    font-size: 1.5rem;
+    margin: 1rem;
+    color: #333;
+}
+
+.transfers-container .manage-list {
+    list-style: none;
+}
+
+.transfers-container .manage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.transfers-container .manage-item:hover {
+    background-color: #f5f6f7;
+}
+
+.transfers-container .manage-item-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transfers-container .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.transfers-container .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.transfers-container .nav-item.active {
+    color: #e32726;
 }
