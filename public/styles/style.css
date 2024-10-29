@@ -366,7 +366,7 @@ header {
 }
 
 .accounts-list {
-    display: none;
+    display: block;
 }
 
 .accounts-list.show {
