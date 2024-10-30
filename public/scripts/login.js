@@ -11,6 +11,7 @@ async function login() {
 
         const data = await response.json();
         if (response.ok) {
+            sessionStorage.setItem('accessCode', accessCode); // Store access code in sessionStorage
             // Redirect to index.html on successful login
             window.location.href = 'index.html';
         } else {

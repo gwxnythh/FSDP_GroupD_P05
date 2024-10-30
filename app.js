@@ -4,6 +4,7 @@ const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
 const seedDatabase = require("./seed");
+const Accounts = require('./models/accounts');
 const accountsController = require("./controllers/accountsController");
 const transactionsController = require("./controllers/transactionsController");
 const usersController = require("./controllers/usersController");
@@ -20,13 +21,23 @@ app.use(bodyParser.urlencoded({ extended: true })); // For form data handling
 app.use(staticMiddleware);
 
 // Accounts routes
-app.get("/accounts", accountsController.getAllAccounts);
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
 //Transactions routes
 app.get('/transactions', transactionsController.getAllTransactions);
 app.get("/transactions/account/:accountId", transactionsController.getTransactionsByAccountId);
 app.post('/transactions', transactionsController.createTransaction);
+app.get('/accounts', async (req, res) => {
+    const accessCode = req.query.accessCode; // Retrieve access code from query parameters
+
+    try {
+        const accounts = await Accounts.getAccountByAccessCode(accessCode); // Use the model to get accounts
+        res.json(accounts);
+    } catch (error) {
+        console.error('Error fetching accounts:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 app.post('/login', async (req, res) => {
   const { accessCode, pin } = req.body; // Retrieve access code and PIN from the request body
@@ -62,6 +73,8 @@ app.post('/login', async (req, res) => {
       await sql.close(); // Close database connection
   }
 });
+
+
 
 
 

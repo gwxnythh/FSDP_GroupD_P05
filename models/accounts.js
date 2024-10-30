@@ -16,21 +16,6 @@ class Accounts {
         this.CreatedAt = CreatedAt;
     }
 
-    static async getAllAccounts() {
-        const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM Accounts`;
-
-        const request = connection.request();
-        const result = await request.query(sqlQuery);
-
-        connection.close();
-
-        return result.recordset.map(
-            (row) => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt)
-        );
-    }
-
     static async getAccountById(id) {
         const connection = await sql.connect(dbConfig);
 
@@ -56,6 +41,30 @@ class Accounts {
             )
         );
     }
+    static async getAccountByAccessCode(accessCode) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM Accounts WHERE AccessCode = @AccessCode`;
+        const request = connection.request();
+        request.input("AccessCode", accessCode);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new Accounts(
+                row.AccountID,
+                row.UserID,
+                row.AccessCode,
+                row.AccountNumber,
+                row.AccountType,
+                row.Balance,
+                row.Currency,
+                row.CreatedAt
+            )
+        );
+    }
+
     
     static async updateBalance(AccountID, newBalance) {
         const connection = await sql.connect(dbConfig);

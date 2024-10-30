@@ -1,15 +1,6 @@
 const Accounts = require("../models/accounts");
 const bcrypt = require("bcryptjs");
 
-const getAllAccounts = async (req, res) => {
-    try {
-      const accounts = await Accounts.getAllAccounts();
-      res.json(accounts);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Error retrieving accounts");
-    }
-};
 
 
 const getAccountById = async (req, res) => {
@@ -52,7 +43,6 @@ const updateBalance = async (req, res) => {
 
 
 module.exports = {
-    getAllAccounts,
     getAccountById,
     updateBalance
 }
