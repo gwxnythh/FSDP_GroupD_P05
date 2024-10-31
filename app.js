@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // For form data handling
 app.use(staticMiddleware);
 
 //Users routes
+app.get("/users/mobile", usersController.getUserByMobile);
 app.post("/login", usersController.login);
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);

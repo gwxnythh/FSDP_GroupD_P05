@@ -23,11 +23,27 @@ class Users {
         const request = connection.request();
         request.input("AccessCode", accessCode);
         request.input("PIN", pin);
-        const result = await request.query(sqlQuery);
+        
+        try {
+            const result = await request.query(sqlQuery);
+            return result.recordset; // Return result directly for login
+        } finally {
+            connection.close(); // Ensure connection is closed
+        }
+    }
 
-        connection.close();
+    static async getUserByMobile(mobileNumber) {
+        const connection = await sql.connect(dbConfig);
+        const query = `SELECT FullName FROM Users WHERE MobileNumber = @mobileNumber`;
+        const request = connection.request();
+        request.input("mobileNumber", sql.VarChar, mobileNumber);
 
-        return result.recordset; // Return result directly for login
+        try {
+            const result = await request.query(query);
+            return result.recordset[0]; // Return the first record
+        } finally {
+            connection.close(); // Ensure connection is closed
+        }
     }
 }
 

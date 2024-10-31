@@ -26,4 +26,19 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { login };
+const getUserByMobile = async (req, res) => {
+    const mobileNumber = req.query.mobile;
+
+    try {
+        const user = await Users.getUserByMobile(mobileNumber);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json({ fullName: user.FullName });
+    } catch (error) {
+        console.error("Error fetching user by mobile:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+module.exports = { login,getUserByMobile };

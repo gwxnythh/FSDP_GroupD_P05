@@ -22,7 +22,7 @@ async function seedDatabase() {
                 PIN NVARCHAR(60) NOT NULL, -- Updated data type to accommodate hashed values
                 FullName NVARCHAR(100) NOT NULL,
                 Email NVARCHAR(100),
-                PhoneNumber CHAR(8) NOT NULL CHECK (PhoneNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'), -- Must be 8 digits,
+                MobileNumber CHAR(8) NOT NULL CHECK (MobileNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'), -- Must be 8 digits,
                 IsActive BIT NOT NULL DEFAULT 1,
                 CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
             );
@@ -85,7 +85,7 @@ async function seedDatabase() {
 
         // Insert data into the Users table
         await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, PhoneNumber)
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
             VALUES 
                 ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com', '91234567'),
                 ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com', '98765432'),
@@ -96,7 +96,7 @@ async function seedDatabase() {
 */
         // Insert data into the Users table
         await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, PhoneNumber)
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
             VALUES 
                 ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567'),
                 ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432'),
