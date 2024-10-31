@@ -78,78 +78,82 @@
     </div>
 
     <!-- ============ PayNow Page ============ -->
-     <section class="paynow-section">
-    <div class="paynow-container">
-        <h2>Funds Transfer</h2>
+    <section class="paynow-section">
+        <div class="paynow-container">
+            <h2>Funds Transfer</h2>
 
-        <div class="alert">
-            <h3>Security Advisory</h3>
-            <p>Beware of scams. Stay vigilant, always remember:</p>
-            <ul>
-                <li>Do NOT send money to people you do not know.</li>
-                <li>Do NOT authorize funds transfers that you are not aware of.</li>
-                <li>Do NOT give your OTP or login credentials to anyone.</li>
-            </ul>
-            <p>Visit our <a href="#">Safety and Security information hub</a> to learn more about scams and how to avoid
-                falling prey to them.</p>
-            <p>Please be informed that the PayNow default daily limit is revised from S$5,000 to S$1,000 with effect
-                from 14 Jan 2022. You may update your daily limit anytime via OCBC Internet Banking.</p>
-        </div>
-
-        <div class="form-section">
-            <div class="section-header">1. Make a transfer from</div>
-            <label for="account">Select account:</label>
-            <select id="account" name="account">
-                <option value="360">360 Account 596-479857-001 SGD 0.00</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-
-        <div class="form-section">
-            <div class="section-header">2. You are transferring money to</div>
-            <div class="radio-group">
-                <input type="radio" id="mobile" name="transfer-to" value="mobile" checked>
-                <label for="mobile">Mobile number</label>
+            <div class="alert">
+                <h3>Security Advisory</h3>
+                <p>Beware of scams. Stay vigilant, always remember:</p>
+                <ul>
+                    <li>Do NOT send money to people you do not know.</li>
+                    <li>Do NOT authorize funds transfers that you are not aware of.</li>
+                    <li>Do NOT give your OTP or login credentials to anyone.</li>
+                </ul>
+                <p>Visit our <a href="#">Safety and Security information hub</a> to learn more about scams and how to
+                    avoid
+                    falling prey to them.</p>
+                <p>Please be informed that the PayNow default daily limit is revised from S$5,000 to S$1,000 with effect
+                    from 14 Jan 2022. You may update your daily limit anytime via OCBC Internet Banking.</p>
             </div>
-            <div class="radio-group">
-                <input type="radio" id="nric" name="transfer-to" value="nric">
-                <label for="nric">NRIC/FIN number</label>
+
+            <div class="form-section">
+                <div class="section-header">1. Make a transfer from</div>
+                
+                <label for="account-dropdown">Select account:</label>
+                <select id="account-dropdown" name="account">
+                    <option value="" disabled selected>Select an account</option>
+                </select>
+
             </div>
-            <div class="radio-group">
-                <input type="radio" id="uen" name="transfer-to" value="uen">
-                <label for="uen">Unique entity no. (UEN)</label>
+
+            <div class="form-section">
+                <div class="section-header">2. You are transferring money to</div>
+                <div class="radio-group">
+                    <input type="radio" id="mobile" name="transfer-to" value="mobile" checked>
+                    <label for="mobile">Mobile number</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="nric" name="transfer-to" value="nric">
+                    <label for="nric">NRIC/FIN number</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="uen" name="transfer-to" value="uen">
+                    <label for="uen">Unique entity no. (UEN)</label>
+                </div>
+                <div id="input-fields">
+                    <!-- Initial input fields for Mobile -->
+                    <input type="text" placeholder="+65" style="width: 20%;" disabled>
+                    <input type="text" placeholder="12345678" style="width: 35%;">
+                    <button class="button" type="button">Search</button>
+                </div>
             </div>
-            <div id="input-fields">
-                <!-- Initial input fields for Mobile -->
-                <input type="text" placeholder="+65" style="width: 20%;" disabled>
-                <input type="text" placeholder="12345678" style="width: 35%;">
-                <button class="button" type="button">Search</button>
+
+            <div class="form-section">
+                <div class="section-header">3. How much would you like to transfer?</div>
+                <label for="amount">Amount (SGD):</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount">
+
+                <p>Remaining transfer limit: SGD 5,000.00</p>
+
+                <label for="purpose">Purpose of transfer:</label>
+                <select id="purpose" name="purpose">
+                    <option value="other">Other</option>
+                    <!-- Add more options as needed -->
+                </select>
+
+                <label for="description">Description (optional):</label>
+                <input type="text" id="description" name="description" placeholder="PayNow Transfer">
             </div>
+
+            <button class="button" type="submit">Next</button>
         </div>
-
-        <div class="form-section">
-            <div class="section-header">3. How much would you like to transfer?</div>
-            <label for="amount">Amount (SGD):</label>
-            <input type="number" id="amount" name="amount" placeholder="Enter amount">
-
-            <p>Remaining transfer limit: SGD 5,000.00</p>
-
-            <label for="purpose">Purpose of transfer:</label>
-            <select id="purpose" name="purpose">
-                <option value="other">Other</option>
-                <!-- Add more options as needed -->
-            </select>
-
-            <label for="description">Description (optional):</label>
-            <input type="text" id="description" name="description" placeholder="PayNow Transfer">
-        </div>
-
-        <button class="button" type="submit">Next</button>
-    </div>
-</section>
+    </section>
 
     <!-- ============ Scripts ============ -->
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/paynow.js"></script>
+    
 </body>
 
 </html>
