@@ -20,64 +20,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For form data handling
 app.use(staticMiddleware);
 
+//Users routes
+app.post("/login", usersController.login);
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
+app.get("/accounts", accountsController.getAccountByAccessCode);
 //Transactions routes
 app.get('/transactions', transactionsController.getAllTransactions);
 app.get("/transactions/account/:accountId", transactionsController.getTransactionsByAccountId);
 app.post('/transactions', transactionsController.createTransaction);
-app.get('/accounts', async (req, res) => {
-    const accessCode = req.query.accessCode; // Retrieve access code from query parameters
-
-    try {
-        const accounts = await Accounts.getAccountByAccessCode(accessCode); // Use the model to get accounts
-        res.json(accounts);
-    } catch (error) {
-        console.error('Error fetching accounts:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-app.post('/login', async (req, res) => {
-  const { accessCode, pin } = req.body; // Retrieve access code and PIN from the request body
-
-  try {
-      await sql.connect(dbConfig); // Connect to the database
-
-      // Query to check if the access code and PIN match any records
-      const result = await sql.query`
-          SELECT u.UserID, u.FullName, a.AccountNumber, a.Balance
-          FROM Users u
-          JOIN Accounts a ON u.UserID = a.UserID
-          WHERE u.AccessCode = ${accessCode} AND u.PIN = ${pin} AND u.IsActive = 1
-      `;
-
-      if (result.recordset.length > 0) {
-          // If user exists, send back account details
-          res.status(200).json({
-              message: 'Login successful',
-              user: result.recordset[0].FullName,
-              accounts: result.recordset.map(account => ({
-                  accountNumber: account.AccountNumber,
-                  balance: account.Balance,
-              }))
-          });
-      } else {
-          res.status(401).json({ message: 'Invalid Access Code or PIN' });
-      }
-  } catch (err) {
-      console.error('Database error:', err.message);
-      res.status(500).json({ message: 'Internal server error' });
-  } finally {
-      await sql.close(); // Close database connection
-  }
-});
-
-
-
-
-
 
 // Start the server and connect to DB
 app.listen(port, async () => {

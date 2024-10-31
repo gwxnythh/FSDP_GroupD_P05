@@ -1,12 +1,10 @@
+// models/accounts.js
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-require('dotenv').config();
 
 class Accounts {
     constructor(AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt) {
-        this.AccountID = AccountID
+        this.AccountID = AccountID;
         this.UserID = UserID;
         this.AccessCode = AccessCode;
         this.AccountNumber = AccountNumber;
@@ -20,27 +18,17 @@ class Accounts {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `SELECT * FROM Accounts WHERE UserID = @id`;
-
         const request = connection.request();
         request.input("id", id);
         const result = await request.query(sqlQuery);
 
         connection.close();
 
-        // Map the result set to an array of Account objects
         return result.recordset.map(
-            row => new Accounts(
-                row.AccountID,
-                row.UserID,
-                row.AccessCode,
-                row.AccountNumber,
-                row.AccountType,
-                row.Balance,
-                row.Currency,
-                row.CreatedAt
-            )
+            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt)
         );
     }
+
     static async getAccountByAccessCode(accessCode) {
         const connection = await sql.connect(dbConfig);
 
@@ -52,25 +40,14 @@ class Accounts {
         connection.close();
 
         return result.recordset.map(
-            row => new Accounts(
-                row.AccountID,
-                row.UserID,
-                row.AccessCode,
-                row.AccountNumber,
-                row.AccountType,
-                row.Balance,
-                row.Currency,
-                row.CreatedAt
-            )
+            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt)
         );
     }
 
-    
     static async updateBalance(AccountID, newBalance) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `UPDATE Accounts SET Balance = @Balance WHERE AccountID = @AccountID`;
-
         const request = connection.request();
         request.input("AccountID", AccountID);
         request.input("Balance", newBalance);
@@ -78,11 +55,8 @@ class Accounts {
 
         connection.close();
 
-        return result.rowsAffected[0] > 0; // Return true if the update was successful
+        return result.rowsAffected[0] > 0;
     }
-
-    
 }
-
 
 module.exports = Accounts;

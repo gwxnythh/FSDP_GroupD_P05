@@ -111,9 +111,9 @@ async function seedDatabase() {
             VALUES 
                 ('A1', 'U1', 'Access123', '717-154937-001', 'Savings', 5000.00, 'SGD'),
                 ('A2', 'U1', 'Access123', '717-154937-002', 'Current', 2000.00, 'SGD'),
-                ('A3', 'U2', 'Access456', '717-154937-003', 'Savings', 8000.00, 'SGD'),
+                ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 8000.00, 'SGD'),
                 ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit Account', 1500.00, 'SGD'),
-                ('A5', 'U3', 'Access789', '717-154937-005', 'Savings', 12000.00, 'SGD');
+                ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 12000.00, 'SGD');
         `);
 
         // Insert data into the Transactions table
