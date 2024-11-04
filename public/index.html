@@ -27,7 +27,7 @@
             <!-- ============ Right Side of Navbar ============ -->
             <div class="header-icons">
                 <div class="header-welcome">
-                    <p>Welcome, <span>Guest</span></p>
+                    <p>Welcome, <span id="user-name">Guest</span></p>
                 </div>
 
                 <!-- Notification -->
@@ -54,7 +54,7 @@
         <!-- Bottom row -->
         <div class="header-bottom">
             <a href="index.html">View Accounts</a>
-            <a href="paynow.html">Transfers & Payments</a>
+            <a href="transfers.html">Transfers</a>
             <a href="transaction.html">Transactions</a>
             <a href="#">Customer Service</a>
             <a href="#">Apply</a>
@@ -71,7 +71,7 @@
     <div id="sideNav" class="side-nav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
         <a href="index.html">View Accounts</a>
-        <a href="tra">Transfers & Payments</a>
+        <a href="transfers.html">Transfers</a>
         <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
         <a href="#">Apply</a>
@@ -79,6 +79,34 @@
         <button id="sidenav-logout-btn" class="logout-btn">Logout</button>
     </div>
     </div>
+
+    <!-- ============ Chatbot Section ============ -->
+<section class="chatbot">
+    <div class="chatbot-container">
+        <!-- Combined Chatbot Button to Open/Close Chat and Start Voice Recognition -->
+        <button class="chatbot-toggle" id="chatbotToggle" onclick="toggleChat()">
+            <i class='bx bxs-microphone'></i>
+        </button>
+
+        <!-- Chatbot Chat Box -->
+        <div class="chatbox" id="chatbox" style="display: none;">
+            <!-- Chatbox Header -->
+            <div class="chatbot-header">
+                <h3>Welcome to OCBC</h3>
+            </div>
+
+            <!-- Chatbox Content -->
+            <div class="chat-content" id="chatContent">
+                <!-- Greeting message will be added dynamically -->
+            </div>
+
+            <!-- Chatbox Input Section -->
+            <div class="chat-input">
+                <!-- Removed voice option button -->
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- ============ Alerting Banner ============ -->
     <section class="banner">
@@ -169,6 +197,7 @@
     <script src="scripts/script.js"></script>
     <script src="scripts/viewBalance.js"></script>
     <script src="scripts/login.js"></script>
+    <script src="scripts/voicereco.js"></script>
 </body>
 
 </html>

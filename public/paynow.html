@@ -45,13 +45,15 @@
                 <!-- Logout Button -->
                 <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i
                             class='bx bx-log-out'></i>Logout</button></a>
+                <!-- Dark mode toggle button -->
+                <button id="darkModeToggle" class="dark-mode-toggle"><i class='bx bx-moon'></i></button>
             </div>
         </div>
 
         <!-- Bottom row -->
         <div class="header-bottom">
             <a href="index.html">View Accounts</a>
-            <a href="transfers.html">Transfers & Payments</a>
+            <a href="transfers.html">Transfers</a>
             <a href="transaction.html">Transactions</a>
             <a href="#">Customer Service</a>
             <a href="#">Apply</a>
@@ -68,7 +70,7 @@
     <div id="sideNav" class="side-nav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
         <a href="index.html">View Accounts</a>
-        <a href="transfers.html">Transfers & Payments</a>
+        <a href="transfers.html">Transfers</a>
         <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
         <a href="#">Apply</a>
@@ -146,14 +148,14 @@
                 <input type="text" id="description" name="description" placeholder="PayNow Transfer">
             </div>
 
-            <button id="next-button" class="button" type="button">Next</button>
+            <button class="button" type="submit">Next</button>
         </div>
     </section>
 
     <!-- ============ Scripts ============ -->
     <script src="scripts/script.js"></script>
     <script src="scripts/paynow.js"></script>
-    
+    <script src="scripts/voicereco.js"></script>
 </body>
 
 </html>
