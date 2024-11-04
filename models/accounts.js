@@ -57,6 +57,66 @@ class Accounts {
 
         return result.rowsAffected[0] > 0;
     }
+
+    static async getCurrentAccountByMobileNumber(mobileNumber) {
+        let connection;
+
+        try {
+            // Establish the database connection
+            connection = await sql.connect(dbConfig);
+
+            // Step 1: Get UserID from Users table using mobile number
+            const userQuery = `SELECT UserID FROM Users WHERE MobileNumber = @mobileNumber`;
+            const userRequest = connection.request();
+            userRequest.input("mobileNumber", sql.Char(8), mobileNumber);
+
+            const userResult = await userRequest.query(userQuery);
+            if (userResult.recordset.length === 0) {
+                // No user found with this mobile number
+                return null;
+            }
+            const userID = userResult.recordset[0].UserID;
+
+            // Step 2: Get the Current account from Accounts table using UserID
+            const accountQuery = `
+                SELECT * FROM Accounts
+                WHERE UserID = @userID AND AccountType = 'Current'
+            `;
+            const accountRequest = connection.request();
+            accountRequest.input("userID", sql.NVarChar, userID);
+
+            const accountResult = await accountRequest.query(accountQuery);
+
+            if (accountResult.recordset.length === 0) {
+                // No Current account found for this user
+                return null;
+            }
+
+            // Map result to Accounts object
+            const account = accountResult.recordset[0];
+            return new Accounts(
+                account.AccountID,
+                account.UserID,
+                account.AccessCode,
+                account.AccountNumber,
+                account.AccountType,
+                account.Balance,
+                account.Currency,
+                account.CreatedAt
+            );
+
+        } catch (error) {
+            console.error("Error fetching current account by mobile number:", error);
+            throw error;
+        } finally {
+            // Ensure the connection is closed after execution
+            if (connection) {
+                connection.close();
+            }
+        }
+    }
+
+
 }
 
 module.exports = Accounts;

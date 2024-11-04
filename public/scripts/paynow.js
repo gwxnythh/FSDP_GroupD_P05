@@ -85,6 +85,7 @@ async function updateInputFields(value) {
     }
 }
 
+
 // Function to fetch user details by mobile number
 async function fetchUserByMobile(mobileNumber) {
     const fullNameDisplay = document.getElementById('full-name-display');
@@ -108,6 +109,69 @@ async function fetchUserByMobile(mobileNumber) {
     }
 }
 
+async function fetchCurrentAcc(mobileNumber){
+    try {
+        const response = await fetch(`/accounts/mobile/${mobileNumber}`);
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            console.error("Error fetching account:", errorMessage);    
+        }
+        const accountData = await response.json();
+        return accountData.AccountID;
+        console.log("Account data:", accountData);
+        
+    } catch (error) {
+        console.error('Error fetching user:', error);
+ 
+    }
+}
+
+
+async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
+    try {
+        const response = await fetch("/transactions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                FromAccountID,
+                ToAccountID,
+                Amount,
+                Description
+            })
+        });
+        if (response.ok) {
+            // Parse and display the success message
+            const result = await response.json();
+            console.log("Transaction result:", result);
+            alert(`Transaction ${result.status}: ${result.message}`);
+        } else {
+            // Handle errors from the server
+            const errorData = await response.json();
+            console.error("Error creating transaction:", errorData.message);
+            alert(`Error: ${errorData.message}`);
+        }      
+    }catch (error) {
+        
+    }
+}
+
+document.getElementById("next-button").addEventListener("click", async() => {
+    // Retrieve values from form inputs
+    const mobileNumber = document.getElementById('mobile-number').value;
+    
+    const fromAccountID = document.getElementById("account-dropdown").value;    
+    const toAccountID =  await fetchCurrentAcc(mobileNumber);
+    const amount = document.getElementById("amount").value;
+    const description = document.getElementById("description").value;
+    console.log("hre");
+    console.log(fromAccountID,toAccountID,amount,description);
+    // Call makePayment with the retrieved values
+    makePayment(fromAccountID, toAccountID, amount, description);
+});
+
 // Add event listeners to radio buttons
 radioButtons.forEach((radio) => {
     radio.addEventListener('change', (event) => {
@@ -120,3 +184,4 @@ window.onload = () => {
     const selectedRadio = document.querySelector('input[name="transfer-to"]:checked');
     updateInputFields(selectedRadio.value);
 };
+

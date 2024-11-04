@@ -27,6 +27,7 @@ app.post("/login", usersController.login);
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
 app.get("/accounts", accountsController.getAccountByAccessCode);
+app.get("/accounts/mobile/:mobileNumber", accountsController.getCurrentAccountByMobile);
 //Transactions routes
 app.get('/transactions', transactionsController.getAllTransactions);
 app.get("/transactions/account/:accountId", transactionsController.getTransactionsByAccountId);

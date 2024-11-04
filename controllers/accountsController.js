@@ -47,8 +47,24 @@ const updateBalance = async (req, res) => {
     }
 };
 
+const getCurrentAccountByMobile = async (req, res) => {
+    const { mobileNumber } = req.params;
+
+    try {
+        const account = await Accounts.getCurrentAccountByMobileNumber(mobileNumber);
+        if (!account) {
+            return res.status(404).json({ message: "No current account found for this mobile number." });
+        }
+        res.json(account);
+    } catch (error) {
+        console.error("Error fetching current account by mobile number:", error);
+        res.status(500).json({ message: "Error fetching account" });
+    }
+};
+
 module.exports = {
     getAccountById,
     getAccountByAccessCode,
-    updateBalance
+    updateBalance,
+    getCurrentAccountByMobile
 };
