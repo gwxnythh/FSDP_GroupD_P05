@@ -56,7 +56,7 @@
         <!-- Bottom row -->
         <div class="header-bottom">
             <a href="index.html">View Accounts</a>
-            <a href="transfers.html">Transfers & Payments</a>
+            <a href="transfers.html">Transfers</a>
             <a href="transaction.html">Transactions</a>
             <a href="#">Customer Service</a>
             <a href="#">Apply</a>
@@ -73,7 +73,7 @@
     <div id="sideNav" class="side-nav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
         <a href="index.html">View Accounts</a>
-        <a href="transfers.html">Transfers & Payments</a>
+        <a href="transfers.html">Transfers</a>
         <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
         <a href="#">Apply</a>
@@ -85,7 +85,7 @@
     <section class="transfers-section">
         <div class="transfers-container">
             <div class="page-title">
-                Transfers & Payments
+                Transfers
             </div>
 
             <div class="quick-actions">
@@ -99,15 +99,15 @@
                     </div>
                     <span class="action-label">Scan</span>
                 </div>
-                <div class="action-item">
+                <a href="paynow.html" class="action-item" style="text-decoration: none; color: inherit;">
                     <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </div>
                     <span class="action-label">PayNow</span>
-                </div>
+                </a>
+                
                 <div class="action-item">
                     <div class="action-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -179,6 +179,7 @@
 
     <!-- ============ Scripts ============ -->
     <script src="scripts/script.js"></script>
+    <script src="scripts/voicereco.js"></script>
 </body>
 
 </html>
