@@ -184,4 +184,3 @@ window.onload = () => {
     const selectedRadio = document.querySelector('input[name="transfer-to"]:checked');
     updateInputFields(selectedRadio.value);
 };
-

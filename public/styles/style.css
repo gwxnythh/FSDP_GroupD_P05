@@ -405,6 +405,7 @@ header {
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-bottom: 50px;
 }
 
 .account-header {
@@ -1242,4 +1243,21 @@ body.login-body {
 /* Ensure the pointer cursor appears for all clickable elements */
 button, a, .shortcut-item, .action-item, .header-icons button {
     cursor: pointer;
+}
+
+footer {
+    margin-top: 20px;
+    background-color: var(--tertiary-color);
+    height: fit-content;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+#next-button {
+    margin-bottom: 60px;
 }
