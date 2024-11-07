@@ -1238,3 +1238,8 @@ body.login-body {
 .no-pulse {
     animation: none;
 }
+
+/* Ensure the pointer cursor appears for all clickable elements */
+button, a, .shortcut-item, .action-item, .header-icons button {
+    cursor: pointer;
+}
