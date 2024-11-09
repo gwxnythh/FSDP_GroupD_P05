@@ -22,6 +22,7 @@ app.use(staticMiddleware);
 
 //Users routes
 app.get("/users/mobile", usersController.getUserByMobile);
+app.get("/users/id", usersController.getUserById);
 app.post("/login", usersController.login);
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);
@@ -32,6 +33,8 @@ app.get("/accounts/mobile/:mobileNumber", accountsController.getCurrentAccountBy
 app.get('/transactions', transactionsController.getAllTransactions);
 app.get("/transactions/account/:accountId", transactionsController.getTransactionsByAccountId);
 app.post('/transactions', transactionsController.createTransaction);
+app.post('/transactions/summarize', transactionsController.summarizeTransaction);
+
 
 // Start the server and connect to DB
 app.listen(port, async () => {
@@ -60,4 +63,3 @@ process.on("SIGINT", async () => {
   console.log("Database connection closed");
   process.exit(0); // Exit with code 0 indicating successful shutdown
 });
-

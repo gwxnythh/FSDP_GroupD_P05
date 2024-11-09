@@ -1,17 +1,17 @@
-<!-- Home Page -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OCBC</title>
+    <title>OCBC - PayNow</title>
     <!-- ============ Favicon ============ -->
     <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
     <!-- ============ Styles ============ -->
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -107,95 +107,88 @@
         </div>
     </section>
 
-    <!-- ============ Alerting Banner ============ -->
-    <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h2>Banking Made Accessible for All</h2>
-                <p>Explore new features designed for enhanced visibility, voice assistance, and ease of use.</p>
-                <a href="#" class="learn-more">Learn more</a>
-            </div>
-            <div class="banner-image">
-                <img src="images/voice_feature.png" alt="Try our new accessible feautre like Voice Recognition">
-            </div>
-        </div>
-    </section>
+    <!-- ============ PayNow Page ============ -->
+    <section class="paynow-section">
+        <div class="paynow-container">
+            <h2>Paynow Summary</h2>
 
-    <!-- ============ Shortcuts (Transfers/Account Balance) ============ -->
-    <section class="shortcuts">
-        <div class="shortcuts-container">
-            <h1 class="shortcuts-title">Shortcuts</h1>
-            <div class="shortcuts-content">
-                <div class="shortcut-item">
-                    <a href="transaction.html"><i class='bx bx-receipt'></i></i>
-                        <h3>Transactions</h3>
-                    </a>
+            <div class="alert-banner success" id="alert-banner" style="gap: 10px;">
+                <div>
+                    <i class="fa fa-check" style="font-size:48px;color:white"></i>
                 </div>
-
-                <div class="shortcut-item">
-                    <a href="paynow.html"><i class='bx bx-mobile-vibration'></i></i>
-                        <h3>PayNow</h3>
-                    </a>
-                </div>
-
-                <div class="shortcut-item">
-                    <a href="#"><i class='bx bx-user'></i>
-                        <h3>Profile</h3>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ Accounts Section ============ -->
-    <section class="accounts">
-        <div class="accounts-content">
-            <div class="accounts-dropdown">
-                <div class="account-header">
-                    <div class="account-info">
-                        <h3>My Accounts</h3>
-                        <p>Select an account to view details</p>
+                <div>
+                    <div>
+                        <strong>Your transfer is successful.</strong>
+                    </div>
+                    <div>
+                        <span>Reference-number: </span><strong id="reference-number"></strong>
                     </div>
                 </div>
-                <div class="accounts-list" id="accountsList">
-                    <!-- Account 1 -->
-                    <div class="account-item">
-                        <div class="account-details">
-                            <h4>360 Account</h4>
-                            <p class="account-number">123-456-001</p>
-                        </div>
-                        <div class="account-balance">
-                            <p>SGD</p>
-                            <h4>50,000.00</h4>
+                <span class="closebtn" onclick="closeAlert()">&times;</span>
+            </div>
+
+            <!-- ============ Accounts Section ============ -->
+            <div class="accounts-content">
+                <div class="accounts-dropdown">
+                    <div class="account-header">
+                        <div class="account-info">
+                            <h3>Transfer from</h3>
                         </div>
                     </div>
-                    <!-- Account 2 -->
-                    <div class="account-item">
-                        <div class="account-details">
-                            <h4>Savings Account</h4>
-                            <p class="account-number">888-123456-002</p>
-                        </div>
-                        <div class="account-balance">
-                            <p>SGD</p>
-                            <h4>25,000.00</h4>
+                    <div class="accounts-list" id="accountsList">
+                        <!-- Account 1 -->
+                        <div class="account-item">
+                            <div class="account-details">
+                                <h4 id="fromAccountTextContent">360 Account</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="accounts-content">
+                <div class="accounts-dropdown">
+                    <div class="account-header">
+                        <div class="account-info">
+                            <h3>Transfer to</h3>
+                        </div>
+                    </div>
+                    <div class="accounts-list" id="accountsList">
+                        <div class="account-item">
+                            <div class="account-details">
+                                <div class="transfer-detail">
+                                    <p class="account-number">Mobile Number</p>
+                                    <h4 id="mobile-number"></h4>
+                                </div>
+                                <div class="transfer-detail">
+                                    <p class="account-number">Receipient's Paynow Name</p>
+                                    <h4 id="name"></h4>
+                                </div>
+                                <div class="transfer-detail">
+                                    <p class="account-number">Amount (SGD)</p>
+                                    <h4 id="amount"></h4>
+                                </div>
+                                <div class="transfer-detail">
+                                    <p class="account-number">Purpose code</p>
+                                    <h4 id="purpose"></h4>
+                                </div>
+                                <div class="transfer-detail">
+                                    <p class="account-number">Description</p>
+                                    <h4 id="description"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="submit-button" class="button" type="submit">Submit</button>
         </div>
     </section>
-
-    <!-- ============ Footer Section ============ -->
-    <footer>
-        <p> © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
-        </p>
-    </footer>
 
     <!-- ============ Scripts ============ -->
     <script src="scripts/script.js"></script>
-    <script src="scripts/viewBalance.js"></script>
-    <script src="scripts/login.js"></script>
+    <script src="scripts/paynow-summary.js"></script>
     <script src="scripts/voicereco.js"></script>
 </body>
 

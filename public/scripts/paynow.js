@@ -127,6 +127,37 @@ async function fetchCurrentAcc(mobileNumber){
     }
 }
 
+async function summarizePayment(TransferType, TransferTo, FromAccountID, FromAccountTextContent, Amount, Purpose, Description) {
+    try {
+        const payload = JSON.stringify({
+            TransferType,
+            TransferTo,
+            FromAccountID,
+            FromAccountTextContent,
+            Amount,
+            Purpose,
+            Description
+        })
+        const response = await fetch("/transactions/summarize", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: payload
+        });
+        if (response.ok) {
+            window.location = "/paynow-summary.html?payload=" + payload;
+
+        } else {
+            // Handle errors from the server
+            const errorData = await response.json();
+            console.error("Error creating transaction:", errorData.message);
+            alert(`Error: ${errorData.message}`);
+        }      
+    }catch (error) {
+        console.log('error: ', error);
+    }
+}
 
 async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
     try {
@@ -158,19 +189,55 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
     }
 }
 
-document.getElementById("next-button").addEventListener("click", async() => {
-    // Retrieve values from form inputs
-    const mobileNumber = document.getElementById('mobile-number').value;
-    
-    const fromAccountID = document.getElementById("account-dropdown").value;    
-    const toAccountID =  await fetchCurrentAcc(mobileNumber);
-    const amount = document.getElementById("amount").value;
-    const description = document.getElementById("description").value;
-    console.log("hre");
-    console.log(fromAccountID,toAccountID,amount,description);
-    // Call makePayment with the retrieved values
-    makePayment(fromAccountID, toAccountID, amount, description);
-});
+if (document.getElementById("next-button")) {
+    document.getElementById("next-button").addEventListener("click", async() => {
+        // Retrieve values from form inputs
+        const transferType = document.querySelector('input[name="transfer-to"]:checked').value;
+        console.log('transferType: ', transferType);
+        let transferTo = '';
+        // TODO: handle to uen and NRIC to get toAccountId
+        if (transferType == 'mobile') {
+            transferTo = document.getElementById('mobile-number').value;
+        } else if (transferType == 'nric') {
+            transferTo = document.getElementById('nric-number').value;
+        } else if (transferType == 'uen') { 
+            transferTo = document.getElementById('uen-number').value;
+        }
+        
+        const fromAccount = document.getElementById("account-dropdown");
+        const fromAccountID = fromAccount.value;    
+        const fromAccountTextContent = fromAccount.options[fromAccount.selectedIndex].textContent;  
+        const amount = document.getElementById("amount").value;
+        const purpose = document.getElementById("purpose").value;
+        const description = document.getElementById("description").value;
+
+        console.log('transferTo: ', transferTo);
+        console.log('fromAccountID: ', fromAccountID);
+        console.log('fromAccountTextContent: ', fromAccountTextContent);
+        console.log('amount: ', amount);
+        console.log('purpose: ', purpose);
+        console.log('description: ', description);
+        // Call summarizePayment with the retrieved values
+        summarizePayment(transferType, transferTo, fromAccountID, fromAccountTextContent, amount, purpose, description);
+    });
+}
+
+// if (document.getElementById("submit-button")) {
+//     document.getElementById("submit-button").addEventListener("click", async() => {
+//         console.log('hello world')
+//         // Retrieve values from form inputs
+//         const mobileNumber = document.getElementById('mobile-number').value;
+        
+//         const fromAccountID = document.getElementById("account-dropdown").value;    
+//         const toAccountID =  await fetchCurrentAcc(mobileNumber);
+//         const amount = document.getElementById("amount").value;
+//         const description = document.getElementById("description").value;
+//         console.log("hre");
+//         console.log(fromAccountID,toAccountID,amount,description);
+//         // Call makePayment with the retrieved values
+//         makePayment(fromAccountID, toAccountID, amount, description);
+//     });    
+// }
 
 // Add event listeners to radio buttons
 radioButtons.forEach((radio) => {

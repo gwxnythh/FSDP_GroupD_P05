@@ -95,7 +95,7 @@ class Transactions {
 
         await transactionRequest.query(transactionQuery);
         
-        return transactionStatus;
+        return {transactionStatus, newReferenceNo};
         
         
     }

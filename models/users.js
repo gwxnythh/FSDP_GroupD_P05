@@ -34,9 +34,24 @@ class Users {
 
     static async getUserByMobile(mobileNumber) {
         const connection = await sql.connect(dbConfig);
-        const query = `SELECT FullName FROM Users WHERE MobileNumber = @mobileNumber`;
+        // const query = `SELECT * FROM Users WHERE MobileNumber = @mobileNumber`;
+        const query = `SELECT U.UserID, U.FullName, U.MobileNumber, A.AccountID, A.AccountNumber, A.AccountType, A.Balance, A.Currency, A.CreatedAt FROM Users U INNER JOIN Accounts A ON U.UserID = A.UserID WHERE U.MobileNumber = @mobileNumber;`
         const request = connection.request();
         request.input("mobileNumber", sql.VarChar, mobileNumber);
+
+        try {
+            const result = await request.query(query);
+            return result.recordset[0]; // Return the first record
+        } finally {
+            connection.close(); // Ensure connection is closed
+        }
+    }
+
+    static async getUserById(id) {
+        const connection = await sql.connect(dbConfig);
+        const query = `SELECT * FROM Users WHERE UserId = @id`;
+        const request = connection.request();
+        request.input("id", sql.VarChar, id);
 
         try {
             const result = await request.query(query);

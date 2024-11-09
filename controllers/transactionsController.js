@@ -36,6 +36,8 @@ const createTransaction = async (req, res) => {
         return res.status(400).send("Invalid amount value");
     }
 
+    console.log('create transaction: ', req.body)
+
     try {
         const status = await Transactions.createTransaction(FromAccountID, ToAccountID, parsedAmount, Description);
         res.status(201).json({ message: `Transaction ${status}`, status: status });
@@ -45,8 +47,29 @@ const createTransaction = async (req, res) => {
     }
 };
 
+const summarizeTransaction = async (req, res) => {
+    const { TransferType, TransferTo, FromAccountID, FromAccountTextContent, Amount, Description } = req.body;
+    // Validation
+    if (!TransferType || !FromAccountID || !TransferTo || !Amount) {
+        return res.status(400).send("Missing required fields");
+    }
+    const parsedAmount = parseFloat(Amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+        return res.status(400).send("Invalid amount value");
+    }
+
+    try {
+        res.status(204).json({});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating transaction");
+    }
+};
+
+
 module.exports = {
     getAllTransactions,
     getTransactionsByAccountId,
-    createTransaction
+    createTransaction,
+    summarizeTransaction
 };
