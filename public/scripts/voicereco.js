@@ -1,6 +1,6 @@
 let recognition;
 let isProcessingResponse = false; // Flag to track if bot is speaking
-let awaitingConfirmation = false; // Flag to track if waiting for user confirmation
+let awaitingConfirmation = ""; // Track if awaiting specific user confirmation (e.g., "pay now", "home", "transactions")
 
 function toggleChat() {
     const chatbox = document.getElementById('chatbox');
@@ -10,17 +10,16 @@ function toggleChat() {
     if (chatbox.style.display === 'none') {
         chatbox.style.display = 'block';
         chatContent.innerHTML = "<div class='chat-message bot-message'>How may I help you today?</div>";
-        speakMessage("How may I help you today?"); // Speak the welcome message
-        startVoice(); // Start voice recognition when opening chat
+        speakMessage("How may I help you today?");
+        startVoice();
         chatbotToggle.classList.remove('no-pulse');
         chatbotToggle.style.animation = 'pulse 1.5s infinite';
     } else {
-        // Stop all microphone input and hide chat
         chatbox.style.display = 'none';
         chatContent.innerHTML = "";
         if (recognition) {
-            recognition.stop(); // Stop voice recognition when closing chat
-            recognition = null; // Reset recognition to avoid accidental use
+            recognition.stop();
+            recognition = null;
         }
         chatbotToggle.classList.add('no-pulse');
         chatbotToggle.style.animation = 'none';
@@ -28,15 +27,15 @@ function toggleChat() {
 }
 
 function startVoice() {
-    if (isProcessingResponse) return; // Only start if not processing
+    if (isProcessingResponse) return;
     if (!('webkitSpeechRecognition' in window)) {
         alert("Sorry, your browser does not support speech recognition.");
         return;
     }
 
     recognition = new webkitSpeechRecognition();
-    recognition.continuous = false; // Stop after getting a result
-    recognition.interimResults = false; // Do not show interim results
+    recognition.continuous = false;
+    recognition.interimResults = false;
     recognition.lang = 'en-US';
 
     recognition.onstart = function () {
@@ -44,33 +43,46 @@ function startVoice() {
     };
 
     recognition.onresult = function (event) {
-        if (isProcessingResponse) return; // Ignore results if bot is responding
+        if (isProcessingResponse) return;
 
-        const transcript = event.results[0][0].transcript.toLowerCase(); // Get spoken input
+        const transcript = event.results[0][0].transcript.toLowerCase();
         displayUserMessage(transcript);
 
-        // Check if the user said "pay now" in any context
+        // Check for "pay now", "home", or "transaction(s)" in any sentence and prompt for confirmation
         if (transcript.includes("pay now")) {
-            // Prompt for confirmation
             const response = "Do you want to proceed to the pay now page? Please indicate yes or no.";
             displayBotMessage(response);
-            speakMessage(response); // Speak the confirmation prompt
-            awaitingConfirmation = true; // Set flag to await user confirmation
-        } else if (awaitingConfirmation && transcript === "yes") {
-            // User confirmed; redirect to paynow.html
+            speakMessage(response);
+            awaitingConfirmation = "paynow"; // Set flag to await "pay now" confirmation
+        } else if (transcript.includes("home")) {
+            const response = "Do you want to go back to the home page? Please indicate yes or no.";
+            displayBotMessage(response);
+            speakMessage(response);
+            awaitingConfirmation = "home"; // Set flag to await "home" confirmation
+        } else if (transcript.includes("transaction") || transcript.includes("transactions")) {
+            const response = "Do you want to see your transactions? Please indicate yes or no.";
+            displayBotMessage(response);
+            speakMessage(response);
+            awaitingConfirmation = "transactions"; // Set flag to await "transactions" confirmation
+        } else if (awaitingConfirmation === "paynow" && transcript === "yes") {
             window.location.href = "paynow.html";
-            awaitingConfirmation = false; // Reset confirmation flag
+            awaitingConfirmation = ""; // Reset confirmation flag
+        } else if (awaitingConfirmation === "home" && transcript === "yes") {
+            window.location.href = "index.html";
+            awaitingConfirmation = ""; // Reset confirmation flag
+        } else if (awaitingConfirmation === "transactions" && transcript === "yes") {
+            window.location.href = "transaction.html";
+            awaitingConfirmation = ""; // Reset confirmation flag
         } else {
-            const response = "Thank you for your message!";
+            const response = "Sorry I didn't quite catch that.";
             displayBotMessage(response);
             speakMessage(response);
         }
     };
 
     recognition.onend = function () {
-        // Only restart recognition if we are not processing a response
         if (!isProcessingResponse && chatbox.style.display === 'block') {
-            setTimeout(startVoice, 1000); // Add a slight delay before restarting
+            setTimeout(startVoice, 1000);
         }
     };
 
@@ -78,7 +90,7 @@ function startVoice() {
         console.error("Error occurred in recognition: " + event.error);
     };
 
-    recognition.start(); // Start the recognition
+    recognition.start();
 }
 
 function speakMessage(message) {
@@ -86,22 +98,20 @@ function speakMessage(message) {
     utterance.lang = 'en-US';
 
     utterance.onstart = function () {
-        if (recognition) recognition.stop(); // Stop recognition when speaking
-        isProcessingResponse = true; // Set processing flag
+        if (recognition) recognition.stop();
+        isProcessingResponse = true;
     };
 
     utterance.onend = function () {
-        isProcessingResponse = false; // Reset processing flag
-        // Restart voice recognition after bot finishes speaking if awaiting confirmation
+        isProcessingResponse = false;
         if (awaitingConfirmation) {
             startVoice();
         } else {
-            // If not awaiting confirmation, give a moment before restarting
             setTimeout(startVoice, 1000);
         }
     };
 
-    window.speechSynthesis.speak(utterance); // Speak the message
+    window.speechSynthesis.speak(utterance);
 }
 
 function displayUserMessage(message) {
@@ -110,7 +120,7 @@ function displayUserMessage(message) {
     userMessageDiv.classList.add('chat-message', 'user-message');
     userMessageDiv.textContent = message;
     chatContent.appendChild(userMessageDiv);
-    chatContent.scrollTop = chatContent.scrollHeight; // Scroll to the bottom
+    chatContent.scrollTop = chatContent.scrollHeight;
 }
 
 function displayBotMessage(message) {
@@ -119,5 +129,5 @@ function displayBotMessage(message) {
     botMessageDiv.classList.add('chat-message', 'bot-message');
     botMessageDiv.textContent = message;
     chatContent.appendChild(botMessageDiv);
-    chatContent.scrollTop = chatContent.scrollHeight; // Scroll to the bottom
+    chatContent.scrollTop = chatContent.scrollHeight;
 }
