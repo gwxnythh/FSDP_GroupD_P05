@@ -2,13 +2,13 @@
 const Users = require("../models/users");
 
 const login = async (req, res) => {
-    const { accessCode, pin } = req.body; // Retrieve access code and PIN from the request body
+    const { accessCode, pin } = req.body;
 
     try {
         const result = await Users.login(accessCode, pin);
+        console.log("Login result:", result);  // Debug log
 
         if (result.length > 0) {
-            // If user exists, send back account details
             res.status(200).json({
                 message: 'Login successful',
                 user: result[0].FullName,
@@ -25,6 +25,7 @@ const login = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 const getUserByMobile = async (req, res) => {
     const mobileNumber = req.query.mobile;

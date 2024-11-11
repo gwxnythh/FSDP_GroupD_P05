@@ -58,6 +58,35 @@ class Accounts {
         return result.rowsAffected[0] > 0;
     }
 
+    static async getCurrentAccountBalance(accountId) {
+        const connection = await sql.connect(dbConfig);
+        try {
+            const sqlQuery = `SELECT Balance FROM Accounts WHERE AccountID = @accountId AND AccountType = 'Current'`;
+            const request = connection.request();
+            request.input("accountId", sql.NVarChar, accountId);
+            const result = await request.query(sqlQuery);
+    
+            // Check if a record was found
+            if (result.recordset.length === 0) {
+                return null; // Return null if no account was found
+            }
+    
+            // Return the balance
+            return result.recordset[0].Balance;
+    
+        } catch (error) {
+            console.error('Error in getCurrentAccountBalance:', error);
+            throw error; // Let the controller handle the error
+        } finally {
+            connection.close();
+        }
+    }
+    
+
+    
+    
+    
+
     static async getCurrentAccountByMobileNumber(mobileNumber) {
         let connection;
 

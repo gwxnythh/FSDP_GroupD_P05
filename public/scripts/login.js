@@ -13,6 +13,7 @@ async function login() {
         if (response.ok) {
             sessionStorage.setItem('accessCode', accessCode); // Store access code in sessionStorage
             sessionStorage.setItem('userName', data.user); // Store the user's full name in sessionStorage
+            
             // Redirect to index.html on successful login
             window.location.href = 'index.html';
         } else {
@@ -22,6 +23,14 @@ async function login() {
         console.error('Error:', error);
     }
 }
+
+// Check if the user is logged in and display their name
+document.addEventListener('DOMContentLoaded', () => {
+    const userName = sessionStorage.getItem('userName');
+    if (userName) {
+        document.getElementById('user-name').textContent = userName;
+    }
+});
 
 // Check if the user is logged in and display their name
 document.addEventListener('DOMContentLoaded', () => {

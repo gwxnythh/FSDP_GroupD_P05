@@ -112,9 +112,11 @@
     <section class="transaction-section">
         <div class="transaction-container">
             <div class="balance-card">
-                <div class="balance-info">
-                    <div class="balance-label">Balance</div>
-                    <div class="balance-amount" id="balanceAmount">$10,542.80</div>
+                <div class="balance-info" id="balanceInfo">
+                    <h3>Current Account Balance</h3>
+                    <p id="balanceCurrency">SGD</p>
+                    <h4 id="balanceAmount">0.00</h4>
+                    
                 </div>
                 <button class="pay-now-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -136,30 +138,11 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>26 Oct 2024</td>
-                            <td>Salary Credit</td>
-                            <td>SAL/OCT/24</td>
-                            <td><span class="transaction-status status-completed">Completed</span></td>
-                            <td class="transaction-amount amount-positive">+$5,000.00</td>
-                        </tr>
-                        <tr>
-                            <td>25 Oct 2024</td>
-                            <td>NTUC FairPrice</td>
-                            <td>POS/1234567</td>
-                            <td><span class="transaction-status status-completed">Completed</span></td>
-                            <td class="transaction-amount amount-negative">-$156.40</td>
-                        </tr>
-                        <tr>
-                            <td>25 Oct 2024</td>
-                            <td>Transfer to John</td>
-                            <td>TRF/987654</td>
-                            <td><span class="transaction-status status-pending">Pending</span></td>
-                            <td class="transaction-amount amount-negative">-$500.00</td>
-                        </tr>
+                    <tbody id="transaction-table-body">
+                        <!-- Transactions will be dynamically added here by JavaScript -->
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </section>

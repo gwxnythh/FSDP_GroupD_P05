@@ -19,6 +19,7 @@ const getAccountByAccessCode = async (req, res) => {
     const accessCode = req.query.accessCode;
     try {
         const accounts = await Accounts.getAccountByAccessCode(accessCode);
+        console.log("Fetched Accounts:", accounts); // Debug log
         res.json(accounts);
     } catch (error) {
         console.error("Error fetching accounts:", error);
@@ -47,6 +48,28 @@ const updateBalance = async (req, res) => {
     }
 };
 
+const getCurrentAccountBalance = async (req, res) => { 
+    const accountId = req.params.id;
+    console.log("Account ID:", accountId);
+
+    try {
+        const balance = await Accounts.getCurrentAccountBalance(accountId);
+
+        if (balance === null) {
+            return res.status(404).json({ message: 'Current account not found' });
+        }
+
+        res.json({ balance });
+    } catch (error) {
+        console.error('Error in controller:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+
+
 const getCurrentAccountByMobile = async (req, res) => {
     const { mobileNumber } = req.params;
 
@@ -66,5 +89,6 @@ module.exports = {
     getAccountById,
     getAccountByAccessCode,
     updateBalance,
-    getCurrentAccountByMobile
+    getCurrentAccountByMobile,
+    getCurrentAccountBalance
 };

@@ -66,65 +66,72 @@ async function seedDatabase() {
                     refreshToken VARCHAR(255) NOT NULL UNIQUE
                 );
             `)
-            /*
+        /*
 
-        // Hash passwords
-        let salt = await bcrypt.genSalt(10);
-        const hashedPassword1 = await bcrypt.hash('123456', salt);
-        salt = await bcrypt.genSalt(10);
-        const hashedPassword2 = await bcrypt.hash('654321', salt);
-        salt = await bcrypt.genSalt(10);
-        const hashedPassword3 = await bcrypt.hash('789123' , salt);
-        salt = await bcrypt.genSalt(10);
-        const hashedPassword4 = await bcrypt.hash('101010', salt);
-        salt = await bcrypt.genSalt(10);
-        const hashedPassword5 = await bcrypt.hash('202020', salt);
+    // Hash passwords
+    let salt = await bcrypt.genSalt(10);
+    const hashedPassword1 = await bcrypt.hash('123456', salt);
+    salt = await bcrypt.genSalt(10);
+    const hashedPassword2 = await bcrypt.hash('654321', salt);
+    salt = await bcrypt.genSalt(10);
+    const hashedPassword3 = await bcrypt.hash('789123' , salt);
+    salt = await bcrypt.genSalt(10);
+    const hashedPassword4 = await bcrypt.hash('101010', salt);
+    salt = await bcrypt.genSalt(10);
+    const hashedPassword5 = await bcrypt.hash('202020', salt);
 
-        
+    
 
 
-        // Insert data into the Users table
-        await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
-            VALUES 
-                ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com', '91234567'),
-                ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com', '98765432'),
-                ('U3', 'Access789', '${hashedPassword3}', 'Michael Brown', 'michael@example.com', '87654321'),
-                ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com', '96543210'),
-                ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com', '95432109');
-        `);
+    // Insert data into the Users table
+    await sql.query(`
+        INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
+        VALUES 
+            ('U1', 'Access123', '${hashedPassword1}', 'John Doe', 'john@example.com', '91234567'),
+            ('U2', 'Access456', '${hashedPassword2}', 'Jane Smith', 'jane@example.com', '98765432'),
+            ('U3', 'Access789', '${hashedPassword3}', 'Michael Brown', 'michael@example.com', '87654321'),
+            ('U4', 'Access101', '${hashedPassword4}', 'Emily Davis', 'emily@example.com', '96543210'),
+            ('U5', 'Access202', '${hashedPassword5}', 'David Wilson', 'david@example.com', '95432109');
+    `);
 */
         // Insert data into the Users table
         await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber, CreatedAt)
             VALUES 
-                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567'),
-                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432'),
-                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com', '87654321'),
-                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com', '96543210'),
-                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com', '95432109');
+                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567', '2024-08-01 08:30:00'),
+                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432', '2024-08-02 09:45:00'),
+                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com', '87654321', '2024-08-03 10:15:00'),
+                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com', '96543210', '2024-08-04 11:00:00'),
+                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com', '95432109', '2024-08-05 14:25:00');
         `);
 
         // Insert data into the Accounts table
         await sql.query(`
-            INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency)
+            INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt) 
             VALUES 
-                ('A1', 'U1', 'Access123', '717-154937-001', 'Savings', 5000.00, 'SGD'),
-                ('A2', 'U1', 'Access123', '717-154937-002', 'Current', 2000.00, 'SGD'),
-                ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 8000.00, 'SGD'),
-                ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit Account', 1500.00, 'SGD'),
-                ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 12000.00, 'SGD');
+                ('A1', 'U1', 'Access123', '717-154937-001', 'Current', 2500.00, 'SGD', '2024-08-06 15:30:00'),
+                ('A2', 'U1', 'Access123', '717-154937-002', 'Savings', 10000.00, 'SGD', '2024-08-07 16:45:00'),
+                ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 5500.00, 'SGD', '2024-08-08 17:10:00'),
+                ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit Account', 5000.00, 'SGD', '2024-08-09 18:20:00'),
+                ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 7800.00, 'SGD', '2024-08-10 19:30:00'),
+                ('A6', 'U4', 'Access101', '717-154937-006', 'Current', 3200.00, 'SGD', '2024-08-11 20:25:00'),
+                ('A7', 'U5', 'Access202', '717-154937-007', 'Current', 6500.00, 'SGD', '2024-08-12 21:45:00');
+
         `);
 
         // Insert data into the Transactions table
         await sql.query(`
-            INSERT INTO Transactions (TransactionID, FromAccountID, ToAccountID, Amount, Status, Description,ReferenceNo)
+            INSERT INTO Transactions (TransactionID, FromAccountID, ToAccountID, Amount, TransactionDate, Status, Description, ReferenceNo)
             VALUES 
-                ('T1', 'A1', 'A3', 500.00, 'Completed', 'Transfer to Jane Smith','1089550'),
-                ('T2', 'A2', 'A4', 200.00, 'Completed', 'Bill payment','1089551'),
-                ('T3', 'A3', 'A5', 1000.00, 'Completed', 'Loan repayment','1089552'),
-                ('T4', 'A4', 'A1', 300.00, 'Completed', 'Gift to John Doe','1089553'),
-                ('T5', 'A5', 'A2', 400.00, 'Completed', 'Transfer to John Doe Checking account','1089554');
+                ('T1', 'A1', 'A3', 200.00, '2024-08-13 09:00:00', 'Completed', 'Lunch with Jane', '1090001'),
+                ('T2', 'A1', 'A6', 50.00, '2024-08-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
+                ('T3', 'A3', 'A1', 150.00, '2024-08-15 15:45:00', 'Completed', 'Shared gift for friend', '1090003'),
+                ('T4', 'A5', 'A3', 300.00, '2024-08-16 17:10:00', 'Completed', 'Reimbursement for Event Tickets', '1090004'),
+                ('T5', 'A6', 'A5', 75.00, '2024-08-17 11:20:00', 'Completed', 'Birthday gift', '1090005'),
+                ('T6', 'A7', 'A1', 500.00, '2024-08-18 14:30:00', 'Completed', 'Personal Loan Payment to John', '1090006'),
+                ('T7', 'A3', 'A7', 600.00, '2024-08-19 18:35:00', 'Completed', 'Payment for Furniture', '1090007'),
+                ('T8', 'A1', 'A5', 50.00, '2024-08-20 16:50:00', 'Completed', 'Book purchase', '1090008'),
+                ('T9', 'A7', 'A6', 120.00, '2024-08-21 13:35:00', 'Completed', 'Repayment for dinner', '1090009');
         `);
 
         console.log('Sample data inserted successfully.');

@@ -9,7 +9,7 @@ const getAllTransactions = async (req, res) => {
         res.status(500).send("Error retrieving transactions");
     }
 };
-
+/*
 const getTransactionsByAccountId = async (req, res) => {
     const accountId = req.params.accountId;
     try {
@@ -21,6 +21,19 @@ const getTransactionsByAccountId = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Error retrieving transactions by account ID");
+    }
+};
+*/
+
+const getTransactionsByAccountId = async (req, res) => {
+    const accountId = req.params.accountId;
+    try {
+        const transactions = await Transactions.getTransactionsByAccountId(accountId);
+        console.log("Fetched Transactions:", transactions); // Debug log
+        res.json(transactions);
+    } catch (error) {
+        console.error("Error retrieving transactions by account ID:", error);
+        res.status(500).send("Error retrieving transactions");
     }
 };
 
