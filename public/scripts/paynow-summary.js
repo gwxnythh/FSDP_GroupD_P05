@@ -56,14 +56,22 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
             })
         });
         if (response.ok) {
-            // Parse and display the success message
             const result = await response.json();
-            console.log('result: ' + JSON.stringify(result.status.newReferenceNo))
-            document.getElementById("alert-banner").style.display = "flex";
-            document.getElementById("submit-button").style.display = "none";
-            document.getElementById("reference-number").textContent = result.status.newReferenceNo
-            // console.log("Transaction result:", result);
-            // alert(`Transaction ${result.status}: ${result.message}`);
+            console.log("resultttttttttttttttttttttt iws",  result.transactionStatus);
+            if (result.transactionStatus === 'Completed') {
+                console.log("Transaction completed successfully.");
+
+                // Display success banner and reference number
+                document.getElementById("alert-banner").style.display = "flex";
+                document.getElementById("submit-button").style.display = "none";
+                document.getElementById("reference-number").textContent = result.newReferenceNo;
+            } else if (result.transactionStatus === 'Failed') {
+                alert("Transaction faileddddd")
+            } else{
+                alert("Transaction ongoing")
+                console.log("Transaction ongoing");
+                
+            }
         } else {
             // Handle errors from the server
             const errorData = await response.json();
