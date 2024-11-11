@@ -52,6 +52,7 @@ document.querySelectorAll('input[name="transfer-to"]').forEach((radio) => {
     });
 });
 
+/*
 // Preload sound
 const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-30.mp3");
 
@@ -88,4 +89,4 @@ document.addEventListener("DOMContentLoaded", () => {
         element.addEventListener("click", handleClick);
     });
 });
-
+*/
