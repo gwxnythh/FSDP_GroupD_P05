@@ -7,12 +7,26 @@ async function fetchAccounts() {
 
         if (response.ok) {
             populateAccountDropdown(data);
+            
         } else {
             console.error('Failed to fetch accounts:', data.message);
         }
     } catch (error) {
         console.error('Error fetching accounts:', error);
     }
+}
+
+async function fetchUser(){
+    const accessCode = sessionStorage.getItem('accessCode'); // Retrieve access code
+    try {
+        const response = await fetch(`/accounts?accessCode=${accessCode}`);
+        const data = await response.json();
+        return data
+    } catch (error) {
+        console.error('Error fetching accounts:', error);
+    }
+
+
 }
 
 async function populateAccountDropdown(accounts) {
@@ -97,6 +111,15 @@ async function fetchUserByMobile(mobileNumber) {
         if (response.ok) {
             fullNameDisplay.textContent = `User Full Name: ${data.fullName}`;
             fullNameDisplay.style.color = 'green'; // Set text color to green
+            const result = await fetchUser();
+            if (data.UserID == result[0].UserID){
+                fullNameDisplay.textContent = `Error: Please enter a different number`;
+                fullNameDisplay.style.color = 'red'; 
+                document.getElementById("mobile-number").value="";
+                console.error("cannot transfer to own number");
+                
+            }
+            return data.UserID;
         } else {
             console.error('Failed to fetch user:', data.message);
             fullNameDisplay.textContent = 'User not found.';
@@ -108,6 +131,26 @@ async function fetchUserByMobile(mobileNumber) {
         fullNameDisplay.style.color = 'red'; // Set text color to red
     }
 }
+
+async function getBalance(accountID) {
+    try {
+        const response = await fetch(`/accounts/balance/${accountID}`);
+        if (response.ok) {
+            const data = await response.json();
+            //console.log("Account balance:", data.balance);
+            return data.balance; // Return the balance
+        } else {
+            const errorMessage = await response.text();
+            console.error("Error fetching balance:", errorMessage);
+            return null;
+        }
+    } catch (error) {
+        console.error("Network error:", error);
+        return null;
+    }
+}
+
+
 
 async function fetchCurrentAcc(mobileNumber){
     try {
@@ -189,14 +232,29 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
     }
 }
 
+let transferlimit = 5000
+
 if (document.getElementById("next-button")) {
     document.getElementById("next-button").addEventListener("click", async() => {
         // Retrieve values from form inputs
         const transferType = document.querySelector('input[name="transfer-to"]:checked').value;
         console.log('transferType: ', transferType);
         let transferTo = '';
+        const fullNameDisplay = document.getElementById('full-name-display');
         // TODO: handle to uen and NRIC to get toAccountId
         if (transferType == 'mobile') {
+            transferTo = document.getElementById('mobile-number').value;
+            const result1 = await fetchUser();
+            const result2 = await fetchUserByMobile(transferTo);
+            
+            
+            if (result1 == result2){
+                fullNameDisplay.textContent = `Error: Please enter a different number`;
+                fullNameDisplay.style.color = 'red'; 
+                document.getElementById("mobile-number").value="";
+                console.error("cannot transfer to own number");
+                
+            }
             transferTo = document.getElementById('mobile-number').value;
         } else if (transferType == 'nric') {
             transferTo = document.getElementById('nric-number').value;
@@ -205,11 +263,20 @@ if (document.getElementById("next-button")) {
         }
         
         const fromAccount = document.getElementById("account-dropdown");
+        const balance = await getBalance(fromAccount.value);
         const fromAccountID = fromAccount.value;    
         const fromAccountTextContent = fromAccount.options[fromAccount.selectedIndex].textContent;  
         const amount = document.getElementById("amount").value;
         const purpose = document.getElementById("purpose").value;
         const description = document.getElementById("description").value;
+
+        if (amount>balance||amount>transferlimit){
+            alert("toomuch")
+        }else{
+            transferlimit = transferlimit-amount;
+            console.log("new limit: ",transferlimit);
+            document.getElementById("transferlimit").textContent = `Remaining transfer Limit: SGD ${transferLimit.toFixed(2)}`;
+        }
 
         console.log('transferTo: ', transferTo);
         console.log('fromAccountID: ', fromAccountID);
