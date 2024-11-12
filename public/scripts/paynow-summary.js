@@ -58,19 +58,30 @@ async function makePayment(FromAccountID, ToAccountID, Amount, Description) {
         if (response.ok) {
             const result = await response.json();
             console.log("Transaction status:", result.transactionStatus);
+
+            const alertBanner = document.getElementById("alert-banner");
+            const referenceNumber = document.getElementById("reference-number");
+
             if (result.transactionStatus === 'Completed') {
                 console.log("Transaction completed successfully.");
 
                 // Display success banner and reference number
-                document.getElementById("alert-banner").style.display = "flex";
+                alertBanner.classList.remove("error");
+                alertBanner.classList.add("success");
+                alertBanner.style.display = "flex";
                 document.getElementById("submit-button").style.display = "none";
-                document.getElementById("reference-number").textContent = result.newReferenceNo;
+                referenceNumber.textContent = "Reference-number: " + result.newReferenceNo;
 
                 // Voice output for success
                 speak("Your transfer is successful.");
             } else if (result.transactionStatus === 'Failed') {
                 console.log("Transaction failed.");
-                alert("Transaction failed");
+
+                // Display error banner with red color and failure message
+                alertBanner.classList.remove("success");
+                alertBanner.classList.add("error");
+                alertBanner.style.display = "flex";
+                alertBanner.querySelector("strong").textContent = "Your transfer is unsuccessful.";
 
                 // Voice output for failure
                 speak("Your transfer is unsuccessful.");
@@ -92,6 +103,7 @@ async function makePayment(FromAccountID, ToAccountID, Amount, Description) {
         speak("There was an error with your transaction.");
     }
 }
+
 
 if (document.getElementById("submit-button")) {
     document.getElementById("submit-button").addEventListener("click", async() => {
