@@ -95,8 +95,10 @@ async function fetchUserByMobile(mobileNumber) {
         const data = await response.json();
 
         if (response.ok) {
-            fullNameDisplay.textContent = `User Full Name: ${data.fullName}`;
-            fullNameDisplay.style.color = 'green'; // Set text color to green
+            fullNameDisplay.textContent = `${data.fullName}\n +65${mobileNumber}`;
+            fullNameDisplay.style.color = 'black';
+            fullNameDisplay.style.fontWeight = 'bold';
+            fullNameDisplay.style.whiteSpace = 'pre-line';
         } else {
             console.error('Failed to fetch user:', data.message);
             fullNameDisplay.textContent = 'User not found.';
