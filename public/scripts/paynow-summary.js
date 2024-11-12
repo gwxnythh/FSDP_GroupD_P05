@@ -3,7 +3,6 @@ var paymentDetail;
 async function fetchCurrentAccById(accountId) {
     try {
         const response = await fetch(`/users/id?id=${accountId}`);
-
         if (!response.ok) {
             const errorMessage = await response.text();
             console.error("Error fetching account:", errorMessage);
@@ -25,17 +24,14 @@ function closeAlert() {
 // Function to fetch user details by mobile number
 async function fetchUserByMobile(mobileNumber) {
     const fullNameDisplay = document.getElementById('full-name-display');
-
     try {
         const response = await fetch(`/users/mobile?mobile=${mobileNumber}`);
         const data = await response.json();
-
         if (response.ok) {
-            return data
+            return data;
         } else {
             console.error('Failed to fetch user:', data.message);
         }
-
     } catch (error) {
         console.error('Error fetching user:', error);
     }
@@ -70,46 +66,31 @@ async function makePayment(FromAccountID, ToAccountID, Amount, Description) {
 
             if (result.transactionStatus === 'Completed') {
                 console.log("Transaction completed successfully.");
-
-                // Display success banner and reference number
                 alertBanner.classList.remove("error");
                 alertBanner.classList.add("success");
                 alertBanner.style.display = "flex";
                 document.getElementById("submit-button").style.display = "none";
                 referenceNumber.textContent = "Reference-number: " + result.newReferenceNo;
-
-                // Show success icon
                 successIcon.style.display = "inline-block";
-
-                // Voice output for success
                 speak("Your transfer is successful.");
             } else if (result.transactionStatus === 'Failed') {
                 console.log("Transaction failed.");
-
-                // Display error banner with red color and failure message
                 alertBanner.classList.remove("success");
                 alertBanner.classList.add("error");
                 alertBanner.style.display = "flex";
                 alertBanner.style.alignItems = "center";
                 alertBanner.style.zIndex = "999";
                 alertBanner.querySelector("strong").textContent = "Your transfer is unsuccessful.";
-
-                // Show error icon
                 errorIcon.style.display = "inline-block";
-
-                // Voice output for failure
                 speak("Your transfer is unsuccessful.");
             } else {
                 console.log("Transaction ongoing");
                 alert("Transaction ongoing");
             }
         } else {
-            // Handle errors from the server
             const errorData = await response.json();
             console.error("Error creating transaction:", errorData.message);
             alert(`Error: ${errorData.message}`);
-
-            // Voice output for server error
             speak("There was an error with your transaction.");
         }
     } catch (error) {
@@ -118,17 +99,12 @@ async function makePayment(FromAccountID, ToAccountID, Amount, Description) {
     }
 }
 
-
 if (document.getElementById("submit-button")) {
     document.getElementById("submit-button").addEventListener("click", async () => {
-        // First, output "Submit" when the button is clicked
         speak("Submit");
-
-        // Wait for the "Submit" voice to finish before processing the transaction
         await waitForVoiceToFinish();
 
         let mobileNumber;
-        // TODO: handle for UEN and NRIC
         if (paymentDetail.TransferType === 'mobile') {
             mobileNumber = paymentDetail.TransferTo;
         }
@@ -139,7 +115,6 @@ if (document.getElementById("submit-button")) {
         const description = paymentDetail.Description;
         console.log(fromAccountID, toAccountID, amount, description);
 
-        // Call makePayment with the retrieved values
         makePayment(fromAccountID, toAccountID, amount, description);
     });
 }
@@ -159,11 +134,13 @@ async function populateSummary(transferDetails) {
 
     paymentDetail = transferDetails;
     paymentDetail.toAccountUser = toAccountUser;
+
+    const confirmationText = `Do you want to transfer ${transferDetails.Amount} dollars to ${toAccountUser.FullName} of mobile number ${transferDetails.TransferTo}? Click submit to confirm.`;
+    speak(confirmationText);
 }
 
 // Set initial state based on the default checked radio button
 window.onload = () => {
-    // Get the query string
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const payload = urlParams.get('payload');
@@ -177,11 +154,11 @@ window.onload = () => {
 function speak(text) {
     const synth = window.speechSynthesis;
     if (synth.speaking) {
-        synth.cancel(); // Cancel any ongoing speech to override it
+        synth.cancel();
     }
     const utterance = new SpeechSynthesisUtterance(text);
     synth.speak(utterance);
-    console.log("Speaking:", text);  // Log the spoken text
+    console.log("Speaking:", text);
 }
 
 // Helper function to wait for voice to finish
@@ -193,6 +170,6 @@ function waitForVoiceToFinish() {
                 clearInterval(checkSpeechEnd);
                 resolve();
             }
-        }, 100);  // Check every 100ms if the voice is still speaking
+        }, 100);
     });
 }

@@ -32,6 +32,13 @@ function displayAccounts(accounts) {
                 <h4>${account.Balance.toFixed(2)}</h4>
             </div>
         `;
+
+        // Add event listener for voice output on click
+        accountItem.addEventListener('click', () => {
+            const message = `Your ${account.AccountType} account has a balance of ${account.Balance.toFixed(2)} dollars`;
+            speak(message);  // Call the speak function for voice output
+        });
+
         accountsList.appendChild(accountItem);
     });
 }
@@ -39,3 +46,13 @@ function displayAccounts(accounts) {
 // Call fetchAccounts when the page loads
 document.addEventListener('DOMContentLoaded', fetchAccounts);
 
+// Function to handle voice output
+function speak(text) {
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+        synth.cancel(); // Cancel any ongoing speech to avoid overlapping
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    synth.speak(utterance);
+    console.log("Speaking:", text);  // Log the spoken text for debugging
+}

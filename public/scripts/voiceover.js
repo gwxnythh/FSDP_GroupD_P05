@@ -91,9 +91,31 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
 
     if (mobileNumberInput) {
         console.log("Mobile number input found");
+        
+        // When the mobile number input is focused, announce "Enter mobile number"
         mobileNumberInput.addEventListener('click', () => {
             console.log("Mobile number input clicked");  // Log click for debugging
             speak("Enter mobile number");
+        });
+
+        // Speak each number entered into the mobile number input field
+        let previousValueMobile = ''; // Track the previous value of the mobile input field
+        mobileNumberInput.addEventListener('input', () => {
+            const enteredValue = mobileNumberInput.value;  // Get the current value of the input
+
+            // Only speak new digits when they are entered, avoid speaking when deleting
+            if (enteredValue !== previousValueMobile) {
+                const newDigit = enteredValue.slice(-1); // Get the most recent digit entered
+
+                // Check if a digit was added, and speak it
+                if (enteredValue.length > previousValueMobile.length) {
+                    if (!isNaN(newDigit) && newDigit !== ' ') { // Ensure the character is a number
+                        speak(newDigit); // Speak the number
+                    }
+                }
+
+                previousValueMobile = enteredValue; // Update the previous value to the current value
+            }
         });
     } else {
         console.log("Mobile number input not found");  // Log if input is missing
@@ -122,16 +144,16 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
         amountInput.addEventListener('input', () => {
             const enteredValue = amountInput.value;  // Get the current value of the input
 
-            // Check if the entered value is different from the previous value
+            // Only speak new digits when they are entered, avoid speaking when deleting
             if (enteredValue !== previousValueAmount) {
-                const newDigits = enteredValue.slice(previousValueAmount.length); // Get the new digits entered
+                const newDigit = enteredValue.slice(-1); // Get the most recent digit entered
 
-                // Speak each new digit entered (if any)
-                newDigits.split('').forEach(digit => {
-                    if (!isNaN(digit) && digit !== ' ') { // Ensure the character is a number
-                        speak(digit); // Speak the number
+                // Check if a digit was added, and speak it
+                if (enteredValue.length > previousValueAmount.length) {
+                    if (!isNaN(newDigit) && newDigit !== ' ') { // Ensure the character is a number
+                        speak(newDigit); // Speak the number
                     }
-                });
+                }
 
                 previousValueAmount = enteredValue; // Update the previous value to the current value
             }

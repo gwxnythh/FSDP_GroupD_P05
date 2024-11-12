@@ -1,3 +1,4 @@
+//updated
 async function fetchAccounts() {
     const accessCode = sessionStorage.getItem('accessCode'); // Retrieve access code
 
@@ -95,10 +96,16 @@ async function fetchUserByMobile(mobileNumber) {
         const data = await response.json();
 
         if (response.ok) {
+            // Display full name and mobile number
             fullNameDisplay.textContent = `${data.fullName}\n +65${mobileNumber}`;
-            fullNameDisplay.style.color = 'var(--text-color)';
+            fullNameDisplay.style.color = 'black';
             fullNameDisplay.style.fontWeight = 'bold';
             fullNameDisplay.style.whiteSpace = 'pre-line';
+
+            // Trigger voice output for full name
+            speak("Full Name");
+            speak(data.fullName); // Speak the full name
+
         } else {
             console.error('Failed to fetch user:', data.message);
             fullNameDisplay.textContent = 'User not found.';
@@ -110,6 +117,26 @@ async function fetchUserByMobile(mobileNumber) {
         fullNameDisplay.style.color = 'red'; // Set text color to red
     }
 }
+
+// Event listener for the search button
+const mobileSearchButton = document.getElementById('mobile-search');
+if (mobileSearchButton) {
+    mobileSearchButton.addEventListener('click', () => {
+        const mobileNumber = document.getElementById('mobile-number').value;
+        fetchUserByMobile(mobileNumber);
+    });
+}
+
+// Function to handle voice output
+function speak(text) {
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+        synth.cancel(); // Cancel any ongoing speech to override it
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    synth.speak(utterance);
+}
+
 
 async function fetchCurrentAcc(mobileNumber){
     try {
