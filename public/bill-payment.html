@@ -1,17 +1,17 @@
+<!-- Bill Payment Page -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OCBC - PayNow</title>
+    <title>OCBC - Bill Payment</title>
     <!-- ============ Favicon ============ -->
     <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
     <!-- ============ Styles ============ -->
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -108,89 +108,79 @@
         </div>
     </section>
 
-    <!-- ============ PayNow Page ============ -->
-    <section class="paynow-section">
-        <div class="paynow-container">
-            <h2>Paynow Summary</h2>
+    <!-- ============ Bill Payment Section ============ -->
+    <section class="bill-payment-section">
+        <div class="bill-payment-container">
+            <h2>Bill Payment</h2>
 
-            <div class="alert-banner success" id="alert-banner" style="gap: 10px;">
-                <div>
-                    <i class="fa fa-check" style="font-size:48px;color:white; display:none;"></i>
-                    <i class="fa fa-times" style="font-size:48px;color:white; display:none;"></i>
-                </div>
-                <div>
-                    <div>
-                        <strong>Your transfer is successful.</strong>
+            <div class="form-section">
+                <div class="section-header">1. Make a transfer from</div>
+                <div class="account-container">
+                    <div class="left">
+                        <label for="account-dropdown">Select account:</label>
+                        <select id="account-dropdown" name="account">
+                            <option value="" disabled selected>Select an account</option>
+                        </select>
                     </div>
-                    <div>
-                        <strong id="reference-number"></strong>
+                    
+                    <div class="right">
+                        <div class="account-balance">
+                            <p>Remaining Trans (SGD)</p>
+                            <h4 id="selected-account-balance">0.00</h4>
+                        </div>
                     </div>
                 </div>
-                <span class="closebtn" onclick="closeAlert()">&times;</span>
+                
+            </div>                      
+
+            <div class="form-section">
+                <div class="section-header">2. Select Billing Company</div>
+                
+                <label class="checkbox-group">
+                    <input type="checkbox" id="pub" name="transfer-to" value="pub">
+                    <span class="left-checkbox">PUB</span>
+                    <span class="amount">SGD 0.00</span> <!-- Placeholder for amount -->
+                </label>
+                
+                <label class="checkbox-group">
+                    <input type="checkbox" id="lta-road-tax" name="transfer-to" value="lta-road-tax">
+                    <span class="left-checkbox">LTA Road Tax</span>
+                    <span class="amount">SGD 0.00</span> <!-- Placeholder for amount -->
+                </label>
+                
+                <label class="checkbox-group">
+                    <input type="checkbox" id="hdb" name="transfer-to" value="hdb">
+                    <span class="left-checkbox">HDB</span>
+                    <span class="amount">SGD 0.00</span> <!-- Placeholder for amount -->
+                </label>
+                
+                <label class="checkbox-group">
+                    <input type="checkbox" id="ntuc-income" name="transfer-to" value="ntuc-income">
+                    <span class="left-checkbox">NTUC Income</span>
+                    <span class="amount">SGD 0.00</span> <!-- Placeholder for amount -->
+                </label>
+                
+                <label class="checkbox-group">
+                    <input type="checkbox" id="singtel" name="transfer-to" value="singtel">
+                    <span class="left-checkbox">Singtel</span>
+                    <span class="amount">SGD 0.00</span> <!-- Placeholder for amount -->
+                </label>
             </div>
 
-            <!-- ============ Accounts Section ============ -->
-            <div class="accounts-content">
-                <div class="accounts-dropdown">
-                    <div class="account-header">
-                        <div class="account-info">
-                            <h3>Transfer from</h3>
-                        </div>
-                    </div>
-                    <div class="accounts-list" id="accountsList">
-                        <!-- Account 1 -->
-                        <div class="account-item">
-                            <div class="account-details">
-                                <h4 id="fromAccountTextContent">360 Account</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accounts-content">
-                <div class="accounts-dropdown">
-                    <div class="account-header">
-                        <div class="account-info">
-                            <h3>Transfer to</h3>
-                        </div>
-                    </div>
-                    <div class="accounts-list" id="accountsList">
-                        <div class="account-item">
-                            <div class="account-details">
-                                <div class="transfer-detail">
-                                    <p class="account-number">Mobile Number</p>
-                                    <h4 id="mobile-number"></h4>
-                                </div>
-                                <div class="transfer-detail">
-                                    <p class="account-number">Receipient's Paynow Name</p>
-                                    <h4 id="name"></h4>
-                                </div>
-                                <div class="transfer-detail">
-                                    <p class="account-number">Amount (SGD)</p>
-                                    <h4 id="amount"></h4>
-                                </div>
-                                <div class="transfer-detail">
-                                    <p class="account-number">Purpose code</p>
-                                    <h4 id="purpose"></h4>
-                                </div>
-                                <div class="transfer-detail">
-                                    <p class="account-number">Description</p>
-                                    <h4 id="description"></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button id="submit-button" class="button" type="submit">Submit</button>
+            <button id="next-button" class="button" type="submit">Next</button>
         </div>
     </section>
 
+    <!-- ============ Footer Section ============ -->
+    <footer>
+        <p> © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
+        </p>
+    </footer>
+
     <!-- ============ Scripts ============ -->
     <script src="scripts/script.js"></script>
-    <script src="scripts/paynow-summary.js"></script>
+    <!-- <script src="scripts/paynow.js"></script> -->
+    <script src="scripts/bill.js"></script>
     <script src="scripts/voicereco.js"></script>
     <script src="scripts/login.js"></script>
     <script src="scripts/voiceover.js"></script>

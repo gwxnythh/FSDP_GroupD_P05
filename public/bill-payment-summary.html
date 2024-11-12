@@ -1,17 +1,18 @@
-<!-- Transfer & Paymentd Page -->
+<!-- Bill Payment Summary Page -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OCBC - PayNow</title>
+    <title>OCBC - Bill Summary</title>
     <!-- ============ Favicon ============ -->
     <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
     <!-- ============ Styles ============ -->
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -79,7 +80,7 @@
         <!-- <a class="mobile-logout" href="login.html"><button id="sidenav-logout-btn" class="logout-btn">Logout</button></a> -->
         <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
     </div>
-    
+
     <!-- ============ Chatbot Section ============ -->
     <section class="chatbot">
         <div class="chatbot-container">
@@ -108,114 +109,83 @@
         </div>
     </section>
 
-    <!-- ============ Transfer & Payment Content ============ -->
-    <section class="transfers-section">
-        <div class="transfers-container">
-            <div class="page-title">
-                Transfers
+    <!-- ============ Bill Payment Summary Page ============ -->
+    <section class="bill-payment-summary-section">
+        <div class="bill-payment-summary-container">
+            <h2>Bill Payment Summary</h2>
+
+            <div class="alert-banner success" id="alert-banner" style="gap: 10px;">
+                <div>
+                    <i class="fa fa-check" style="font-size:48px;color:white; display:none;"></i>
+                    <i class="fa fa-times" style="font-size:48px;color:white; display:none;"></i>
+                </div>
+                <div>
+                    <div>
+                        <strong>Your payment has been processed successfully.</strong>
+                    </div>
+                    <div>
+                        <strong id="reference-number"></strong>
+                    </div>
+                </div>
+                <span class="closebtn" onclick="closeAlert()">&times;</span>
             </div>
 
-            <div class="quick-actions">
-                <div class="action-item">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <path d="M8 12h8" />
-                        </svg>
+            <!-- ============ Accounts Section ============ -->
+            <div class="bill-payment-summary-content">
+                <div class="accounts-dropdown">
+                    <div class="account-header">
+                        <div class="account-info">
+                            <h3>Transfer from</h3>
+                        </div>
                     </div>
-                    <span class="action-label">Scan</span>
-                </div>
-                <a href="paynow.html" class="action-item" style="text-decoration: none; color: inherit;">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                        </svg>
+                    <div class="accounts-list" id="accountsList">
+                        <!-- Account 1 -->
+                        <div class="account-item">
+                            <div class="account-details">
+                                <h4 id="fromAccountTextContent">360 Account</h4>
+                            </div>
+                        </div>
                     </div>
-                    <span class="action-label">PayNow</span>
-                </a>
-                
-                <div class="action-item">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M8 12h8" />
-                        </svg>
-                    </div>
-                    <span class="action-label">Local</span>
-                </div>
-                <div class="action-item">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M2 12h20" />
-                        </svg>
-                    </div>
-                    <span class="action-label">Overseas</span>
-                </div>
-                <div class="action-item">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <path d="M3 9h18" />
-                        </svg>
-                    </div>
-                    <span class="action-label">Bills</span>
                 </div>
             </div>
 
-            <div class="manage-section" id="myaccounts-mbottom">
-                <h2 class="section-title">Manage</h2>
-                <ul class="manage-list">
-                    <li class="manage-item">
-                        <div class="manage-item-left">Scheduled Transfers</div>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </li>
-                    <li class="manage-item">
-                        <div class="manage-item-left">Transaction Limits</div>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </li>
-                    <li class="manage-item">
-                        <div class="manage-item-left">Payee List</div>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </li>
-                    <li class="manage-item">
-                        <div class="manage-item-left">GIRO Services</div>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </li>
-                </ul>
+            <div class="bill-payment-summary-content">
+                <div class="accounts-dropdown">
+                    <div class="account-header">
+                        <div class="account-info">
+                            <h3>Pay Bill for</h3>
+                        </div>
+                    </div>
+                    <div class="bill-item">
+                        <div class="bill-details">
+                            <p>NTUC Income</p>
+                            <p>123-456-789</p>
+                        </div>
+                        <div class="bill-amount" id="bill-amount">SGD 302.00</div>
+                    </div>
+                    <div class="bill-item">
+                        <div class="bill-details">
+                            <p>NTUC Income</p>
+                            <p>123-456-789</p>
+                        </div>
+                        <div class="bill-amount" id="bill-amount">SGD 302.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button id="submit-button" class="button" type="submit">Submit</button>
+                <div id="total-amount" class="total-amount">Total: SGD 0.00</div>
             </div>
         </div>
-
     </section>
-
-        <!-- ============ Footer Section ============ -->
-        <footer>
-            <p> © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
-            </p>
-        </footer>
 
     <!-- ============ Scripts ============ -->
     <script src="scripts/script.js"></script>
+    <script src="scripts/bill-summary.js"></script>
     <script src="scripts/voicereco.js"></script>
     <script src="scripts/login.js"></script>
     <script src="scripts/voiceover.js"></script>
-
 </body>
 
 </html>

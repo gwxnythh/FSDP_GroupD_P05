@@ -91,13 +91,36 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
 
     if (mobileNumberInput) {
         console.log("Mobile number input found");
+        
+        // When the mobile number input is focused, announce "Enter mobile number"
         mobileNumberInput.addEventListener('click', () => {
             console.log("Mobile number input clicked");  // Log click for debugging
             speak("Enter mobile number");
         });
+
+        // Speak each number entered into the mobile number input field
+        let previousValueMobile = ''; // Track the previous value of the mobile input field
+        mobileNumberInput.addEventListener('input', () => {
+            const enteredValue = mobileNumberInput.value;  // Get the current value of the input
+
+            // Only speak new digits when they are entered, avoid speaking when deleting
+            if (enteredValue !== previousValueMobile) {
+                const newDigit = enteredValue.slice(-1); // Get the most recent digit entered
+
+                // Check if a digit was added, and speak it
+                if (enteredValue.length > previousValueMobile.length) {
+                    if (!isNaN(newDigit) && newDigit !== ' ') { // Ensure the character is a number
+                        speak(newDigit); // Speak the number
+                    }
+                }
+
+                previousValueMobile = enteredValue; // Update the previous value to the current value
+            }
+        });
     } else {
         console.log("Mobile number input not found");  // Log if input is missing
     }
+
     // Voiceover for Search button
     const searchButton = document.querySelector(".button[type='button']"); // Assuming the button has class 'button' and type 'button'
 
@@ -109,11 +132,76 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
 
     // Voiceover for amount input field
     const amountInput = document.getElementById('amount'); // Get the amount input field by its ID
+    let previousValueAmount = ''; // Track the previous value of the amount input field
 
     if (amountInput) {
+        // When the amount input field is clicked or focused, speak "Enter amount"
         amountInput.addEventListener('click', () => {
             speak("Enter amount");
         });
+
+        // Speak each number entered into the amount input field
+        amountInput.addEventListener('input', () => {
+            const enteredValue = amountInput.value;  // Get the current value of the input
+
+            // Only speak new digits when they are entered, avoid speaking when deleting
+            if (enteredValue !== previousValueAmount) {
+                const newDigit = enteredValue.slice(-1); // Get the most recent digit entered
+
+                // Check if a digit was added, and speak it
+                if (enteredValue.length > previousValueAmount.length) {
+                    if (!isNaN(newDigit) && newDigit !== ' ') { // Ensure the character is a number
+                        speak(newDigit); // Speak the number
+                    }
+                }
+
+                previousValueAmount = enteredValue; // Update the previous value to the current value
+            }
+        });
     }
 
+    // Voiceover for description input field
+    const descriptionInput = document.getElementById('description'); // Get the description input field by its ID
+    let previousValueDescription = ''; // Track the previous value of the description input field
+
+    if (descriptionInput) {
+        // When the description input field is clicked or focused, speak "Description"
+        descriptionInput.addEventListener('click', () => {
+            speak("Description");
+        });
+
+        // Speak each letter entered into the description input field
+        descriptionInput.addEventListener('input', () => {
+            const enteredValue = descriptionInput.value;  // Get the current value of the input
+
+            // Check if the entered value is different from the previous value
+            if (enteredValue !== previousValueDescription) {
+                const newLetters = enteredValue.slice(previousValueDescription.length); // Get the new letters entered
+
+                // Speak each new letter entered (if any)
+                newLetters.split('').forEach(letter => {
+                    speak(letter); // Speak the letter
+                });
+
+                previousValueDescription = enteredValue; // Update the previous value to the current value
+            }
+        });
+    }
+
+    // Voiceover for the "Next" button
+    const nextButton = document.getElementById('next-button'); // Get the Next button by its ID
+
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            speak("Next");
+        });
+    }
+
+    // Event listener for submit button
+    const submitButton = document.getElementById('submit-button'); // Get the submit button by its ID
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            speak("Submit"); // Voice output "Submit" when the button is clicked
+        });
+    }
 });

@@ -1,3 +1,4 @@
+//updated
 async function fetchAccounts() {
     const accessCode = sessionStorage.getItem('accessCode'); // Retrieve access code
 
@@ -93,6 +94,7 @@ async function updateInputFields(value) {
             if (value === 'mobile') {
                 const mobileNumber = document.getElementById('mobile-number').value;
                 fetchUserByMobile(mobileNumber);
+
             }
             // Additional logic for NRIC and UEN can be added here
         });
@@ -109,8 +111,16 @@ async function fetchUserByMobile(mobileNumber) {
         const data = await response.json();
 
         if (response.ok) {
-            fullNameDisplay.textContent = `User Full Name: ${data.fullName}`;
-            fullNameDisplay.style.color = 'green'; // Set text color to green
+            // Display full name and mobile number
+            fullNameDisplay.textContent = `${data.fullName}\n +65${mobileNumber}`;
+            fullNameDisplay.style.color = 'black';
+            fullNameDisplay.style.fontWeight = 'bold';
+            fullNameDisplay.style.whiteSpace = 'pre-line';
+
+            // Trigger voice output for full name
+            speak("Full Name");
+            speak(data.fullName); // Speak the full name
+
             const result = await fetchUser();
             if (data.UserID == result[0].UserID){
                 fullNameDisplay.textContent = `Error: Please enter a different number`;
@@ -120,6 +130,7 @@ async function fetchUserByMobile(mobileNumber) {
                 
             }
             return data.UserID;
+
         } else {
             console.error('Failed to fetch user:', data.message);
             fullNameDisplay.textContent = 'User not found.';
@@ -148,9 +159,7 @@ async function getBalance(accountID) {
         console.error("Network error:", error);
         return null;
     }
-}
-
-
+}   
 
 async function fetchCurrentAcc(mobileNumber){
     try {
@@ -247,7 +256,7 @@ if (document.getElementById("next-button")) {
             const result1 = await fetchUser();
             const result2 = await fetchUserByMobile(transferTo);
             
-            
+            //compare fromUser and toUser
             if (result1 == result2){
                 fullNameDisplay.textContent = `Error: Please enter a different number`;
                 fullNameDisplay.style.color = 'red'; 

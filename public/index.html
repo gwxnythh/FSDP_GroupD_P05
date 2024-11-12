@@ -55,9 +55,9 @@
         <div class="header-bottom">
             <a href="index.html">View Accounts</a>
             <a href="transfers.html">Transfers</a>
+            <a href="bill-payment.html">Bill Payment</a>
             <a href="transaction.html">Transactions</a>
             <a href="#">Customer Service</a>
-            <a href="#">Apply</a>
             <a href="#">Rewards</a>
         </div>
 
@@ -72,11 +72,12 @@
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
         <a href="index.html">View Accounts</a>
         <a href="transfers.html">Transfers</a>
+        <a href="bill-payment.html">Bill Payment</a>
         <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
-        <a href="#">Apply</a>
         <a href="#">Rewards</a>
-        <button id="sidenav-logout-btn" class="logout-btn">Logout</button>
+        <!-- <a class="mobile-logout" href="login.html"><button id="sidenav-logout-btn" class="logout-btn">Logout</button></a> -->
+        <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
     </div>
 
     <!-- ============ Chatbot Section ============ -->
@@ -150,7 +151,7 @@
     <!-- ============ Accounts Section ============ -->
     <section class="accounts">
         <div class="accounts-content">
-            <div class="accounts-dropdown">
+            <div class="accounts-dropdown" id="myaccounts-mbottom">
                 <div class="account-header">
                     <div class="account-info">
                         <h3>My Accounts</h3>
