@@ -76,7 +76,8 @@
         <a href="#">Customer Service</a>
         <a href="#">Apply</a>
         <a href="#">Rewards</a>
-        <button id="sidenav-logout-btn" class="logout-btn">Logout</button>
+        <!-- <a class="mobile-logout" href="login.html"><button id="sidenav-logout-btn" class="logout-btn">Logout</button></a> -->
+        <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
     </div>
 
     <!-- ============ Chatbot Section ============ -->
@@ -150,7 +151,7 @@
     <!-- ============ Accounts Section ============ -->
     <section class="accounts">
         <div class="accounts-content">
-            <div class="accounts-dropdown">
+            <div class="accounts-dropdown" id="myaccounts-mbottom">
                 <div class="account-header">
                     <div class="account-info">
                         <h3>My Accounts</h3>

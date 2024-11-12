@@ -96,7 +96,7 @@ async function fetchUserByMobile(mobileNumber) {
 
         if (response.ok) {
             fullNameDisplay.textContent = `${data.fullName}\n +65${mobileNumber}`;
-            fullNameDisplay.style.color = 'black';
+            fullNameDisplay.style.color = 'var(--text-color)';
             fullNameDisplay.style.fontWeight = 'bold';
             fullNameDisplay.style.whiteSpace = 'pre-line';
         } else {

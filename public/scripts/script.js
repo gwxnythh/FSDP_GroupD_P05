@@ -18,9 +18,27 @@ function closeNav() {
 }
 
 
-// Dark mode toggle script
+// // Dark mode toggle script
+// document.getElementById('darkModeToggle').addEventListener('click', function() {
+//     document.body.classList.toggle('dark-mode');
+// });
+
+// Check for dark mode preference in localStorage and apply it
+if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+}
+
+// Dark mode toggle
 document.getElementById('darkModeToggle').addEventListener('click', function() {
+    // Toggle dark mode on the body element
     document.body.classList.toggle('dark-mode');
+
+    // Save the current dark mode state to localStorage
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+    }
 });
 
 

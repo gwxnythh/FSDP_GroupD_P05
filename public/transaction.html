@@ -113,8 +113,8 @@
         <div class="transaction-container">
             <div class="balance-card">
                 <div class="balance-info" id="balanceInfo">
-                    <h3>Current Account Balance</h3>
-                    <p id="balanceCurrency">SGD</p>
+                    <h3>Account Balance</h3>
+                    <p id="balanceCurrency" style="display: none;">SGD</p>
                     <h4 id="balanceAmount">0.00</h4>
                     
                 </div>
@@ -126,10 +126,10 @@
                 </button>
             </div>
 
-            <div class="transactions">
+            <div class="transactions" id="myaccounts-mbottom">
                 <h2>Latest Transactions</h2>
                 <table class="transaction-table">
-                    <thead>
+                    <thead class="trans-subheader">
                         <tr>
                             <th>Date</th>
                             <th>Description</th>
