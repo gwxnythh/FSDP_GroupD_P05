@@ -13,6 +13,7 @@
     --text-color: #000000;
     --header-background: #f8f9fa;
     --container-color: #ffffff;
+    --payment-container-color: #f5f5f5;
     --sub-header: #4e5255;
 }
 
@@ -30,6 +31,7 @@ body.dark-mode {
     --text-color: #ffffff;
     --header-background: #1f1f1f;
     --container-color: #4f4d4d;
+    --payment-container-color: rgb(95, 95, 95);
     --sub-header: #5e5e5e;
 }
 
@@ -73,6 +75,8 @@ button.logout-btn,
 }
 
 /* Common container styling for all sections */
+.bill-payment-summary-section,
+.bill-payment-section,
 .paynow-section,
 .transaction-section,
 .transfers-section,
@@ -103,7 +107,7 @@ header {
     top: 0;
     width: 100%;
     z-index: 1001;
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     box-shadow: 0px 4px 2px -2px gray;
@@ -174,17 +178,15 @@ header {
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    border-top: 1px solid #ddd;
     padding: 5px 0px;
     margin: 0 20%;
-    background-color: var(--header-background-color);
 }
 
 .header-bottom a {
     flex: 1 1 0px;
     text-decoration: none;
     padding: 10px;
-    color: #000;
+    color: var(--text-color);
     font-weight: bold;
 }
 
@@ -435,7 +437,7 @@ header {
 
 /*============== Accounts Section ==============*/
 .accounts-dropdown {
-    background-color: #fff;
+    background-color: var(--container-color);
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -656,6 +658,8 @@ body.nav-open {
 /*============== Responsive design ==============*/
 @media (max-width: 1200px) {
 
+    .bill-payment-summary-section,
+    .bill-payment-section,
     .paynow-section,
     .transaction-section,
     .transfers-section,
@@ -1006,7 +1010,6 @@ body.login-body {
 /*============== PayNow Page ==============*/
 .paynow-container {
     max-width: 1200px;
-    /* margin: 0 20%; */
     padding: 0px 20px;
 }
 
@@ -1027,7 +1030,7 @@ body.login-body {
 }
 
 .paynow-container .section-header {
-    background-color: #777;
+    background-color: var(--secondary-color);
     color: white;
     padding: 10px;
     margin-top: 10px;
@@ -1037,13 +1040,13 @@ body.login-body {
 .paynow-container .form-section {
     margin: 10px 0;
     padding: 15px;
-    background-color: var(--container-color);
+    background-color: var(--payment-container-color);
     border-radius: 5px;
 }
 
 .paynow-container .form-section label {
     display: block;
-    margin-bottom: 5px;
+    margin: 10px 0px;
     font-weight: bold;
 }
 
@@ -1338,4 +1341,228 @@ footer {
 
 .balance-card .balance-info #balanceAmount {
     font-size: 40px;
+}
+
+/*============== Bill Payment Page ==============*/
+.bill-payment-container {
+    max-width: 1200px;
+    /* margin: 0 20%; */
+    padding: 0px 20px;
+}
+
+.bill-payment-container .section-header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.bill-payment-container  .account-balance {
+    text-align: right;
+}
+
+
+.bill-payment-container .account-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.bill-payment-container .account-container .left {
+    flex: 1;
+}
+
+.bill-payment-container .account-container .right {
+    flex: 0 1 auto;
+    text-align: right;
+}
+
+.bill-payment-container .form-section {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: var(--payment-container-color);
+    border-radius: 5px;
+}
+
+.bill-payment-container .form-section label {
+    display: flex;
+    margin: 10px 0px;
+    font-weight: bold;
+}
+
+.bill-payment-container .form-section input,
+.form-section select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bill-payment-container .button {
+    background-color: #777;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.bill-payment-container .button:hover {
+    background-color: #555;
+}
+
+.bill-payment-container .radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.bill-payment-container .radio-group input {
+    margin-right: 5px;
+}
+
+.bill-payment-container .alert {
+    list-style: none;
+}
+.bill-payment-container .checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bill-payment-container .amount {
+    margin-left: auto;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.bill-payment-container .left-checkbox {
+    margin-left: 10px;
+}
+
+.bill-payment-container .form-section input[type="checkbox"] {
+display: flex;
+align-items: center;
+margin: 0;
+}
+
+/*============== Bill Summary Page ==============*/
+.bill-payment-summary-container {
+    max-width: 1200px;
+    padding: 0px 20px;
+}
+
+.bill-payment-summary-container .alert {
+    background-color: #f9f1d6;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: #555;
+}
+
+.bill-payment-summary-container .alert li {
+    list-style: none;
+}
+
+.bill-payment-summary-container .alert h3 {
+    margin-top: 0;
+}
+
+.bill-payment-summary-container .section-header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.bill-payment-summary-container .form-section {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: var(--payment-container-color);
+    border-radius: 5px;
+    width: 100%;
+}
+
+.bill-payment-summary-container .form-section label {
+    display: block;
+    margin: 10px 0px;
+    font-weight: bold;
+}
+
+.bill-payment-summary-container .form-section input,
+.form-section select {
+    /* width: 100%; */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bill-payment-summary-container .button {
+    background-color: #777;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.bill-payment-summary-container .button:hover {
+    background-color: #555;
+}
+
+.bill-payment-summary--container .radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.bill-payment-summary-container .radio-group input {
+    margin-right: 5px;
+}
+
+.bill-payment-summary-container .alert {
+    list-style: none;
+}
+
+.bill-payment-summary-content {
+    margin: 20px 0px;
+}
+
+.bill-payment-summary-container .bill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.bill-payment-summary-container .bill-details p {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.bill-payment-summary-container .bill-amount {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.bill-payment-summary-container .submit-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.bill-payment-summary-container .total-amount {
+    font-weight: bold;
+    font-size: 16px;
 }
