@@ -41,3 +41,25 @@ function displayAccounts(accounts) {
 
 // Fetch and display accounts when the page loads
 document.addEventListener('DOMContentLoaded', fetchAccounts);
+
+/*
+async function fetchBillAmounts() {
+    try {
+        const amount = await fetch(`/bills/amount?billingCompany=${billingCompany}`); 
+        const data = await response.json();
+
+        if (response.ok) {
+            amount(data); // Call the function to display accounts
+        } else {
+            console.error('Error fetching billing amount:', data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function displayBillAmounts(bills) {
+    
+
+}
+*/

@@ -8,6 +8,7 @@ const Accounts = require('./models/accounts');
 const accountsController = require("./controllers/accountsController");
 const transactionsController = require("./controllers/transactionsController");
 const usersController = require("./controllers/usersController");
+const billsController = require("./controllers/billsController");
 const validateAccounts = require("./middlewares/validateAccounts")
 const validateTransactions = require("./middlewares/validateTransactions")
 const authenticate = require("./middlewares/authenticate")
@@ -38,6 +39,11 @@ app.get("/transactions/account/:accountId", transactionsController.getTransactio
 app.post('/transactions', transactionsController.createTransaction);
 app.post('/transactions/summarize', transactionsController.summarizeTransaction);
 
+//Bills routes
+app.get('/bills/:id', billsController.getBillingById);
+app.get('/bills/company/:id', billsController.getBillingCompanyById);
+app.get('/bills/amount', billsController.getBillAmountByBillingAccNo);
+app.get('/bills/account', billsController.getBillingAccNoByBillingCompanyPrefix);
 
 // Start the server and connect to DB
 app.listen(port, async () => {

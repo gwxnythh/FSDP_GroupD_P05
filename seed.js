@@ -12,7 +12,7 @@ async function seedDatabase() {
             IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
             IF OBJECT_ID('dbo.RefreshTokens', 'U') IS NOT NULL DROP TABLE dbo.RefreshTokens;
-            IF OBJECT_ID('dbo.Bill', 'U') IS NOT NULL DROP TABLE dbo.Bill;
+            IF OBJECT_ID('dbo.Bills', 'U') IS NOT NULL DROP TABLE dbo.Bills;
         `);
 
         // Create the Users table first with updated PIN column type
@@ -62,12 +62,13 @@ async function seedDatabase() {
 
         // Create the Billing table
         await sql.query(`
-            CREATE TABLE Bill (
+            CREATE TABLE Bills (
                 BillingID NVARCHAR(10) PRIMARY KEY,
                 BillingCompany VARCHAR(100) NOT NULL,
                 BillAmount DECIMAL(10, 2) NOT NULL,
                 BillingAccNo VARCHAR(50) NOT NULL
             );
+
 
         `);
 
@@ -148,12 +149,12 @@ async function seedDatabase() {
 
         // Insert data into the Billing table
         await sql.query(`
-            INSERT INTO Bill (BillingID, BillingCompany, BillAmount, BillingAccNo) VALUES
-                ('B1', 'PUB', 67.00, 'ACC123456'),
-                ('B2', 'LTA Road Tax', 48.00, 'ACC654321'),
-                ('B3', 'HDB', 55.00, 'ACC987654'),
-                ('B4', 'NTUC Income', 100, 'ACC456789'),
-                ('B5', 'Singtel', 95.25, 'ACC456789');
+            INSERT INTO Bills (BillingID, BillingCompany, BillAmount, BillingAccNo) VALUES
+                ('B1', 'PUB', 67.00, 'PUB123456'),
+                ('B2', 'LTA Road Tax', 48.00, 'LTA654321'),
+                ('B3', 'HDB', 55.00, 'HDB987654'),
+                ('B4', 'NTUC Income', 100.00, 'NTUC456789'),
+                ('B5', 'Singtel', 95.25, 'SINGTEL456789');
 
         `);
 
