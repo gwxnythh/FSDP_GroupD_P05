@@ -12,6 +12,7 @@ async function seedDatabase() {
             IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
             IF OBJECT_ID('dbo.RefreshTokens', 'U') IS NOT NULL DROP TABLE dbo.RefreshTokens;
+            IF OBJECT_ID('dbo.Bill', 'U') IS NOT NULL DROP TABLE dbo.Bill;
         `);
 
         // Create the Users table first with updated PIN column type
@@ -35,7 +36,7 @@ async function seedDatabase() {
                 UserID NVARCHAR(10) NOT NULL, -- Reference UserID from Users
                 AccessCode NVARCHAR(14) NOT NULL,
                 AccountNumber NVARCHAR(15) NOT NULL UNIQUE CHECK (AccountNumber LIKE '717-%[0-9][0-9][0-9][0-9][0-9][0-9]-%[0-9][0-9][0-9]'),
-                AccountType NVARCHAR(50) NOT NULL CHECK (AccountType IN ('Savings', 'Current', 'Fixed Deposit Account')),
+                AccountType NVARCHAR(50) NOT NULL CHECK (AccountType IN ('Savings', 'Current', 'Fixed Deposit')),
                 Balance DECIMAL(18, 2) NOT NULL DEFAULT 0,
                 Currency NVARCHAR(10) NOT NULL DEFAULT 'SGD',
                 CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
@@ -59,13 +60,24 @@ async function seedDatabase() {
             );
         `);
 
+        // Create the Billing table
+        await sql.query(`
+            CREATE TABLE Bill (
+                BillingID NVARCHAR(10) PRIMARY KEY,
+                BillingCompany VARCHAR(100) NOT NULL,
+                BillAmount DECIMAL(10, 2) NOT NULL,
+                BillingAccNo VARCHAR(50) NOT NULL
+            );
+
+        `);
+
         // Create the RefreshTokens table
         await sql.query(`
                 CREATE TABLE RefreshTokens (
                     token_id INT PRIMARY KEY IDENTITY(1,1),
                     refreshToken VARCHAR(255) NOT NULL UNIQUE
                 );
-            `)
+        `)
         /*
 
     // Hash passwords
@@ -112,7 +124,7 @@ async function seedDatabase() {
                 ('A1', 'U1', 'Access123', '717-154937-001', 'Current', 2500.00, 'SGD', '2024-08-06 15:30:00'),
                 ('A2', 'U1', 'Access123', '717-154937-002', 'Savings', 10000.00, 'SGD', '2024-08-07 16:45:00'),
                 ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 5500.00, 'SGD', '2024-08-08 17:10:00'),
-                ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit Account', 5000.00, 'SGD', '2024-08-09 18:20:00'),
+                ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit', 5000.00, 'SGD', '2024-08-09 18:20:00'),
                 ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 7800.00, 'SGD', '2024-08-10 19:30:00'),
                 ('A6', 'U4', 'Access101', '717-154937-006', 'Current', 3200.00, 'SGD', '2024-08-11 20:25:00'),
                 ('A7', 'U5', 'Access202', '717-154937-007', 'Current', 6500.00, 'SGD', '2024-08-12 21:45:00');
@@ -132,6 +144,17 @@ async function seedDatabase() {
                 ('T7', 'A3', 'A7', 600.00, '2024-08-19 18:35:00', 'Completed', 'Payment for Furniture', '1090007'),
                 ('T8', 'A1', 'A5', 50.00, '2024-08-20 16:50:00', 'Completed', 'Book purchase', '1090008'),
                 ('T9', 'A7', 'A6', 120.00, '2024-08-21 13:35:00', 'Completed', 'Repayment for dinner', '1090009');
+        `);
+
+        // Insert data into the Billing table
+        await sql.query(`
+            INSERT INTO Bill (BillingID, BillingCompany, BillAmount, BillingAccNo) VALUES
+                ('B1', 'PUB', 67.00, 'ACC123456'),
+                ('B2', 'LTA Road Tax', 48.00, 'ACC654321'),
+                ('B3', 'HDB', 55.00, 'ACC987654'),
+                ('B4', 'NTUC Income', 100, 'ACC456789'),
+                ('B5', 'Singtel', 95.25, 'ACC456789');
+
         `);
 
         console.log('Sample data inserted successfully.');
