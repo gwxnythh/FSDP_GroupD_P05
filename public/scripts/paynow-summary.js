@@ -1,4 +1,5 @@
 var paymentDetail;
+
 async function fetchCurrentAccById(accountId){
     try {
         const response = await fetch(`/users/id?id=${accountId}`);
@@ -12,7 +13,6 @@ async function fetchCurrentAccById(accountId){
         return accountData;        
     } catch (error) {
         console.error('Error fetching user:', error);
- 
     }
 }
 
@@ -41,7 +41,7 @@ async function fetchUserByMobile(mobileNumber) {
     }
 }
 
-async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
+async function makePayment(FromAccountID, ToAccountID, Amount, Description) {
     try {
         const response = await fetch("/transactions", {
             method: "POST",
@@ -57,7 +57,7 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
         });
         if (response.ok) {
             const result = await response.json();
-            console.log("resultttttttttttttttttttttt iws",  result.transactionStatus);
+            console.log("Transaction status:", result.transactionStatus);
             if (result.transactionStatus === 'Completed') {
                 console.log("Transaction completed successfully.");
 
@@ -65,27 +65,42 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
                 document.getElementById("alert-banner").style.display = "flex";
                 document.getElementById("submit-button").style.display = "none";
                 document.getElementById("reference-number").textContent = result.newReferenceNo;
+
+                // Voice output for success
+                speak("Your transfer is successful.");
             } else if (result.transactionStatus === 'Failed') {
-                alert("Transaction faileddddd")
-            } else{
-                alert("Transaction ongoing")
+                console.log("Transaction failed.");
+                alert("Transaction failed");
+
+                // Voice output for failure
+                speak("Your transfer is unsuccessful.");
+            } else {
                 console.log("Transaction ongoing");
-                
+                alert("Transaction ongoing");
             }
         } else {
             // Handle errors from the server
             const errorData = await response.json();
             console.error("Error creating transaction:", errorData.message);
             alert(`Error: ${errorData.message}`);
-        }      
-    }catch (error) {
-        
+
+            // Voice output for server error
+            speak("There was an error with your transaction.");
+        }
+    } catch (error) {
+        console.error('Error processing payment:', error);
+        speak("There was an error with your transaction.");
     }
 }
 
-
 if (document.getElementById("submit-button")) {
     document.getElementById("submit-button").addEventListener("click", async() => {
+        // First, output "Submit" when the button is clicked
+        speak("Submit");
+
+        // Wait for the "Submit" voice to finish before processing the transaction
+        await waitForVoiceToFinish();
+
         let mobileNumber;
         // TODO: handle for UEN and NRIC
         if (paymentDetail.TransferType === 'mobile') {
@@ -96,7 +111,8 @@ if (document.getElementById("submit-button")) {
         const toAccountID =  paymentDetail.toAccountUser.AccountID;
         const amount = paymentDetail.Amount;
         const description = paymentDetail.Description;
-        console.log(fromAccountID,toAccountID,amount,description);
+        console.log(fromAccountID, toAccountID, amount, description);
+        
         // Call makePayment with the retrieved values
         makePayment(fromAccountID, toAccountID, amount, description);
     });    
@@ -127,6 +143,30 @@ window.onload = () => {
     const payload = urlParams.get('payload');
     if (payload) {
         const transferDetails = JSON.parse(payload);
-        populateSummary(transferDetails)
+        populateSummary(transferDetails);
     }
 };
+
+// Function to handle voice output
+function speak(text) {
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+        synth.cancel(); // Cancel any ongoing speech to override it
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    synth.speak(utterance);
+    console.log("Speaking:", text);  // Log the spoken text
+}
+
+// Helper function to wait for voice to finish
+function waitForVoiceToFinish() {
+    return new Promise((resolve) => {
+        const synth = window.speechSynthesis;
+        const checkSpeechEnd = setInterval(() => {
+            if (!synth.speaking) {
+                clearInterval(checkSpeechEnd);
+                resolve();
+            }
+        }, 100);  // Check every 100ms if the voice is still speaking
+    });
+}
