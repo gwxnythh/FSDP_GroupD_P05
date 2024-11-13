@@ -42,7 +42,8 @@ app.post('/transactions/summarize', transactionsController.summarizeTransaction)
 //Bills routes
 app.get('/bills/:id', billsController.getBillingById);
 app.get('/bills/company/:id', billsController.getBillingCompanyById);
-app.get('/bills/amount', billsController.getBillAmountByBillingAccNo);
+app.get('/bills/amount', billsController.getBillAmountByBillingCompany);
+
 app.get('/bills/account', billsController.getBillingAccNoByBillingCompanyPrefix);
 
 // Start the server and connect to DB

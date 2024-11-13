@@ -28,11 +28,11 @@ const getBillingCompanyById = async (req, res) => {
     }
 }
 
-const getBillAmountByBillingAccNo = async (req, res) => {
-    const billingCompany = req.query.billingCompany;
+const getBillAmountByBillingCompany = async (req, res) => {
+    const billingCompany = req.query.billingCompany; // Use query parameter
     console.log("Received billingCompany: ", billingCompany);
     try {
-        const billAmounts = await Bills.getBillAmountByBillingAccNo(billingCompany);
+        const billAmounts = await Bills.getBillAmountByBillingCompany(billingCompany);
         console.log("Bill amounts retrieved: ", billAmounts);
         res.json(billAmounts);
     } catch (error) {
@@ -40,6 +40,7 @@ const getBillAmountByBillingAccNo = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
     const billingCompany = req.query.billingCompany;
@@ -60,5 +61,5 @@ module.exports = {
     getBillingById,
     getBillingCompanyById,
     getBillingAccNoByBillingCompanyPrefix,
-    getBillAmountByBillingAccNo
+    getBillAmountByBillingCompany
 };

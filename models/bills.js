@@ -45,26 +45,27 @@ class Bills {
         }
     }
 
-    static async getBillAmountByBillingAccNo(billingCompany) {
+    static async getBillAmountByBillingCompany(billingCompany) {
         const connection = await sql.connect(dbConfig);
         try {
             const sqlQuery = `
                 SELECT BillAmount
                 FROM Bills
-                WHERE LEFT(BillingAccNo, LEN(@BillingCompany)) = @BillingCompany`;
-    
+                WHERE BillingAccNo LIKE @BillingCompany + '%'`;
+        
             const request = connection.request();
             request.input("BillingCompany", billingCompany);
-    
+        
             const result = await request.query(sqlQuery);
             connection.close();
-    
+        
             return result.recordset.map(row => row.BillAmount);
         } catch (error) {
-            console.error("Error in getBillAmountByBillingAccNo:", error);
+            console.error("Error in getBillAmountByBillingCompany:", error);
             throw new Error("Could not retrieve bill amount.");
         }
     }
+    
     
     
 
