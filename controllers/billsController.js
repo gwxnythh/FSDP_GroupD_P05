@@ -28,8 +28,9 @@ const getBillingCompanyById = async (req, res) => {
     }
 }
 
+
 const getBillAmountByBillingCompany = async (req, res) => {
-    const billingCompany = req.query.billingCompany; // Use query parameter
+    const billingCompany = req.params.company; // Use query parameter
     console.log("Received billingCompany: ", billingCompany);
     try {
         const billAmounts = await Bills.getBillAmountByBillingCompany(billingCompany);
@@ -43,7 +44,7 @@ const getBillAmountByBillingCompany = async (req, res) => {
 
 
 const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
-    const billingCompany = req.query.billingCompany;
+    const billingCompany = req.params.company;
     console.log("Received billingCompany: ", billingCompany);
     try {
         const billingAccountNumbers = await Bills.getBillingAccNoByBillingCompanyPrefix(billingCompany);
