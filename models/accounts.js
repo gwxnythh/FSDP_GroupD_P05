@@ -58,10 +58,10 @@ class Accounts {
         return result.rowsAffected[0] > 0;
     }
 
-    static async getCurrentAccountBalance(accountId) {
+    static async getAccountBalance(accountId) {
         const connection = await sql.connect(dbConfig);
         try {
-            const sqlQuery = `SELECT Balance FROM Accounts WHERE AccountID = @accountId AND AccountType = 'Current'`;
+            const sqlQuery = `SELECT Balance FROM Accounts WHERE AccountID = @accountId `;
             const request = connection.request();
             request.input("accountId", sql.NVarChar, accountId);
             const result = await request.query(sqlQuery);
@@ -75,7 +75,7 @@ class Accounts {
             return result.recordset[0].Balance;
     
         } catch (error) {
-            console.error('Error in getCurrentAccountBalance:', error);
+            console.error('Error in getAccountBalance:', error);
             throw error; // Let the controller handle the error
         } finally {
             connection.close();

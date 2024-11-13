@@ -148,7 +148,7 @@ async function getBalance(accountID) {
         const response = await fetch(`/accounts/balance/${accountID}`);
         if (response.ok) {
             const data = await response.json();
-            //console.log("Account balance:", data.balance);
+            //console.log("Account balance:", data);
             return data.balance; // Return the balance
         } else {
             const errorMessage = await response.text();
@@ -198,6 +198,7 @@ async function summarizePayment(TransferType, TransferTo, FromAccountID, FromAcc
             body: payload
         });
         if (response.ok) {
+
             window.location = "/paynow-summary.html?payload=" + payload;
 
         } else {
@@ -241,7 +242,51 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
     }
 }
 
-let transferlimit = 5000
+let transferlimit=5000;
+
+async function updateLimit(){
+    
+    const amount = document.getElementById("amount").value;
+    console.log("monnnnney",amount,transferlimit);
+    transferlimit = transferlimit - amount;
+    console.log(transferlimit);
+    limit = document.getElementById("transferlimit");
+    limit.textContent = `Remaining transfer limit: SGD ${transferlimit.toFixed(2)}`;
+
+}
+
+async function checkAmountLimit() {
+    const amountInput = document.getElementById("amount");
+    const errorMessage = document.getElementById("transferlimit");
+    const submitButton = document.getElementById("next-button");
+    const accID =  document.getElementById("account-dropdown").value;
+    const balance = await getBalance(accID);
+    const amountValue = parseFloat(amountInput.value);
+    //console.log("wewewe", accID,balance);
+    console.log("limitt",transferlimit)
+
+    if (amountValue > transferlimit || amountValue > balance) {
+        // Show error message and disable the button
+        errorMessage.style.color= "red";
+        submitButton.disabled = true;
+        submitButton.style.backgroundColor = "lightgray"
+        console.log("reach trnasfer limit")
+    } else {//success
+        // Hide error message and enable the button if under the limit
+        submitButton.disabled = false;
+        errorMessage.style.color= "black";
+        submitButton.style.backgroundColor = "grey"
+
+
+    }
+}
+
+// Attach the function to the input event
+
+document.getElementById("amount").addEventListener("input", checkAmountLimit);
+
+
+
 
 if (document.getElementById("next-button")) {
     document.getElementById("next-button").addEventListener("click", async() => {
@@ -272,20 +317,12 @@ if (document.getElementById("next-button")) {
         }
         
         const fromAccount = document.getElementById("account-dropdown");
-        const balance = await getBalance(fromAccount.value);
         const fromAccountID = fromAccount.value;    
         const fromAccountTextContent = fromAccount.options[fromAccount.selectedIndex].textContent;  
         const amount = document.getElementById("amount").value;
         const purpose = document.getElementById("purpose").value;
         const description = document.getElementById("description").value;
-
-        if (amount>balance||amount>transferlimit){
-            alert("toomuch")
-        }else{
-            transferlimit = transferlimit-amount;
-            console.log("new limit: ",transferlimit);
-            document.getElementById("transferlimit").textContent = `Remaining transfer Limit: SGD ${transferLimit.toFixed(2)}`;
-        }
+        
 
         console.log('transferTo: ', transferTo);
         console.log('fromAccountID: ', fromAccountID);
@@ -294,6 +331,7 @@ if (document.getElementById("next-button")) {
         console.log('purpose: ', purpose);
         console.log('description: ', description);
         // Call summarizePayment with the retrieved values
+        updateLimit()
         summarizePayment(transferType, transferTo, fromAccountID, fromAccountTextContent, amount, purpose, description);
     });
 }

@@ -48,15 +48,15 @@ const updateBalance = async (req, res) => {
     }
 };
 
-const getCurrentAccountBalance = async (req, res) => { 
+const getAccountBalance = async (req, res) => { 
     const accountId = req.params.id;
     console.log("Account ID:", accountId);
 
     try {
-        const balance = await Accounts.getCurrentAccountBalance(accountId);
+        const balance = await Accounts.getAccountBalance(accountId);
 
         if (balance === null) {
-            return res.status(404).json({ message: 'Current account not found' });
+            return res.status(404).json({ message: 'No balance found' });
         }
 
         res.json({ balance });
@@ -90,5 +90,5 @@ module.exports = {
     getAccountByAccessCode,
     updateBalance,
     getCurrentAccountByMobile,
-    getCurrentAccountBalance
+    getAccountBalance
 };
