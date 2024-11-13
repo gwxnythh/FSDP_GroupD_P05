@@ -42,10 +42,10 @@ function displayAccounts(accounts) {
 // Fetch and display accounts when the page loads
 document.addEventListener('DOMContentLoaded', fetchAccounts);
 
-/*
+
 async function fetchBillAmounts() {
     try {
-        const amount = await fetch(`/bills/amount?billingCompany=${billingCompany}`); 
+        const amount = await fetch(`/bills/amount/${billingCompany}`); 
         const data = await response.json();
 
         if (response.ok) {
@@ -59,7 +59,10 @@ async function fetchBillAmounts() {
 }
 
 async function displayBillAmounts(bills) {
+}
+
+
+
     
 
-}
-*/
+

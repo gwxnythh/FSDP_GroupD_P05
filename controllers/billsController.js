@@ -30,12 +30,12 @@ const getBillingCompanyById = async (req, res) => {
 
 
 const getBillAmountByBillingCompany = async (req, res) => {
-    const billingCompany = req.params.company; // Use query parameter
+    const billingCompany = req.params.company;
     console.log("Received billingCompany: ", billingCompany);
     try {
-        const billAmounts = await Bills.getBillAmountByBillingCompany(billingCompany);
-        console.log("Bill amounts retrieved: ", billAmounts);
-        res.json(billAmounts);
+        const billAmount = await Bills.getBillAmountByBillingCompany(billingCompany);
+        console.log("Bill amount retrieved: ", billAmount);
+        res.json(billAmount);
     } catch (error) {
         console.error("Error fetching billing amount:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -58,9 +58,11 @@ const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
 };
 
 
+
 module.exports = {
     getBillingById,
     getBillingCompanyById,
     getBillingAccNoByBillingCompanyPrefix,
-    getBillAmountByBillingCompany
+    getBillAmountByBillingCompany,
+    
 };

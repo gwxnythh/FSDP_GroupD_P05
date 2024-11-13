@@ -52,20 +52,24 @@ class Bills {
                 SELECT BillAmount
                 FROM Bills
                 WHERE BillingAccNo LIKE @BillingCompany + '%'`;
-        
+    
             const request = connection.request();
             request.input("BillingCompany", billingCompany);
-        
+    
             const result = await request.query(sqlQuery);
             connection.close();
-        
-            return result.recordset.map(row => row.BillAmount);
+    
+            // Return the first bill amount if there's at least one result, or null otherwise
+            if (result.recordset.length > 0) {
+                return { BillAmount: result.recordset[0].BillAmount };
+            } else {
+                return { BillAmount: null };
+            }
         } catch (error) {
             console.error("Error in getBillAmountByBillingCompany:", error);
             throw new Error("Could not retrieve bill amount.");
         }
     }
-    
     
     
 
@@ -88,6 +92,8 @@ class Bills {
             throw new Error("Could not retrieve billing account number.");
         }
     }
+
+    
 }
 
 module.exports = Bills;
