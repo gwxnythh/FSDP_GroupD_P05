@@ -112,14 +112,14 @@
     <section class="bill-payment-section">
         <div class="bill-payment-container">
             <h2>Bill Payment</h2>
-
             <div class="form-section">
                 <div class="section-header">1. Make a transfer from</div>
                 <div class="account-container">
                     <div class="left">
                         <label for="account-dropdown">Select account:</label>
-                        <select id="account-dropdown" name="account">
+                        <select id="account-dropdown" name="account" onchange="saveAccount()">
                             <option value="" disabled selected>Select an account</option>
+                            <!-- Options will be populated dynamically -->
                         </select>
                     </div>
                     
@@ -130,44 +130,44 @@
                         </div>
                     </div>
                 </div>
-                
             </div>                      
-
+    
             <div class="form-section">
                 <div class="section-header">2. Select Billing Company</div>
-                
-                <label class="checkbox-group">
-                    <input type="checkbox" id="pub" name="transfer-to" value="pub">
+                <label class="checkbox-group" id="pub">
+                    <input type="checkbox" name="transfer-to" value="pub" onchange="updateSelection('pub')">
                     <span class="left-checkbox">PUB</span>
-                    <span class="amount" id="billAmount">SGD 0.00</span> <!-- Placeholder for amount -->
+                    <span class="amount" data-company="pub">SGD 0.00</span>
                 </label>
                 
-                <label class="checkbox-group">
-                    <input type="checkbox" id="lta-road-tax" name="transfer-to" value="lta-road-tax">
+                <label class="checkbox-group" id="lta">
+                    <input type="checkbox" name="transfer-to" value="lta" onchange="updateSelection('lta')">
                     <span class="left-checkbox">LTA Road Tax</span>
-                    <span class="amount" id="billAmount">SGD 0.00</span> <!-- Placeholder for amount -->
+                    <span class="amount" data-company="lta">SGD 0.00</span>
                 </label>
                 
-                <label class="checkbox-group">
-                    <input type="checkbox" id="hdb" name="transfer-to" value="hdb">
+                <label class="checkbox-group" id="hdb">
+                    <input type="checkbox" name="transfer-to" value="hdb" onchange="updateSelection('hdb')">
                     <span class="left-checkbox">HDB</span>
-                    <span class="amount" id="billAmount">SGD 0.00</span> <!-- Placeholder for amount -->
+                    <span class="amount" data-company="hdb">SGD 0.00</span>
                 </label>
                 
-                <label class="checkbox-group">
-                    <input type="checkbox" id="ntuc-income" name="transfer-to" value="ntuc-income">
+                <label class="checkbox-group" id="ntuc">
+                    <input type="checkbox" name="transfer-to" value="ntuc" onchange="updateSelection('ntuc')">
                     <span class="left-checkbox">NTUC Income</span>
-                    <span class="amount" id="billAmount">SGD 0.00</span> <!-- Placeholder for amount -->
+                    <span class="amount" data-company="ntuc">SGD 0.00</span>
                 </label>
                 
-                <label class="checkbox-group">
-                    <input type="checkbox" id="singtel" name="transfer-to" value="singtel">
+                <label class="checkbox-group" id="singtel">
+                    <input type="checkbox" name="transfer-to" value="singtel" onchange="updateSelection('singtel')">
                     <span class="left-checkbox">Singtel</span>
-                    <span class="amount" id="billAmount">SGD 0.00</span> <!-- Placeholder for amount -->
+                    <span class="amount" data-company="singtel">SGD 0.00</span>
                 </label>
             </div>
-
-            <button id="next-button" class="button" type="submit">Next</button>
+    
+            <a href="bill-payment-summary.html">
+                <button id="next-button" class="button" type="button" onclick="savePaymentSummary()">Next</button>
+            </a>
         </div>
     </section>
 
