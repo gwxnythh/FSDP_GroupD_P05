@@ -222,4 +222,30 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
             }
         });
     });
+
+// Voiceover for the "Logout" button
+const logoutButton = document.getElementById('header-logout-btn'); // Get the Logout button by its ID
+
+if (logoutButton) {
+    let clickTimeout; // Variable to manage single and double-click timing
+
+    // Single click: Voice output "Log out"
+    logoutButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent immediate navigation
+        if (clickTimeout) clearTimeout(clickTimeout); // Clear any existing timeout
+
+        // Set a timeout to handle single click separately
+        clickTimeout = setTimeout(() => {
+            speak("Log out");
+        }, 200); // Set a short delay for single click action
+    });
+
+    // Double click: Navigate to login page
+    logoutButton.addEventListener('dblclick', (event) => {
+        event.preventDefault(); // Prevent any ongoing single-click action
+        clearTimeout(clickTimeout); // Cancel single-click timeout
+        window.location.href = 'login.html'; // Redirect to login page on double click
+    });
+}
+   
 });
