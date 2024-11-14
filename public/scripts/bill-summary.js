@@ -88,22 +88,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
-/*
-
 async function processPayment(accountId, accessCode, amount) {
     try {
-        // First, reduce the balance by the payment amount
+        // Assuming 'accountId' refers to the account that is making the payment.
+        // Also assuming the backend has a route for processing transactions
         const response = await fetch("/transactions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                FromAccountID,
-                ToAccountID,
-                Amount,
-                Description
+                FromAccountID: accountId,    // Account from which payment is made
+                ToAccountID: "yourTargetAccountId",  // Set this to the target account ID
+                Amount: amount,  // The amount to deduct
+                Description: "Bill Payment"  // Payment description
             })
+        });
         if (!response.ok) {
             throw new Error('Failed to update account balance');
         }
@@ -127,23 +127,23 @@ async function processPayment(accountId, accessCode, amount) {
     }
 }
 
-async function logTransaction(transactionData) {
-    try {
-        const response = await fetch('/transactions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(transactionData)
-        });
 
-        if (!response.ok) {
-            throw new Error('Failed to log transaction');
-        }
+// async function logTransaction(transactionData) {
+//     try {
+//         const response = await fetch('/transactions', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(transactionData)
+//         });
 
-        console.log('Transaction logged successfully');
-    } catch (error) {
-        console.error("Error logging transaction:", error);
-    }
-}
-*/
+//         if (!response.ok) {
+//             throw new Error('Failed to log transaction');
+//         }
+
+//         console.log('Transaction logged successfully');
+//     } catch (error) {
+//         console.error("Error logging transaction:", error);
+//     }
+// }

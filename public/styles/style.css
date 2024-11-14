@@ -1467,7 +1467,6 @@ margin: 0;
     padding: 15px;
     border-radius: 8px;
     display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
@@ -1495,6 +1494,7 @@ margin: 0;
 .bill-item .bill-detail {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
@@ -1503,24 +1503,21 @@ margin: 0;
     border-bottom: none;
 }
 
-.bill-item .bill-detail .bill-name {
+.bill-item .bill-detail .bill-name,
+.bill-item .bill-detail .account-number {
     font-size: 1rem;
     font-weight: bold;
     color: #333;
     flex-grow: 1;
 }
 
-.bill-item .bill-detail .account-number {
-    font-size: 0.9rem;
-    color: #666;
-    flex-grow: 1;
-}
 
 .bill-item .bill-detail .amount {
     font-size: 1rem;
     font-weight: bold;
     color: #28a745; /* Adjust color to match your theme */
     text-align: right;
+    margin-left: auto;
 }
 
 
@@ -1621,14 +1618,18 @@ margin: 0;
     color: var(--text-color);
 }
 
-.bill-payment-summary-container .submit-container {
+.bill-payment-container .next-container #next-button {
+    margin: 0;
+}
+
+.bill-payment-summary-container .submit-container, .bill-payment-container .next-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
 }
 
-.bill-payment-summary-container .total-amount {
+.bill-payment-summary-container .total-amount, .bill-payment-container .total-amount {
     font-weight: bold;
     font-size: 16px;
 }

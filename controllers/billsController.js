@@ -38,7 +38,6 @@ const getBillingCompanyById = async (req, res) => {
     }
 }
 
-
 const getBillAmountByBillingCompany = async (req, res) => {
     const billingCompany = req.params.company;
     console.log("Received billingCompany: ", billingCompany);
@@ -51,7 +50,6 @@ const getBillAmountByBillingCompany = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
-
 
 const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
     const billingCompany = req.params.company;

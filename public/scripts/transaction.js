@@ -58,10 +58,6 @@ async function getCurrentAccountBalance(accountId, accessCode) {
     }
 }
 
-
-
-
-
 // Fetch transaction history
 async function fetchTransactionHistory(accountId, accessCode) {
     try {

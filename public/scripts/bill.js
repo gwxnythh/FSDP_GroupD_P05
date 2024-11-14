@@ -52,8 +52,8 @@ async function fetchAndDisplayBills() {
                 <label>
                     <strong>${bill.BillingCompany}</strong><br>
                     Account Number: ${bill.BillingAccNo}<br>
-                    Amount: <span class="amount">SGD ${bill.BillAmount.toFixed(2)}</span>
                 </label>
+                <span class="amount">SGD ${bill.BillAmount.toFixed(2)}</span>
             `;
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
