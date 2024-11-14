@@ -93,7 +93,7 @@ async function updateInputFields(value) {
         searchButton.addEventListener('click', () => {
             if (value === 'mobile') {
                 const mobileNumber = document.getElementById('mobile-number').value;
-                fetchUserByMobile(mobileNumber);
+                fetchUserByMobile(mobileNumber,true);
 
             }
             // Additional logic for NRIC and UEN can be added here
@@ -102,8 +102,8 @@ async function updateInputFields(value) {
 }
 
 
-// Function to fetch user details by mobile number
-async function fetchUserByMobile(mobileNumber) {
+// Updated fetchUserByMobile to control when to speak the full name
+async function fetchUserByMobile(mobileNumber, shouldSpeak = true) {
     const fullNameDisplay = document.getElementById('full-name-display');
     
     try {
@@ -117,18 +117,20 @@ async function fetchUserByMobile(mobileNumber) {
             fullNameDisplay.style.fontWeight = 'bold';
             fullNameDisplay.style.whiteSpace = 'pre-line';
 
-            // Trigger voice output for full name
-            speak("Full Name");
-            speak(data.fullName); // Speak the full name
+            // Trigger voice output for full name if shouldSpeak is true
+            if (shouldSpeak) {
+                speak("Full Name");
+                speak(data.fullName); // Speak the full name
+            }
 
             const result = await fetchUser();
-            if (data.UserID == result[0].UserID){
+            if (data.UserID == result[0].UserID) {
                 fullNameDisplay.textContent = `Error: Please enter a different number`;
-                fullNameDisplay.style.color = 'red'; 
-                document.getElementById("mobile-number").value="";
-                console.error("cannot transfer to own number");
-                
+                fullNameDisplay.style.color = 'red';
+                document.getElementById("mobile-number").value = "";
+                console.error("Cannot transfer to own number");
             }
+
             return data.UserID;
 
         } else {
@@ -142,6 +144,8 @@ async function fetchUserByMobile(mobileNumber) {
         fullNameDisplay.style.color = 'red'; // Set text color to red
     }
 }
+
+
 
 async function getBalance(accountID) {
     try {
@@ -299,7 +303,7 @@ if (document.getElementById("next-button")) {
         if (transferType == 'mobile') {
             transferTo = document.getElementById('mobile-number').value;
             const result1 = await fetchUser();
-            const result2 = await fetchUserByMobile(transferTo);
+            const result2 = await fetchUserByMobile(transferTo,false);
             
             //compare fromUser and toUser
             if (result1 == result2){
