@@ -18,6 +18,13 @@ function closeNav() {
 }
 
 
+
+function resetlimit(){
+    localStorage.setItem("transferlimit", 5000);
+}
+
+document.getElementById("header-logout-btn").addEventListener("click",resetlimit)
+
 // // Dark mode toggle script
 // document.getElementById('darkModeToggle').addEventListener('click', function() {
 //     document.body.classList.toggle('dark-mode');

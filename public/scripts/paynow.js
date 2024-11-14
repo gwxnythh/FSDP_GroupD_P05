@@ -241,17 +241,19 @@ async function makePayment(FromAccountID,ToAccountID,Amount,Description) {
         
     }
 }
-
-let transferlimit=5000;
+// Set initial transfer limit if not already set
+if (!localStorage.getItem("transferlimit")) {
+    localStorage.setItem("transferlimit", 5000);  
+}
+let transferlimit = parseFloat(localStorage.getItem("transferlimit"));
 
 async function updateLimit(){
     
     const amount = document.getElementById("amount").value;
-    console.log("monnnnney",amount,transferlimit);
     transferlimit = transferlimit - amount;
-    console.log(transferlimit);
+    localStorage.setItem("transferlimit", transferlimit);
     limit = document.getElementById("transferlimit");
-    limit.textContent = `Remaining transfer limit: SGD ${transferlimit.toFixed(2)}`;
+    limit.textContent = `Remaining transferrr limit: SGD ${transferlimit.toFixed(2)}`;
 
 }
 
@@ -262,15 +264,16 @@ async function checkAmountLimit() {
     const accID =  document.getElementById("account-dropdown").value;
     const balance = await getBalance(accID);
     const amountValue = parseFloat(amountInput.value);
+
     //console.log("wewewe", accID,balance);
-    console.log("limitt",transferlimit)
+    //console.log("limitt",transferlimit);
 
     if (amountValue > transferlimit || amountValue > balance) {
         // Show error message and disable the button
         errorMessage.style.color= "red";
         submitButton.disabled = true;
         submitButton.style.backgroundColor = "lightgray"
-        console.log("reach trnasfer limit")
+        //console.log("reach transfer limit")
     } else {//success
         // Hide error message and enable the button if under the limit
         submitButton.disabled = false;
@@ -364,4 +367,7 @@ radioButtons.forEach((radio) => {
 window.onload = () => {
     const selectedRadio = document.querySelector('input[name="transfer-to"]:checked');
     updateInputFields(selectedRadio.value);
+    limit = document.getElementById("transferlimit");
+    limit.textContent = `Remaining transfer limit: SGD ${transferlimit.toFixed(2)}`;
+
 };
