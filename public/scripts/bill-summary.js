@@ -58,9 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const billDiv = document.createElement('div');
             billDiv.classList.add('bill-item');
             billDiv.innerHTML = `
+                <div class="bill-info">
                 <p><strong>${bill.companyName}</strong></p>
                 <p>Account Number: ${bill.accountNumber}</p>
-                <p>Amount: SGD ${bill.amount}</p>
+            </div>
+            <div class="bill-amount"> ${bill.amount}</div>
             `;
             billsContainer.appendChild(billDiv);
         });

@@ -50,8 +50,8 @@ async function fetchAndDisplayBills() {
             billDiv.classList.add('bill-item');
             billDiv.innerHTML = `
                 <label>
-                    <strong>${bill.BillingCompany}</strong><br>
-                    Account Number: ${bill.BillingAccNo}<br>
+                    <strong>${bill.BillingCompany}</strong>
+                    <span class="account-number">&nbsp;Account Number: ${bill.BillingAccNo}<br></span>
                 </label>
                 <span class="amount">SGD ${bill.BillAmount.toFixed(2)}</span>
             `;
