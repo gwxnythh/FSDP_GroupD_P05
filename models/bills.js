@@ -9,6 +9,24 @@ class Bills {
         this.BillingAccNo = BillingAccNo;
     }
 
+    
+    static async getAllBills() {
+        const connection = await sql.connect(dbConfig);
+        try {
+            const sqlQuery = `SELECT * FROM Bills`;
+            const result = await connection.request().query(sqlQuery);
+            connection.close();
+
+            return result.recordset.map(
+                row => new Bills(row.BillingID, row.BillingCompany, row.BillAmount, row.BillingAccNo)
+            );
+        } catch (error) {
+            console.error("Error in getAllBills:", error);
+            throw new Error("Could not retrieve all billing information.");
+        }
+    }
+
+
     static async getBillingById(id) {
         const connection = await sql.connect(dbConfig);
         try {
@@ -17,7 +35,7 @@ class Bills {
             request.input("id", id);
             const result = await request.query(sqlQuery);
             connection.close();
-            
+
             return result.recordset.map(
                 row => new Bills(row.BillingID, row.BillingCompany, row.BillAmount, row.BillingAccNo)
             );
@@ -52,13 +70,13 @@ class Bills {
                 SELECT BillAmount
                 FROM Bills
                 WHERE BillingAccNo LIKE @BillingCompany + '%'`;
-    
+
             const request = connection.request();
             request.input("BillingCompany", billingCompany);
-    
+
             const result = await request.query(sqlQuery);
             connection.close();
-    
+
             // Return the first bill amount if there's at least one result, or null otherwise
             if (result.recordset.length > 0) {
                 return { BillAmount: result.recordset[0].BillAmount };
@@ -70,16 +88,16 @@ class Bills {
             throw new Error("Could not retrieve bill amount.");
         }
     }
-    
-    
+
+
 
     static async getBillingAccNoByBillingCompanyPrefix(billingCompany) {
         const connection = await sql.connect(dbConfig);
         try {
-            
+
             const sqlQuery = `
                 SELECT BillingAccNo FROM Bills WHERE BillingAccNo LIKE @BillingCompany + '%'`;
-            
+
             const request = connection.request();
             request.input("BillingCompany", billingCompany);
 
@@ -92,8 +110,8 @@ class Bills {
             throw new Error("Could not retrieve billing account number.");
         }
     }
-
-    
+   
 }
+
 
 module.exports = Bills;

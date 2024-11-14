@@ -1,5 +1,15 @@
 const Bills = require("../models/bills");
 
+const getAllBills = async (req, res) => {
+    try {
+        const bills = await Bills.getAllBills();
+        res.json(bills);
+    } catch (error) {
+        console.error("Error retrieving all bills:", error);
+        res.status(500).send("Error retrieving bills");
+    }
+};
+
 const getBillingById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -59,10 +69,15 @@ const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
 
 
 
+
+
+
+
 module.exports = {
+    getAllBills,
     getBillingById,
     getBillingCompanyById,
     getBillingAccNoByBillingCompanyPrefix,
-    getBillAmountByBillingCompany,
+    getBillAmountByBillingCompany   
     
 };

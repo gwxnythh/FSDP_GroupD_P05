@@ -134,36 +134,15 @@
     
             <div class="form-section">
                 <div class="section-header">2. Select Billing Company</div>
-                <label class="checkbox-group" id="pub">
-                    <input type="checkbox" name="transfer-to" value="pub" onchange="updateSelection('pub')">
-                    <span class="left-checkbox">PUB</span>
-                    <span class="amount" data-company="pub">SGD 0.00</span>
-                </label>
-                
-                <label class="checkbox-group" id="lta">
-                    <input type="checkbox" name="transfer-to" value="lta" onchange="updateSelection('lta')">
-                    <span class="left-checkbox">LTA Road Tax</span>
-                    <span class="amount" data-company="lta">SGD 0.00</span>
-                </label>
-                
-                <label class="checkbox-group" id="hdb">
-                    <input type="checkbox" name="transfer-to" value="hdb" onchange="updateSelection('hdb')">
-                    <span class="left-checkbox">HDB</span>
-                    <span class="amount" data-company="hdb">SGD 0.00</span>
-                </label>
-                
-                <label class="checkbox-group" id="ntuc">
-                    <input type="checkbox" name="transfer-to" value="ntuc" onchange="updateSelection('ntuc')">
-                    <span class="left-checkbox">NTUC Income</span>
-                    <span class="amount" data-company="ntuc">SGD 0.00</span>
-                </label>
-                
-                <label class="checkbox-group" id="singtel">
-                    <input type="checkbox" name="transfer-to" value="singtel" onchange="updateSelection('singtel')">
-                    <span class="left-checkbox">Singtel</span>
-                    <span class="amount" data-company="singtel">SGD 0.00</span>
-                </label>
+                <!-- Container where bill items will be dynamically loaded from bill.js -->
+                <div id="payBillForContainer"></div>
             </div>
+
+            <!-- Total Amount Display -->
+            <div class="total-amount-section">
+                <h3 id="total-amount">Total: SGD 0.00</h3>
+            </div>
+
     
             <a href="bill-payment-summary.html">
                 <button id="next-button" class="button" type="button" onclick="savePaymentSummary()">Next</button>

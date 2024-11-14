@@ -1,217 +1,139 @@
+// Fetch and display accounts
 async function fetchAccounts() {
-    const accessCode = sessionStorage.getItem('accessCode'); // Adjust according to your implementation
-
+    const accessCode = sessionStorage.getItem('accessCode');
     try {
-        const response = await fetch(`/accounts?accessCode=${accessCode}`); // Fetch accounts based on access code
+        const response = await fetch(`/accounts?accessCode=${accessCode}`);
         const data = await response.json();
-
         if (response.ok) {
-            displayAccounts(data); // Call the function to display accounts
+            displayAccounts(data);
         } else {
             console.error('Error fetching accounts:', data.message);
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching accounts:', error);
     }
 }
 
+// Populate accounts dropdown and update balance display
 function displayAccounts(accounts) {
     const accountDropdown = document.getElementById('account-dropdown');
     const balanceDisplay = document.getElementById('selected-account-balance');
-
-    // Clear any existing options in the dropdown
     accountDropdown.innerHTML = '<option value="" disabled selected>Select an account</option>';
 
-    // Populate the dropdown with account options
     accounts.forEach(account => {
         const option = document.createElement('option');
-        option.value = account.AccountNumber; // Use AccountNumber or any unique ID
+        option.value = account.AccountNumber;
         option.textContent = `${account.AccountType} - ${account.AccountNumber}`;
-        option.dataset.balance = account.Balance.toFixed(2); // Store the balance in a data attribute
+        option.dataset.balance = account.Balance.toFixed(2);
         accountDropdown.appendChild(option);
     });
 
-    // Event listener to update balance display when an account is selected
+    // Event listener to update balance display when account is selected
     accountDropdown.addEventListener('change', () => {
         const selectedOption = accountDropdown.options[accountDropdown.selectedIndex];
-        const balance = selectedOption.dataset.balance;
-        balanceDisplay.textContent = balance ? `SGD ${balance}` : 'SGD 0.00';
+        balanceDisplay.textContent = `SGD ${selectedOption.dataset.balance || '0.00'}`;
     });
 }
 
-// Fetch and display accounts when the page loads
-document.addEventListener('DOMContentLoaded', fetchAccounts);
-
-
-async function fetchAccounts() {
-    const accessCode = sessionStorage.getItem('accessCode'); // Adjust according to your implementation
-
+// Fetch and display bills
+async function fetchAndDisplayBills() {
     try {
-        const response = await fetch(`/accounts?accessCode=${accessCode}`); // Fetch accounts based on access code
-        const data = await response.json();
+        const response = await fetch('/bills');
+        if (!response.ok) throw new Error("Failed to fetch bills data");
 
-        if (response.ok) {
-            displayAccounts(data); // Call the function to display accounts
-        } else {
-            console.error('Error fetching accounts:', data.message);
-        }
+        const bills = await response.json();
+        const container = document.getElementById('payBillForContainer');
+        container.innerHTML = ''; // Clear previous content
+
+        bills.forEach(bill => {
+            const billDiv = document.createElement('div');
+            billDiv.classList.add('bill-item');
+            billDiv.innerHTML = `
+                <label>
+                    <strong>${bill.BillingCompany}</strong><br>
+                    Account Number: ${bill.BillingAccNo}<br>
+                    Amount: <span class="amount">SGD ${bill.BillAmount.toFixed(2)}</span>
+                </label>
+            `;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.addEventListener('change', updateTotal); // Update total on checkbox change
+            billDiv.prepend(checkbox);
+            container.appendChild(billDiv);
+        });
     } catch (error) {
-        console.error('Error:', error);
+        console.error("Error displaying bills:", error);
     }
 }
 
-function displayAccounts(accounts) {
-    const accountDropdown = document.getElementById('account-dropdown');
-    const balanceDisplay = document.getElementById('selected-account-balance');
-
-    // Clear any existing options in the dropdown
-    accountDropdown.innerHTML = '<option value="" disabled selected>Select an account</option>';
-
-    // Populate the dropdown with account options
-    accounts.forEach(account => {
-        const option = document.createElement('option');
-        option.value = account.AccountNumber; // Use AccountNumber or any unique ID
-        option.textContent = `${account.AccountType} - ${account.AccountNumber}`;
-        option.dataset.balance = account.Balance.toFixed(2); // Store the balance in a data attribute
-        accountDropdown.appendChild(option);
+// Update total amount based on selected bills
+function updateTotal() {
+    let total = 0;
+    document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+        const amountText = checkbox.closest('.bill-item').querySelector('.amount').textContent;
+        const amount = parseFloat(amountText.replace('SGD ', ''));
+        if (!isNaN(amount)) total += amount;
     });
 
-    // Event listener to update balance display when an account is selected
-    accountDropdown.addEventListener('change', () => {
-        const selectedOption = accountDropdown.options[accountDropdown.selectedIndex];
-        const balance = selectedOption.dataset.balance;
-        balanceDisplay.textContent = balance ? `SGD ${balance}` : 'SGD 0.00';
-    });
+    // Save the total amount to localStorage
+    localStorage.setItem('totalAmount', total.toFixed(2));
+
+    // Update the total on the page
+    document.getElementById('total-amount').textContent = `Total: SGD ${total.toFixed(2)}`;
 }
 
-// Fetch and display accounts when the page loads
-document.addEventListener('DOMContentLoaded', fetchAccounts);
 
-async function fetchBillAmounts() {
-    const billingCompanies = ['pub', 'lta', 'hdb', 'ntuc', 'singtel']; // List of simplified company names
-
-    for (const company of billingCompanies) {
-        try {
-            // Fetch bill amount for the simplified company name
-            const response = await fetch(`/bills/amount/${company}`);
-            const data = await response.json();
-
-            console.log(`Received billing company: ${company}`);
-            console.log(`Fetched data: `, data);
-
-            // Check if the response is valid and contains a BillAmount
-            if (response.ok && data && data.BillAmount !== null) {
-                let amount = `SGD ${data.BillAmount.toFixed(2)}`;
-
-                // Special handling for LTA and NTUC
-                if ((company === 'lta' && data.BillingCompany && data.BillingCompany.includes('Road Tax')) ||
-                    (company === 'ntuc' && data.BillingCompany && data.BillingCompany.includes('Income'))) {
-                    // For 'LTA Road Tax' or 'NTUC Income', don't show the amount
-                    amount = 'SGD 0.00';
-                }
-
-                // Update the amount in the DOM
-                updateAmount(company, amount);
-            } else {
-                updateAmount(company, 'SGD 0.00'); // Default to 0.00 if no amount is found
-            }
-        } catch (error) {
-            console.error('Error fetching billing amount:', error);
-            updateAmount(company, 'SGD 0.00'); // Default in case of error
-        }
-    }
+// Load and display selected account info from localStorage
+function updateAccountDisplay() {
+    const savedAccount = localStorage.getItem("selectedAccount");
+    document.getElementById("fromAccountTextContent").textContent = savedAccount || "No account selected";
 }
 
-// Function to update the bill summary in the HTML
-function updateBillSummary(billData) {
-    const container = document.getElementById('payBillForContainer');
-    container.innerHTML = ''; // Clear previous content
-
-    billData.forEach(bill => {
-        const billDiv = document.createElement('div');
-        billDiv.classList.add('bill-detail');
-
-        const billName = document.createElement('div');
-        billName.classList.add('bill-name');
-        billName.textContent = bill.BillingCompany;
-
-        const billReference = document.createElement('div');
-        billReference.classList.add('reference-number');
-        billReference.textContent = `Reference: ${bill.BillingAccNo}`;
-
-        const billAmount = document.createElement('div');
-        billAmount.classList.add('amount');
-        billAmount.textContent = `Amount: SGD ${parseFloat(bill.BillAmount).toFixed(2)}`;
-
-        const billContentDiv = document.createElement('div');
-        billContentDiv.classList.add('bill-content');
-
-        billContentDiv.appendChild(billName);
-        billContentDiv.appendChild(billReference);
-        billContentDiv.appendChild(billAmount);
-
-        billDiv.appendChild(billContentDiv);
-        container.appendChild(billDiv);
-    });
-}
-
-// Fetch and update bill data when the page loads
-async function fetchBillData() {
-    try {
-        const response = await fetch('/api/bills'); // API endpoint to get bill data
-        if (!response.ok) {
-            throw new Error('Failed to fetch bill data');
-        }
-        const billData = await response.json();
-        updateBillSummary(billData); // Update the bill summary with the fetched data
-    } catch (error) {
-        console.error(error.message);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', fetchBillData);
-
-// Call fetchBillAmounts when the page content is fully loaded
-document.addEventListener('DOMContentLoaded', fetchBillAmounts);
-
-// Function to update the amount in the HTML
-function updateAmount(company, amount) {
-    // Find the element based on the data-company attribute
-    const amountSpan = document.querySelector(`.amount[data-company="${company}"]`);
-    if (amountSpan) {
-        amountSpan.textContent = amount; // Update the amount in the span
-    } else {
-        console.error(`No .amount element found for ${company}`);
-    }
-}
-
-// Call fetchBillAmounts when the page content is fully loaded
-document.addEventListener('DOMContentLoaded', fetchBillAmounts);
-
-
-// Function to save the selected account to localStorage
-function saveAccount() {
-    const selectedAccount = document.getElementById("account-dropdown").value;
-    
-    // Assuming that the value of selected account will also include the number (e.g., 'Saving Account - 12345678')
-    localStorage.setItem("selectedAccount", selectedAccount);
-}
-
-// Function to store selected companies and their data when 'Next' is clicked
+// Save payment summary to localStorage
 function savePaymentSummary() {
-    const selectedCompanies = document.querySelectorAll('input[name="transfer-to"]:checked');
-    const paymentData = [];
+    const selectedAccount = document.getElementById('account-dropdown').value;
+    const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
+        const billItem = checkbox.closest('.bill-item');
+        
+        // Correctly capture the full billing account number (including the prefix like "HDB")
+        const companyName = billItem.querySelector('strong').textContent;
+        const accountNumber = billItem.querySelector('label').textContent.match(/Account Number:\s*(\S+)/)[1];  // This captures the full account number with prefix
+        
+        const amountText = billItem.querySelector('.amount').textContent;
+        const amount = `SGD ${parseFloat(amountText.replace('SGD ', '')).toFixed(2)}`;
 
-    selectedCompanies.forEach(company => {
-        const companyName = company.parentElement.querySelector('.left-checkbox').textContent;
-        const accountNumber = company.value; // Or use a different way to get account number
-        const amount = company.parentElement.querySelector('.amount').textContent;
-
-        // Store the selected data
-        paymentData.push({ companyName, accountNumber, amount });
+        return {
+            companyName: companyName,
+            accountNumber: accountNumber,  // Store the full account number, including the prefix
+            amount: amount
+        };
     });
 
-    // Store in localStorage to access on the summary page
-    localStorage.setItem('paymentData', JSON.stringify(paymentData));
+    localStorage.setItem("selectedAccount", selectedAccount);
+    localStorage.setItem("paymentData", JSON.stringify(selectedBills));
 }
 
+
+// Event listener for saving payment summary and redirecting to next page
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAccounts();  // Fetch accounts data
+    fetchAndDisplayBills(); // Fetch bills data
+    updateAccountDisplay(); // Display selected account if available
+});
+
+// Handle 'Next' button click for payment summary
+function handleNextButtonClick() {
+    const selectedAccount = document.getElementById("selected-account").value;
+    const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
+        const billDiv = checkbox.closest('.bill-item');
+        return {
+            BillingCompany: billDiv.querySelector('.billing-company').textContent,
+            BillingAccNo: billDiv.querySelector('.billing-account-number').textContent,
+            BillAmount: parseFloat(billDiv.querySelector('.amount').textContent.replace('SGD ', ''))
+        };
+    });
+
+    localStorage.setItem("selectedAccount", selectedAccount);
+    localStorage.setItem("selectedBills", JSON.stringify(selectedBills));
+    window.location.href = "bill-payment-summary.html";
+}

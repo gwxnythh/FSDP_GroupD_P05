@@ -1,188 +1,149 @@
-// Function to update the total amount based on selected checkboxes
-function updateTotal() {
-    let total = 0;
-
-    // Loop through each checkbox and check if it's checked
-    document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-        const amountText = checkbox.closest('.bill-item').querySelector('.amount').textContent;
-        const amount = parseFloat(amountText.replace('SGD ', '').trim());
-
-        if (!isNaN(amount)) {
-            total += amount; // Add the amount to the total
-        }
-    });
-
-    // Update the total in the DOM
-    document.getElementById('total-amount').textContent = `Total: SGD ${total.toFixed(2)}`;
-}
-
-// Add event listeners to checkboxes to update the total when they are checked or unchecked
-document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener('change', updateTotal);
-});
-
-// Call updateTotal on page load to ensure the initial total is correct
-document.addEventListener('DOMContentLoaded', updateTotal);
-
-// Function to update the display with the saved account
-function updateAccountDisplay() {
-    const savedAccount = localStorage.getItem("selectedAccount");
-    if (savedAccount) {
-        document.getElementById("fromAccountTextContent").textContent = savedAccount;
-    } else {
-        document.getElementById("fromAccountTextContent").textContent = "No account selected";
-    }
-}
-
-// Call updateAccountDisplay on page load to set the account
-document.addEventListener('DOMContentLoaded', function() {
-    updateAccountDisplay();
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentData = JSON.parse(localStorage.getItem('paymentData'));
-    const container = document.getElementById('payBillForContainer');
-
-    if (paymentData) {
-        paymentData.forEach(data => {
-            const billItem = document.createElement('div');
-            billItem.classList.add('bill-item');
-
-            billItem.innerHTML = `
-                <p><strong>${data.companyName}</strong></p>
-                <p>Account Number: ${data.accountNumber}</p>
-                <p>Amount: ${data.amount}</p>
-            `;
-            container.appendChild(billItem);
-        });
-    } else {
-        container.innerHTML = '<p>No selected billing companies found.</p>';
-    }
-});
-function updateBillSummary(selectedBills) {
-    const container = document.getElementById('payBillForContainer');
-    container.innerHTML = '';  // Clear the previous content
-
-    selectedBills.forEach(bill => {
-        const billDiv = document.createElement('div');
-        billDiv.classList.add('bill-detail');
-
-        const billName = document.createElement('span');
-        billName.classList.add('bill-name');
-        billName.textContent = bill.name;
-
-        const billAccount = document.createElement('span');
-        billAccount.classList.add('account-number');
-        billAccount.textContent = `Account: ${bill.billingAccount}`;
-
-        const billAmount = document.createElement('span');
-        billAmount.classList.add('amount');
-        billAmount.textContent = `SGD ${bill.amount.toFixed(2)}`;
-
-        billDiv.appendChild(billName);
-        billDiv.appendChild(billAccount);
-        billDiv.appendChild(billAmount);
-
-        container.appendChild(billDiv);
-    });
-}
-
-async function fetchBillData() {
+// Function to fetch account data and populate the dropdown
+async function fetchAccounts() {
+    const accessCode = sessionStorage.getItem('accessCode');
     try {
-        const response = await fetch('/api/bills'); // API endpoint to get bill data
-        if (!response.ok) {
-            throw new Error('Failed to fetch bill data');
+        const response = await fetch(`/accounts?accessCode=${accessCode}`);
+        const data = await response.json();
+        if (response.ok) {
+            displayAccounts(data);
+        } else {
+            console.error('Error fetching accounts:', data.message);
         }
-        const billData = await response.json(); // Parse the JSON response
-        updateBillSummary(billData); // Update the bill summary with the fetched data
-
-        // Now that the bills are added, call calculateTotal
-        calculateTotal();
     } catch (error) {
-        console.error(error.message);
+        console.error('Error fetching accounts:', error);
     }
 }
 
-// Function to update the bill summary in the HTML
-function updateBillSummary(billData) {
-    const container = document.getElementById('payBillForContainer');
-    container.innerHTML = ''; // Clear previous content
+// Populate accounts dropdown and update balance display
+function displayAccounts(accounts) {
+    const accountDropdown = document.getElementById('account-dropdown');
+    const balanceDisplay = document.getElementById('selected-account-balance');
+    accountDropdown.innerHTML = '<option value="" disabled selected>Select an account</option>';
 
-    billData.forEach(bill => {
-        const billDiv = document.createElement('div');
-        billDiv.classList.add('bill-detail');
+    accounts.forEach(account => {
+        const option = document.createElement('option');
+        option.value = account.AccountNumber;
+        option.textContent = `${account.AccountType} - ${account.AccountNumber}`;
+        option.dataset.balance = account.Balance.toFixed(2);
+        accountDropdown.appendChild(option);
+    });
 
-        // Company name
-        const billName = document.createElement('div');
-        billName.classList.add('bill-name');
-        billName.textContent = bill.BillingCompany;
-
-        // Reference number (Account number)
-        const billReference = document.createElement('div');
-        billReference.classList.add('reference-number');
-        billReference.textContent = `Reference: ${bill.BillingAccNo}`;
-
-        // Bill amount
-        const billAmount = document.createElement('div');
-        billAmount.classList.add('amount');
-        billAmount.textContent = `Amount: SGD ${parseFloat(bill.BillAmount).toFixed(2)}`;
-
-        // Create a container for each bill item (flexbox layout)
-        const billContentDiv = document.createElement('div');
-        billContentDiv.classList.add('bill-content');
-
-        // Append the elements to the container
-        billContentDiv.appendChild(billName);
-        billContentDiv.appendChild(billReference);
-        billContentDiv.appendChild(billAmount);
-
-        // Append the bill item to the main container
-        billDiv.appendChild(billContentDiv);
-        container.appendChild(billDiv);
+    accountDropdown.addEventListener('change', () => {
+        const selectedOption = accountDropdown.options[accountDropdown.selectedIndex];
+        balanceDisplay.textContent = selectedOption.dataset.balance ? `SGD ${selectedOption.dataset.balance}` : 'SGD 0.00';
     });
 }
 
-// Call the fetchBillData function when the page loads
-document.addEventListener('DOMContentLoaded', fetchBillData);
+document.addEventListener('DOMContentLoaded', function() {
+    // Display total amount from localStorage
+    const totalAmount = localStorage.getItem("totalAmount");
+    const selectedAccount = localStorage.getItem("selectedAccount");
+    const selectedBills = JSON.parse(localStorage.getItem('paymentData'));
 
-let totalAmount = 0;
-
-// Function to update the total when a checkbox is checked or unchecked
-function updateSelection(company) {
-    const checkbox = document.querySelector(`#${company} input[type="checkbox"]`);
-    const amountSpan = document.querySelector(`#${company} .amount`);
-    const amount = parseFloat(amountSpan.innerText.replace('SGD ', '').replace(',', ''));
-
-    // Add or subtract the amount based on checkbox state
-    if (checkbox.checked) {
-        totalAmount += amount;
+    if (totalAmount) {
+        document.getElementById('total-amount').textContent = `Total: SGD ${totalAmount}`;
     } else {
-        totalAmount -= amount;
+        document.getElementById('total-amount').textContent = 'Total: SGD 0.00';
     }
 
-    // Update the total in the UI
-    document.getElementById("total-amount").innerText = `Total: SGD ${totalAmount.toFixed(2)}`;
-}
+    if (selectedAccount) {
+        document.getElementById('fromAccountTextContent').textContent = selectedAccount;
+    } else {
+        document.getElementById('fromAccountTextContent').textContent = "No account selected";
+    }
 
-// Add event listeners for all checkboxes
-document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        updateSelection(this.value);
+    const billsContainer = document.getElementById('payBillForContainer');
+    if (selectedBills && selectedBills.length > 0) {
+        selectedBills.forEach(bill => {
+            const billDiv = document.createElement('div');
+            billDiv.classList.add('bill-item');
+            billDiv.innerHTML = `
+                <p><strong>${bill.companyName}</strong></p>
+                <p>Account Number: ${bill.accountNumber}</p>
+                <p>Amount: SGD ${bill.amount}</p>
+            `;
+            billsContainer.appendChild(billDiv);
+        });
+    }
+
+    // Add event listener for the Submit button
+    document.getElementById('submit-button').addEventListener('click', async function() {
+        const selectedAccount = localStorage.getItem("selectedAccount");
+        const totalAmount = localStorage.getItem("totalAmount");
+        
+        if (selectedAccount && totalAmount) {
+            const accountId = sessionStorage.getItem('AccountID');
+            const accessCode = sessionStorage.getItem('accessCode');
+            const amount = parseFloat(totalAmount);
+    
+            // Ensure the payment is processed before redirecting
+            await processPayment(accountId, accessCode, amount);
+    
+            // Redirect to transaction page only after payment is processed
+            window.location.href = 'transaction.html';
+        } else {
+            alert('Please select an account and provide payment details.');
+        }
     });
+    
 });
 
-function updateSelection(company) {
-    const checkbox = document.querySelector(`#${company} input[type="checkbox"]`);
-    const amountSpan = document.querySelector(`#${company} .amount`);
-    const amount = parseFloat(amountSpan.innerText.replace('SGD ', '').replace(',', ''));
+/*
 
-    // Add or subtract the amount based on checkbox state
-    if (checkbox.checked) {
-        totalAmount += amount;
-    } else {
-        totalAmount -= amount;
+async function processPayment(accountId, accessCode, amount) {
+    try {
+        // First, reduce the balance by the payment amount
+        const response = await fetch("/transactions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                FromAccountID,
+                ToAccountID,
+                Amount,
+                Description
+            })
+        if (!response.ok) {
+            throw new Error('Failed to update account balance');
+        }
+
+        // Log the transaction
+        const transactionData = {
+            accountId: accountId,
+            amount: amount,
+            description: 'Bill Payment',
+            status: 'completed',
+            referenceNo: 'BillPayment_' + new Date().toISOString()
+        };
+
+        await logTransaction(transactionData);
+
+        // Optionally, you could update the frontend balance immediately after the payment
+        // This could involve fetching the new balance and displaying it on the transaction page
+        console.log("Payment processed successfully");
+    } catch (error) {
+        console.error("Error processing payment:", error);
     }
-
-    // Update the total in the UI
-    calculateTotal();  // Recalculate and update the total
 }
+
+async function logTransaction(transactionData) {
+    try {
+        const response = await fetch('/transactions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(transactionData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to log transaction');
+        }
+
+        console.log('Transaction logged successfully');
+    } catch (error) {
+        console.error("Error logging transaction:", error);
+    }
+}
+*/
