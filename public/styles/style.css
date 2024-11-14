@@ -1453,10 +1453,76 @@ margin: 0;
 }
 
 /*============== Bill Summary Page ==============*/
-.bill-payment-summary-container {
+.bill-payment-summary-content {
+    margin: 20px auto;
+    padding: 20px;
     max-width: 1200px;
-    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
+
+.bill-item {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-info h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.bill-item .account-header {
+    background-color: #E0E0E0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.bill-item .account-info h3 {
+    font-weight: bold;
+}
+
+.bill-item .bill-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.bill-item .bill-detail:last-child {
+    border-bottom: none;
+}
+
+.bill-item .bill-detail .bill-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    flex-grow: 1;
+}
+
+.bill-item .bill-detail .account-number {
+    font-size: 0.9rem;
+    color: #666;
+    flex-grow: 1;
+}
+
+.bill-item .bill-detail .amount {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #28a745; /* Adjust color to match your theme */
+    text-align: right;
+}
+
 
 .bill-payment-summary-container .alert {
     background-color: #f9f1d6;

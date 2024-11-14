@@ -18,6 +18,7 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
     const links = [
         { selector: "a[href='index.html']", text: "View Accounts" },
         { selector: "a[href='transfers.html']", text: "Transfers" },
+        { selector: "a[href='bill-payment.html']", text: "Bill Payment" },
         { selector: "a[href='transaction.html']", text: "Transactions" },
         { selector: "a[href='paynow.html']", text: "PayNow" }
     ];
@@ -86,7 +87,7 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
         });
     }
 
-    // Voice output for mobile number input placeholder in PayNow form
+    // Voiceover for mobile number input placeholder in PayNow form
     const mobileNumberInput = document.querySelector("input[placeholder='12345678']");
 
     if (mobileNumberInput) {
@@ -121,78 +122,17 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
         console.log("Mobile number input not found");  // Log if input is missing
     }
 
-    // Voiceover for Search button
-    const searchButton = document.querySelector(".button[type='button']"); // Assuming the button has class 'button' and type 'button'
-
-    if (searchButton) {
-        searchButton.addEventListener("click", () => {
-            speak("Search");
-        });
-    }
-
-    // Voiceover for amount input field
-    const amountInput = document.getElementById('amount'); // Get the amount input field by its ID
-    let previousValueAmount = ''; // Track the previous value of the amount input field
-
-    if (amountInput) {
-        // When the amount input field is clicked or focused, speak "Enter amount"
-        amountInput.addEventListener('click', () => {
-            speak("Enter amount");
-        });
-
-        // Speak each number entered into the amount input field
-        amountInput.addEventListener('input', () => {
-            const enteredValue = amountInput.value;  // Get the current value of the input
-
-            // Only speak new digits when they are entered, avoid speaking when deleting
-            if (enteredValue !== previousValueAmount) {
-                const newDigit = enteredValue.slice(-1); // Get the most recent digit entered
-
-                // Check if a digit was added, and speak it
-                if (enteredValue.length > previousValueAmount.length) {
-                    if (!isNaN(newDigit) && newDigit !== ' ') { // Ensure the character is a number
-                        speak(newDigit); // Speak the number
-                    }
-                }
-
-                previousValueAmount = enteredValue; // Update the previous value to the current value
-            }
-        });
-    }
-
-    // Voiceover for description input field
-    const descriptionInput = document.getElementById('description'); // Get the description input field by its ID
-    let previousValueDescription = ''; // Track the previous value of the description input field
-
-    if (descriptionInput) {
-        // When the description input field is clicked or focused, speak "Description"
-        descriptionInput.addEventListener('click', () => {
-            speak("Description");
-        });
-
-        // Speak each letter entered into the description input field
-        descriptionInput.addEventListener('input', () => {
-            const enteredValue = descriptionInput.value;  // Get the current value of the input
-
-            // Check if the entered value is different from the previous value
-            if (enteredValue !== previousValueDescription) {
-                const newLetters = enteredValue.slice(previousValueDescription.length); // Get the new letters entered
-
-                // Speak each new letter entered (if any)
-                newLetters.split('').forEach(letter => {
-                    speak(letter); // Speak the letter
-                });
-
-                previousValueDescription = enteredValue; // Update the previous value to the current value
-            }
-        });
-    }
-
     // Voiceover for the "Next" button
     const nextButton = document.getElementById('next-button'); // Get the Next button by its ID
 
     if (nextButton) {
         nextButton.addEventListener('click', () => {
+            // Immediately clear any ongoing or queued speech
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            // Speak "Next" for the button click
             speak("Next");
         });
     }
@@ -204,4 +144,15 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
             speak("Submit"); // Voice output "Submit" when the button is clicked
         });
     }
+
+    // Voiceover for checkboxes (e.g., PUB)
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                speak(checkbox.value);  // Speak the value of the checkbox when it's checked
+            }
+        });
+    });
 });

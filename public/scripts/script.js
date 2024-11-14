@@ -25,28 +25,49 @@ function resetlimit(){
 
 document.getElementById("header-logout-btn").addEventListener("click",resetlimit)
 
-// // Dark mode toggle script
-// document.getElementById('darkModeToggle').addEventListener('click', function() {
-//     document.body.classList.toggle('dark-mode');
-// });
+// Dark mode toggle script with voice output
+let darkModeTimeout; // Variable to store the timeout for double-click detection
+
+document.getElementById('darkModeToggle').addEventListener('click', function() {
+    // Play voice output on single click
+    speak('Dark mode');
+
+    // Clear the timeout if double-click happens
+    clearTimeout(darkModeTimeout);
+
+    // Set timeout to toggle dark mode after double-click detection
+    darkModeTimeout = setTimeout(() => {
+        // This block will execute after a single click if no double-click occurs
+    }, 300); // Delay to detect double click
+
+});
+
+document.getElementById('darkModeToggle').addEventListener('dblclick', function() {
+    // Toggle dark mode on double-click
+    document.body.classList.toggle('dark-mode');
+
+    // Save the current dark mode state to localStorage
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+        speak('Dark mode enabled')
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+        speak('Dark mode disabled')
+    }
+});
 
 // Check for dark mode preference in localStorage and apply it
 if (localStorage.getItem('darkMode') === 'enabled') {
     document.body.classList.add('dark-mode');
 }
 
-// Dark mode toggle
-document.getElementById('darkModeToggle').addEventListener('click', function() {
-    // Toggle dark mode on the body element
-    document.body.classList.toggle('dark-mode');
+// Function to trigger voice output
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+}
 
-    // Save the current dark mode state to localStorage
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
-        localStorage.setItem('darkMode', 'disabled');
-    }
-});
+
 
 
 

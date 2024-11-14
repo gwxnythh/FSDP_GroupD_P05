@@ -14,6 +14,9 @@ async function login() {
             sessionStorage.setItem('accessCode', accessCode); // Store access code in sessionStorage
             sessionStorage.setItem('userName', data.user); // Store the user's full name in sessionStorage
             
+            // Trigger voice output with user's full name
+            speak(`Welcome ${data.user}`);
+
             // Redirect to index.html on successful login
             window.location.href = 'index.html';
         } else {
@@ -24,13 +27,11 @@ async function login() {
     }
 }
 
-// Check if the user is logged in and display their name
-document.addEventListener('DOMContentLoaded', () => {
-    const userName = sessionStorage.getItem('userName');
-    if (userName) {
-        document.getElementById('user-name').textContent = userName;
-    }
-});
+// Function to trigger voice output
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+}
 
 // Check if the user is logged in and display their name
 document.addEventListener('DOMContentLoaded', () => {
