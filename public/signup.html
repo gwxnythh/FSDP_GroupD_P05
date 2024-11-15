@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="signup-html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OCBC Bank</title>
+    <!-- ============ Favicon ============ -->
+    <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
+    <!-- ============ Styles ============ -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+
+    </style>
+</head>
+
+<body class="signup-body">
+    <div class="background-container">
+        <!-- Background 1 (Bottom Layer) -->
+        <div class="background background_1">
+            <img src="images/background_1.png" class="slider-img" alt="Clouds Background">
+        </div>
+
+        <!-- Background 2 (Moving Clouds, Middle Layer) -->
+        <div class="background background_2">
+            <div class="cloud-container">
+                <!-- Two identical images side by side for continuous movement -->
+                <img src="images/background_2.png" class="cloud-img" alt="Moving Clouds">
+                <img src="images/background_2.png" class="cloud-img" alt="Moving Clouds">
+            </div>
+        </div>
+
+        <!-- Background 3 (OCBC Building, Top Layer, aligned to right) -->
+        <div class="background background_3">
+            <img src="images/background_3.png" class="building-img" alt="OCBC Building">
+        </div>
+    </div>
+
+    <!-- Signup Contents -->
+    <section class="signup-container">
+        <div class="signup-logo">
+            <img src="images/ocbc_logo.png" alt="OCBC Logo">
+        </div>
+    
+        <div class="secure-site">
+            <i class="bx bx-lock"></i>
+            <span>Secure Site</span>
+        </div>
+    
+        <div class="signup-title">Sign Up</div>
+    
+        <div class="signup-content">
+            <!-- First Row: Full Name and NRIC -->
+            <div class="field-pair">
+                <input type="text" id="nric" name="nric" placeholder="NRIC (S12345678D)" required>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            
+            <!-- Second Row: Email and Mobile Number -->
+            <div class="field-pair">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number" required>
+            </div>
+
+            <!-- Third Row: PIN -->
+            <div class="field-pair">
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                <input type="password" id="pin" name="pin" placeholder="PIN" required>
+                <!-- <input type="password" id="confirmPin" name="confirmPin" placeholder="Confirm PIN" required> -->
+            </div>
+            
+            <!-- (Full Width) -->
+            <div class="captcha">
+                <span id="captchaCode"></span>
+                <input type="text" id="captcha" name="captcha" placeholder="Enter CAPTCHA" required style="margin-bottom: 0;">
+            </div>
+    
+            <!-- Accessibility Mode Checkboxes -->
+            <div class="checkbox-container">
+                <h4>Accessibility Mode</h4>
+                <label><input type="checkbox" id="hapticTouch" name="hapticTouch"> Haptic Touch</label>
+                <label><input type="checkbox" id="voiceOver" name="voiceOver"> Voice Over</label>
+                <label><input type="checkbox" id="voiceRecognition" name="voiceRecognition"> Voice Recognition</label>
+            </div>
+    
+            <!-- Submit Button -->
+            <button type="submit" onclick="return validateForm()">Sign Up</button>
+        </div>
+    </section>
+    
+    
+
+    <div class="signup-credit">
+        © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
+    </div>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/signup.js"></script>
+</body>
+
+</html>
