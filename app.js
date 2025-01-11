@@ -25,6 +25,9 @@ app.use(staticMiddleware);
 app.get("/users/mobile", usersController.getUserByMobile);
 app.get("/users/id", usersController.getUserById);
 app.post("/login", usersController.login);
+app.post("/signup", usersController.signUp);
+app.get("/users/preference", usersController.getUserPreference);
+app.post("/users/preference", usersController.setUserPreference);
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);

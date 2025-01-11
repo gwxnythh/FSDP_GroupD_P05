@@ -2,7 +2,28 @@ let recognition;
 let isProcessingResponse = false; // Flag to track if bot is speaking
 let awaitingConfirmation = ""; // Track if awaiting specific user confirmation (e.g., "pay now", "home", "transactions")
 
+document.addEventListener("DOMContentLoaded", () => {
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    if (chatbotToggle && !isVoiceRecognitionEnabled()) {
+        chatbotToggle.style.display = "none";
+    } else if (chatbotToggle) {
+        chatbotToggle.style.display = "block";
+    }
+});
+
+// check if user enable voice over
+function isVoiceRecognitionEnabled() {
+    let voiceRecognition = localStorage.getItem("voiceRecognition");
+    if (voiceRecognition) {
+        return voiceRecognition === 'true';
+    }
+    return false;
+}
+
 function toggleChat() {
+    if (isVoiceRecognitionEnabled() === false) {
+        return;
+    }
     const chatbox = document.getElementById('chatbox');
     const chatContent = document.getElementById('chatContent');
     const chatbotToggle = document.getElementById('chatbotToggle');

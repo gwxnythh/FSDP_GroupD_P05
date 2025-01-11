@@ -22,7 +22,7 @@
         <div class="header-top">
             <!-- Logo -->
             <div class="header-logo">
-                <img src="images/ocbc_logo.png" alt="OCBC Logo">
+                <img id="logo" src="images/ocbc_logo.png" alt="OCBC Logo">
             </div>
 
             <!-- ============ Right Side of Navbar ============ -->
@@ -36,14 +36,10 @@
                 <!-- Help -->
                 <i class='bx bxs-help-circle'></i>
                 <!-- Settings -->
-                <i class='bx bxs-cog'></i>
+                <a href="settings.html"><i class='bx bxs-cog'></i></a>
 
                 <!-- Language Dropdown -->
-                <select name="language" id="language-select">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                </select>
+                <div id="google_translate_element"></div>
                 <!-- Logout Button -->
                 <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i
                             class='bx bx-log-out'></i>Logout</button></a>
@@ -170,11 +166,15 @@
     </section>
 
     <!-- ============ Scripts ============ -->
+    <script src="scripts/languages.js"></script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/bill-summary.js"></script>
     <script src="scripts/voicereco.js"></script>
     <script src="scripts/login.js"></script>
     <script src="scripts/voiceover.js"></script>
+    <script src="scripts/color-blind-mode.js"></script>
 </body>
 
 </html>

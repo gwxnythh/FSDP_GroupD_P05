@@ -21,7 +21,7 @@
         <div class="header-top">
             <!-- Logo -->
             <div class="header-logo">
-                <img src="images/ocbc_logo.png" alt="OCBC Logo">
+                <img id="logo" src="images/ocbc_logo.png" alt="OCBC Logo">
             </div>
 
             <!-- ============ Right Side of Navbar ============ -->
@@ -35,14 +35,10 @@
                 <!-- Help -->
                 <i class='bx bxs-help-circle'></i>
                 <!-- Settings -->
-                <i class='bx bxs-cog'></i>
+                <a href="settings.html"><i class='bx bxs-cog'></i></a>
 
                 <!-- Language Dropdown -->
-                <select name="language" id="language-select">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                </select>
+                <div id="google_translate_element"></div>
                 <!-- Logout Button -->
                 <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i
                             class='bx bx-log-out'></i>Logout</button></a>
@@ -109,7 +105,7 @@
     </section>
 
     <!-- ============ Alerting Banner ============ -->
-    <section class="banner">
+    <!-- <section class="banner">
         <div class="banner-content">
             <div class="banner-text">
                 <h2>Banking Made Accessible for All</h2>
@@ -120,7 +116,34 @@
                 <img src="images/voice_feature.png" alt="Try our new accessible feautre like Voice Recognition">
             </div>
         </div>
+    </section> -->
+
+    <section class="banner">
+        <div class="banner-content">
+            <div class="banner-text">
+                <h2>Empowering Accessibility: Exclusive OCBC Training Session</h2>
+                <p>Discover how to navigate and utilize the new accessibility features on our OCBC app. Enhance your banking experience with tools designed for your needs.</p>
+                <ul class="banner-details">
+                    <li><strong>📍 Location:</strong> OCBC Headquarters, Level 2, Training Room 3B</li>
+                    <li><strong>📅 Date & Time:</strong> Thursday, 14th December 2024, 10:00 AM - 4:00 PM</li>
+                    <li><strong>🎯 Who Should Attend:</strong> 
+                        <ul>
+                            <li>Individuals who are visually impaired</li>
+                            <li>Those facing challenges using mobile apps</li>
+                            <li>Caregivers supporting accessibility needs</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Seats are limited! Reserve your spot by 10th December 2024.</strong></p>
+                <a href="#" class="learn-more">Register Now</a>
+            </div>
+            <div class="banner-image">
+                <img src="images/annoucement_banner.png" alt="Inclusive training session for OCBC's new accessibility features">
+            </div>
+        </div>
     </section>
+    
+    
 
     <!-- ============ Shortcuts (Transfers/Account Balance) ============ -->
     <section class="shortcuts">
@@ -194,11 +217,15 @@
     </footer>
 
     <!-- ============ Scripts ============ -->
+    <script src="scripts/languages.js"></script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/viewBalance.js"></script>
     <script src="scripts/login.js"></script>
     <script src="scripts/voicereco.js"></script>
     <script src="scripts/voiceover.js"></script>
+    <script src="scripts/color-blind-mode.js"></script>
 </body>
 
 </html>

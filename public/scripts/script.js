@@ -1,3 +1,43 @@
+function changeFontScale(action) {
+    let currentScale = localStorage.getItem("font-size");
+    if (!currentScale) {
+        currentScale = 1;
+    }
+    console.log('changeFontScale: ', action)
+    switch (action) {
+        case 'increase':
+            currentScale *= 1.2;  // Scale up by 20%
+            break;
+        case 'decrease':
+            currentScale *= 0.8;  // Scale down by 20%
+            break;
+        case 'reset':
+            currentScale = 1;  // Reset to original scale
+            break;
+        default:
+            break;
+    }
+
+    if (currentScale < 1) {
+        currentScale = 1;
+    }
+
+    // Update the --font-scale CSS variable
+    document.documentElement.style.setProperty('--font-scale', currentScale);
+    localStorage.setItem("font-size", currentScale);
+}
+
+function remToPxDynamic(rem) {
+    const rootFontSize = getRootFontSize();
+    return rem * rootFontSize;
+}
+
+function getFontSizeUnit(element) {
+    const fontSize = window.getComputedStyle(element).fontSize;  // Get computed font size
+    const unit = fontSize.replace(/[0-9.]/g, '');  // Extract the unit by removing the number part
+    return unit;
+  }
+
 /* Display Account(s) Dropdown */
 function toggleAccounts() {
     const accountsList = document.getElementById('accountsList');
@@ -153,3 +193,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const increaseButton = document.getElementById('increaseFont');
+    const decreaseButton = document.getElementById('decreaseFont');
+
+    let currentScale = localStorage.getItem("font-size");
+    if (!currentScale) {
+        currentScale = 1;
+    }
+    // Update the --font-scale CSS variable
+    document.documentElement.style.setProperty('--font-scale', currentScale);
+
+    // Add event listeners to buttons
+    increaseButton.addEventListener('click', function() {
+        changeFontScale('increase');
+    });
+    decreaseButton.addEventListener('click', function() {
+        changeFontScale('decrease');
+    });
+});

@@ -3,7 +3,7 @@
 ## Students
   - Valerie Kho Yi Ting (S10262676)
   - Ggwendolynn Lee Rasni (S10262576)
-  - Jovan Tan Hao (S1026..)
+  - Jovan Tan Hao (S10262569)
   - Tan Han Yan (S10262621)
   - Gan Yu Hong (s10258441)
 

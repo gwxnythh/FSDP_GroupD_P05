@@ -10,9 +10,10 @@ async function seedDatabase() {
         await sql.query(`
             IF OBJECT_ID('dbo.Transactions', 'U') IS NOT NULL DROP TABLE dbo.Transactions;
             IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
+            IF OBJECT_ID('dbo.AccountPrefs', 'U') IS NOT NULL DROP TABLE dbo.AccountPrefs;
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
             IF OBJECT_ID('dbo.RefreshTokens', 'U') IS NOT NULL DROP TABLE dbo.RefreshTokens;
-            IF OBJECT_ID('dbo.Bills', 'U') IS NOT NULL DROP TABLE dbo.Bills;
+            IF OBJECT_ID('dbo.Bills', 'U') IS NOT NULL DROP TABLE dbo.Bills; 
         `);
 
         // Create the Users table first with updated PIN column type
@@ -69,6 +70,19 @@ async function seedDatabase() {
                 BillingAccNo VARCHAR(50) NOT NULL
             );
 
+
+        `);
+
+        // Create the Billing table
+        await sql.query(`
+            CREATE TABLE AccountPrefs (
+                AccountPrefsId NVARCHAR(10) PRIMARY KEY,
+                UserID NVARCHAR(10) NOT NULL, -- Reference UserID from Users
+                IsHapticTouch BIT NOT NULL DEFAULT 0,
+                IsVoiceOver BIT NOT NULL DEFAULT 0,
+                IsVoiceRecognition BIT NOT NULL DEFAULT 0,
+                FOREIGN KEY (UserID) REFERENCES Users(UserID)
+            );
 
         `);
 
