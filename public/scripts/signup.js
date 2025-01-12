@@ -23,9 +23,9 @@ function generateCaptcha() {
       let email = document.getElementById("email").value;
       let mobileNumber = document.getElementById("mobileNumber").value;
       let pin = document.getElementById("pin").value;
-      let hapticTouch = document.getElementById("hapticTouch").value;
-      let voiceOver = document.getElementById("voiceOver").value;
-      let voiceRecognition = document.getElementById("voiceRecognition").value;
+      let hapticTouch = document.getElementById("hapticTouch").checked;
+      let voiceOver = document.getElementById("voiceOver").checked;
+      let voiceRecognition = document.getElementById("voiceRecognition").checked;
   
       const response = await fetch("/signup", {
           method: "POST",
@@ -51,7 +51,7 @@ function generateCaptcha() {
           const isVoiceEnabled = (localStorage.getItem("voiceOver") === "true");
           if (isVoiceEnabled) {
               // Trigger voice output with user's full name
-              speak(`Welcome ${data.user}`);
+              speak(`Welcome ${data.fullname}`);
           }
           // Redirect to index.html on successful login
           window.location.href = 'index.html';

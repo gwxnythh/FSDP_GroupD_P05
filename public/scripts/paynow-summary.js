@@ -152,6 +152,10 @@ window.onload = () => {
 
 // Function to handle voice output
 function speak(text) {
+    // if voice over is disabled, don't process
+    if (!isVoiceOverEnabled()) {
+        return;
+    }
     const synth = window.speechSynthesis;
     if (synth.speaking) {
         synth.cancel();
@@ -160,6 +164,16 @@ function speak(text) {
     synth.speak(utterance);
     console.log("Speaking:", text);
 }
+
+// check if user enable voice over
+function isVoiceOverEnabled() {
+    let voiceOver = localStorage.getItem("voiceOver");
+    if (voiceOver) {
+        return voiceOver === 'true';
+    }
+    return false;
+}
+
 
 // Helper function to wait for voice to finish
 function waitForVoiceToFinish() {

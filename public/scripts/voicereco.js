@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // check if user enable voice over
 function isVoiceRecognitionEnabled() {
     let voiceRecognition = localStorage.getItem("voiceRecognition");
+    console.log('voiceRecognition: ' + voiceRecognition)
     if (voiceRecognition) {
         return voiceRecognition === 'true';
     }

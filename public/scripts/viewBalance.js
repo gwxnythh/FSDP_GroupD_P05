@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', fetchAccounts);
 
 // Function to handle voice output
 function speak(text) {
+    // if voice over is disabled, don't process
+    if (!isVoiceOverEnabled()) {
+        return;
+    }
     const synth = window.speechSynthesis;
     if (synth.speaking) {
         synth.cancel(); // Cancel any ongoing speech to avoid overlapping
@@ -55,4 +59,13 @@ function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     synth.speak(utterance);
     console.log("Speaking:", text);  // Log the spoken text for debugging
+}
+
+// check if user enable voice over
+function isVoiceOverEnabled() {
+    let voiceOver = localStorage.getItem("voiceOver");
+    if (voiceOver) {
+        return voiceOver === 'true';
+    }
+    return false;
 }

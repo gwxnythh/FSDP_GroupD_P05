@@ -61,11 +61,26 @@ function resetlimit() {
     localStorage.setItem("transferlimit", 5000);
 }
 
+
 // Function to trigger voice output
 function speak(text) {
+    // if voice over is disabled, don't process
+    if (!isVoiceOverEnabled()) {
+        return;
+    }
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
 }
+
+// check if user enable voice over
+function isVoiceOverEnabled() {
+    let voiceOver = localStorage.getItem("voiceOver");
+    if (voiceOver) {
+        return voiceOver === 'true';
+    }
+    return false;
+}
+
 
 /* Logout button logic with single and double-click functionality */
 const logoutButton = document.getElementById('header-logout-btn'); // Get the Logout button by its ID
@@ -206,10 +221,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.style.setProperty('--font-scale', currentScale);
 
     // Add event listeners to buttons
-    increaseButton.addEventListener('click', function() {
-        changeFontScale('increase');
-    });
-    decreaseButton.addEventListener('click', function() {
-        changeFontScale('decrease');
-    });
+    if (increaseButton) {
+        increaseButton.addEventListener('click', function() {
+            changeFontScale('increase');
+        });
+    }
+
+    if (decreaseButton) {
+        decreaseButton.addEventListener('click', function() {
+            changeFontScale('decrease');
+        });
+    }
+    
 });

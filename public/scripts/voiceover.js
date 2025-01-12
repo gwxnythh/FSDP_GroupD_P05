@@ -3,6 +3,10 @@ const synth = window.speechSynthesis;
 
 // Function to handle voice output
 function speak(text) {
+    // if voice over is disabled, don't process
+    if (!isVoiceOverEnabled()) {
+        return;
+    }
     if (synth.speaking) {
         synth.cancel(); // Cancel any ongoing speech to override it
         console.log('Previous speech cancelled to prioritize new speech');
@@ -11,6 +15,15 @@ function speak(text) {
     synth.speak(utterance);
     console.log("Speaking:", text);  // Log the spoken text
 }
+// check if user enable voice over
+function isVoiceOverEnabled() {
+    let voiceOver = localStorage.getItem("voiceOver");
+    if (voiceOver) {
+        return voiceOver === 'true';
+    }
+    return false;
+}
+
 
 // Event listener for shortcut and header links
 window.addEventListener("load", () => {  // Changed from DOMContentLoaded to load
