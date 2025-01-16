@@ -129,7 +129,7 @@ class Users {
             const accountCreationQuery = `
                 INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
                 VALUES 
-                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD');
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 2000.00, 'SGD');
             `;
             const accountRequest = connection.request();
             accountRequest.input("UserId", userResult.recordset[0].UserID);
