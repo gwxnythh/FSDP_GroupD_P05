@@ -92,7 +92,7 @@ async function seedDatabase() {
                     token_id INT PRIMARY KEY IDENTITY(1,1),
                     refreshToken VARCHAR(255) NOT NULL UNIQUE
                 );
-        `)
+        `)    
         /*
 
     // Hash passwords
@@ -171,6 +171,15 @@ async function seedDatabase() {
                 ('B5', 'Singtel', 95.25, 'SINGTEL456789');
 
         `);
+        await sql.query(`
+            INSERT INTO AccountPrefs (AccountPrefsId, UserID, IsHapticTouch, IsVoiceOver, IsVoiceRecognition)
+            VALUES 
+                ('P1', 'U1', 1, 1, 0), -- User U1 prefers Haptic Touch and VoiceOver
+                ('P2', 'U2', 0, 1, 1), -- User U2 prefers VoiceOver and VoiceRecognition
+                ('P3', 'U3', 1, 0, 1), -- User U3 prefers Haptic Touch and VoiceRecognition
+                ('P4', 'U4', 0, 0, 0), -- User U4 has no preferences enabled
+                ('P5', 'U5', 1, 1, 1); -- User U5 prefers all features
+        `);        
 
         console.log('Sample data inserted successfully.');
 
