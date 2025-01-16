@@ -1,3 +1,4 @@
+
 // Fetch and display accounts
 async function fetchAccounts() {
     const accessCode = sessionStorage.getItem('accessCode');
@@ -83,11 +84,11 @@ function updateTotal() {
 }
 
 
-// Load and display selected account info from localStorage
-function updateAccountDisplay() {
-    const savedAccount = localStorage.getItem("selectedAccount");
-    document.getElementById("fromAccountTextContent").textContent = savedAccount || "No account selected";
-}
+// // Load and display selected account info from localStorage
+// function updateAccountDisplay() {
+//     const savedAccount = localStorage.getItem("selectedAccount");
+//     document.getElementById("fromAccountTextContent").textContent = savedAccount || "No account selected";
+// }
 
 // Save payment summary to localStorage
 function savePaymentSummary() {
@@ -118,22 +119,72 @@ function savePaymentSummary() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchAccounts();  // Fetch accounts data
     fetchAndDisplayBills(); // Fetch bills data
-    updateAccountDisplay(); // Display selected account if available
+    //updateAccountDisplay(); // Display selected account if available
 });
 
-// Handle 'Next' button click for payment summary
 function handleNextButtonClick() {
-    const selectedAccount = document.getElementById("selected-account").value;
+    // Get the selected account
+    const selectedAccount = document.getElementById("account-dropdown").value;
+    if (!selectedAccount) {
+        alert("Please select an account.");
+        return;
+    }
+
+    // Get the selected bills
     const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
         const billDiv = checkbox.closest('.bill-item');
+        const companyName = billDiv.querySelector('strong').textContent;
+        const accountNumber = billDiv.querySelector('.account-number').textContent.trim();
+        const amountText = billDiv.querySelector('.amount').textContent;
+        const amount = parseFloat(amountText.replace('SGD ', '')).toFixed(2);
+
         return {
-            BillingCompany: billDiv.querySelector('.billing-company').textContent,
-            BillingAccNo: billDiv.querySelector('.billing-account-number').textContent,
-            BillAmount: parseFloat(billDiv.querySelector('.amount').textContent.replace('SGD ', ''))
+            companyName: companyName,
+            accountNumber: accountNumber,
+            amount: `SGD ${amount}`
         };
     });
 
+    if (selectedBills.length === 0) {
+        alert("Please select at least one bill to pay.");
+        return;
+    }
+
+    // Get the total amount
+    const totalAmount = selectedBills.reduce((sum, bill) => {
+        return sum + parseFloat(bill.amount.replace('SGD ', ''));
+    }, 0);
+
+    // Save data to localStorage
     localStorage.setItem("selectedAccount", selectedAccount);
-    localStorage.setItem("selectedBills", JSON.stringify(selectedBills));
+    localStorage.setItem("paymentData", JSON.stringify(selectedBills));
+    localStorage.setItem("totalAmount", totalAmount.toFixed(2));
+
+    // Redirect to the summary page
     window.location.href = "bill-payment-summary.html";
 }
+
+// Attach the event listener to the 'Next' button
+document.getElementById('next-button').addEventListener('click', handleNextButtonClick);
+
+
+
+// // Handle 'Next' button click for payment summary
+// function handleNextButtonClick() {
+//     const selectedAccount = document.getElementById("selected-account").value;
+//     const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
+//         const billDiv = checkbox.closest('.bill-item');
+//         return {
+//             BillingCompany: billDiv.querySelector('.billing-company').textContent,
+//             BillingAccNo: billDiv.querySelector('.billing-account-number').textContent,
+//             BillAmount: parseFloat(billDiv.querySelector('.amount').textContent.replace('SGD ', ''))
+//         };
+//     });
+
+//     localStorage.setItem("selectedAccount", selectedAccount);
+//     localStorage.setItem("selectedBills", JSON.stringify(selectedBills));
+//     window.location.href = "bill-payment-summary.html";
+// }
+
+// // Attach event listener to 'Next' button
+// document.getElementById('next-button').addEventListener('click', handleNextButtonClick);

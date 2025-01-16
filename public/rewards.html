@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OCBC - PayNow</title>
+    <title>OCBC - Transactions</title>
     <!-- ============ Favicon ============ -->
     <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
     <!-- ============ Styles ============ -->
@@ -53,7 +53,7 @@
             <a href="bill-payment.html">Bill Payment</a>
             <a href="transaction.html">Transactions</a>
             <a href="#">Customer Service</a>
-            <a href="rewards.html">Rewards</a>
+            <a href="#">Rewards</a>
         </div>
 
         <!-- Hamburger Icon for Mobile View -->
@@ -70,11 +70,11 @@
         <a href="bill-payment.html">Bill Payment</a>
         <a href="transaction.html">Transactions</a>
         <a href="#">Customer Service</a>
-        <a href="#">Rewards</a>
+        <a href="rewards.html">Rewards</a>
         <!-- <a class="mobile-logout" href="login.html"><button id="sidenav-logout-btn" class="logout-btn">Logout</button></a> -->
         <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
     </div>
-    
+
     <!-- ============ Chatbot Section ============ -->
     <section class="chatbot">
         <div class="chatbot-container">
@@ -103,96 +103,62 @@
         </div>
     </section>
 
-    <!-- ============ PayNow Page ============ -->
-    <section class="paynow-section">
-        <div class="paynow-container">
-            <h2>Funds Transfer</h2>
-
-            <div class="alert">
-                <h3>Security Advisory</h3>
-                <p>Beware of scams. Stay vigilant, always remember:</p>
-                <ul>
-                    <li>Do NOT send money to people you do not know.</li>
-                    <li>Do NOT authorize funds transfers that you are not aware of.</li>
-                    <li>Do NOT give your OTP or login credentials to anyone.</li>
-                </ul>
-                <p>Visit our <a href="#">Safety and Security information hub</a> to learn more about scams and how to
-                    avoid
-                    falling prey to them.</p>
-                <p>Please be informed that the PayNow default daily limit is revised from S$5,000 to S$1,000 with effect
-                    from 14 Jan 2022. You may update your daily limit anytime via OCBC Internet Banking.</p>
+    <section class="transaction-section">
+        <div class="transaction-container">
+            <div class="balance-card">
+                <div class="balance-info" id="balanceInfo">
+                    <h3>Total Points Accumulated</h3>
+                    
+                    <h4 id="balanceAmount">0.00</h4>
+                    
+                </div>
+                <button class="pay-now-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3" />
+                    </svg>
+                    PayNow
+                </button>
             </div>
 
-            <div class="form-section">
-                <div class="section-header">1. Make a transfer from</div>
+            <div class="transactions" id="myaccounts-mbottom">
+                <h2>Latest Transactions</h2>
+                <table class="transaction-table">
+                    <thead class="trans-subheader">
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Reference</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transaction-table-body">
+                        <!-- Transactions will be dynamically added here by JavaScript -->
+                    </tbody>
+                </table>
                 
-                <label for="account-dropdown">Select account:</label>
-                <select id="account-dropdown" name="account">
-                    <option value="" disabled selected>Select an account</option>
-                </select>
-
             </div>
-
-            <div class="form-section">
-                <div class="section-header">2. You are transferring money to</div>
-                <div class="radio-group">
-                    <input type="radio" id="mobile" name="transfer-to" value="mobile" checked>
-                    <label for="mobile">Mobile number</label>
-                </div>
-                <div class="radio-group">
-                    <input type="radio" id="nric" name="transfer-to" value="nric">
-                    <label for="nric">NRIC/FIN number</label>
-                </div>
-                <div class="radio-group">
-                    <input type="radio" id="uen" name="transfer-to" value="uen">
-                    <label for="uen">Unique entity no. (UEN)</label>
-                </div>
-                <div id="input-fields">
-                    <!-- Initial input fields for Mobile -->
-                    <input type="text" placeholder="+65" style="width: 20%;" disabled>
-                    <input type="text" placeholder="12345678" style="width: 35%;">
-                    <button class="button" type="button">Search</button>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <div class="section-header">3. How much would you like to transfer?</div>
-                <label for="amount">Amount (SGD):</label>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount">
-
-                <p id="transferlimit">Remaining transfer limit: SGD 5,000.00</p>
-
-                <label for="purpose">Purpose of transfer:</label>
-                <select id="purpose" name="purpose">
-                    <option value="other">Other</option>
-                    <!-- Add more options as needed -->
-                </select>
-
-                <label for="description">Description (optional):</label>
-                <input type="text" id="description" name="description" placeholder="PayNow Transfer">
-            </div>
-
-            <button id="next-button" class="button" type="submit">Next</button>
         </div>
     </section>
 
-    <!-- ============ Footer Section ============ -->
-    <footer>
-        <p> © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
-        </p>
-    </footer>
+        <!-- ============ Footer Section ============ -->
+        <footer>
+            <p> © Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.
+            </p>
+        </footer>
 
-    <!-- ============ Scripts ============ -->
+</body>
+ <!-- ============ Scripts ============ -->
     <script src="scripts/languages.js"></script>
     <script type="text/javascript"
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
-    <script src="scripts/script.js"></script>
-    <script src="scripts/voicereco.js"></script>
-    <script src="scripts/login.js"></script>
-    <script src="scripts/haptictouch.js"></script>
-    <script src="scripts/voiceover.js"></script>
-    <script src="scripts/paynow.js"></script>
-    <script src="scripts/color-blind-mode.js"></script>
+ <script src="scripts/script.js"></script>
+ <script src="scripts/voicereco.js"></script>
+ <script src="scripts/login.js"></script>
+ <script src="scripts/haptictouch.js"></script>
+ <script src="scripts/transaction.js"></script>
+ <script src="scripts/voiceover.js"></script>
+ <script src="scripts/color-blind-mode.js"></script>
 </body>
 
 </html>
