@@ -54,7 +54,12 @@
         <div class="login-content">
             <input type="text" id="accessCode" placeholder="Access code">
             <input type="password" id="pin" placeholder="PIN">
-            <button onclick = "login()">Log In</button>
+            <div class="login-buttons">
+                <button onclick="login()">Log In</button>
+                <button onclick="biometricLogin()">
+                    <i class="bx bx-fingerprint biometric-icon"></i>
+                </button>
+            </div>
 
             <a href="signup.html">Don't have an account yet? Sign Up</a>
         </div>
