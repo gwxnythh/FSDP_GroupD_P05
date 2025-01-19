@@ -9,6 +9,7 @@ const accountsController = require("./controllers/accountsController");
 const transactionsController = require("./controllers/transactionsController");
 const usersController = require("./controllers/usersController");
 const billsController = require("./controllers/billsController");
+const rewardsController = require("./controllers/rewardsController");
 const validateAccounts = require("./middlewares/validateAccounts")
 const validateTransactions = require("./middlewares/validateTransactions")
 const authenticate = require("./middlewares/authenticate")
@@ -31,9 +32,11 @@ app.post("/users/preference", usersController.setUserPreference);
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
+app.put("/accounts/:id",accountsController.updatePoints);
 app.get("/accounts", accountsController.getAccountByAccessCode);
 app.get("/accounts/mobile/:mobileNumber", accountsController.getCurrentAccountByMobile);
 app.get("/accounts/balance/:id", accountsController.getAccountBalance);
+app.get("/accounts/points/:id", accountsController.getAccountPoints);
 
 
 //Transactions routes
@@ -48,6 +51,13 @@ app.get('/bills/:id', billsController.getBillingById);
 app.get('/bills/company/:id', billsController.getBillingCompanyById);
 app.get('/bills/amount/:company', billsController.getBillAmountByBillingCompany);
 app.get('/bills/account/:company', billsController.getBillingAccNoByBillingCompanyPrefix);
+app.get('/bills/account/:id', billsController.getBillsByAccountID);
+
+//Rewards Routes
+app.get('/rewards', rewardsController.getAllRewards);
+app.get('/rewards/:id', rewardsController.getRewardsById);
+app.post("/rewards/redeem", rewardsController.redeemReward);
+app.delete("/rewards/:rewardId", rewardsController.deleteReward);
 
 
 

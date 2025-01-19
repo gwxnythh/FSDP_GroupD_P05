@@ -1,3 +1,7 @@
+
+
+
+
 // Function to fetch account data and populate the dropdown
 async function fetchAccounts() {
     const accessCode = sessionStorage.getItem('accessCode');
@@ -69,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add event listener for the Submit button
+    
     document.getElementById('submit-button').addEventListener('click', async function() {
         const selectedAccount = localStorage.getItem("selectedAccount");
         const totalAmount = localStorage.getItem("totalAmount");
@@ -90,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
-async function processPayment(accountId, accessCode, amount) {
+
+async function processPayment(FromAccountID,ToAccountID = null,Amount,Description) {
     try {
         // Assuming 'accountId' refers to the account that is making the payment.
         // Also assuming the backend has a route for processing transactions
@@ -100,10 +106,10 @@ async function processPayment(accountId, accessCode, amount) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                FromAccountID: accountId,    // Account from which payment is made
-                ToAccountID: "yourTargetAccountId",  // Set this to the target account ID
-                Amount: amount,  // The amount to deduct
-                Description: "Bill Payment"  // Payment description
+                FromAccountID,    // Account from which payment is made
+                ToAccountID,  // Set this to the target account ID
+                Amount,  // The amount to deduct
+                Description // Payment description
             })
         });
         if (!response.ok) {
@@ -130,22 +136,3 @@ async function processPayment(accountId, accessCode, amount) {
 }
 
 
-// async function logTransaction(transactionData) {
-//     try {
-//         const response = await fetch('/transactions', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(transactionData)
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Failed to log transaction');
-//         }
-
-//         console.log('Transaction logged successfully');
-//     } catch (error) {
-//         console.error("Error logging transaction:", error);
-//     }
-// }

@@ -3,7 +3,7 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Accounts {
-    constructor(AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt) {
+    constructor(AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt, Points) {
         this.AccountID = AccountID;
         this.UserID = UserID;
         this.AccessCode = AccessCode;
@@ -12,6 +12,7 @@ class Accounts {
         this.Balance = Balance;
         this.Currency = Currency;
         this.CreatedAt = CreatedAt;
+        this.Points = Points;
     }
 
     static async getAccountById(id) {
@@ -25,7 +26,7 @@ class Accounts {
         connection.close();
 
         return result.recordset.map(
-            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt)
+            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt, row.Points)
         );
     }
 
@@ -40,7 +41,7 @@ class Accounts {
         connection.close();
 
         return result.recordset.map(
-            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt)
+            row => new Accounts(row.AccountID, row.UserID, row.AccessCode, row.AccountNumber, row.AccountType, row.Balance, row.Currency, row.CreatedAt, row.Points)
         );
     }
 
@@ -131,7 +132,8 @@ class Accounts {
                 account.AccountType,
                 account.Balance,
                 account.Currency,
-                account.CreatedAt
+                account.CreatedAt,
+                account.Points
             );
 
         } catch (error) {
@@ -144,6 +146,70 @@ class Accounts {
             }
         }
     }
+
+    static async updatePoints(AccountID, newPoints) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Accounts SET Points = @Points WHERE AccountID = @AccountID`;
+        const request = connection.request();
+        request.input("AccountID", AccountID);
+        request.input("Points", Points);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }
+
+    static async getAccountPoints(accountId) {
+        const connection = await sql.connect(dbConfig);
+        try {
+            console.log("Executing query for AccountID:", accountId); // Debug log
+            const sqlQuery = `SELECT Points FROM Accounts WHERE AccountID = @accountId`;
+            const request = connection.request();
+            request.input("accountId", sql.NVarChar, accountId);
+            const result = await request.query(sqlQuery);
+    
+            console.log("Query Result:", result.recordset); // Log the query result
+    
+            if (result.recordset.length === 0) {
+                return null; // No rows found
+            }
+    
+            return result.recordset[0].Points;
+        } catch (error) {
+            console.error("Error in getAccountPoints:", error);
+            throw error;
+        } finally {
+            connection.close();
+        }
+    }
+    
+
+    /*static async getAccountPoints(accountId) {
+        const connection = await sql.connect(dbConfig);
+        try {
+            const sqlQuery = `SELECT Points FROM Accounts WHERE AccountID = @accountId `;
+            const request = connection.request();
+            request.input("accountId", sql.NVarChar, accountId);
+            const result = await request.query(sqlQuery);
+    
+            // Check if a record was found
+            if (result.recordset.length === 0) {
+                return null; // Return null if no account was found
+            }
+    
+            // Return the balance
+            return result.recordset[0].Points;
+    
+        } catch (error) {
+            console.error('Error in getAccountPoints:', error);
+            throw error; // Let the controller handle the error
+        } finally {
+            connection.close();
+        }
+    }
+        */
 
 
 }

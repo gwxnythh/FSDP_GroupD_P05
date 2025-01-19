@@ -83,13 +83,6 @@ function updateTotal() {
     document.getElementById('total-amount').textContent = `Total: SGD ${total.toFixed(2)}`;
 }
 
-
-// // Load and display selected account info from localStorage
-// function updateAccountDisplay() {
-//     const savedAccount = localStorage.getItem("selectedAccount");
-//     document.getElementById("fromAccountTextContent").textContent = savedAccount || "No account selected";
-// }
-
 // Save payment summary to localStorage
 function savePaymentSummary() {
     const selectedAccount = document.getElementById('account-dropdown').value;
@@ -119,7 +112,6 @@ function savePaymentSummary() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchAccounts();  // Fetch accounts data
     fetchAndDisplayBills(); // Fetch bills data
-    //updateAccountDisplay(); // Display selected account if available
 });
 
 function handleNextButtonClick() {
@@ -167,24 +159,32 @@ function handleNextButtonClick() {
 // Attach the event listener to the 'Next' button
 document.getElementById('next-button').addEventListener('click', handleNextButtonClick);
 
+// Function to select all checkboxes
+function selectAllCheckboxes() {
+    const checkboxes = document.querySelectorAll('#payBillForContainer input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = true; // Select all checkboxes
+    });
+
+    // Update the total amount after selecting all
+    updateTotal();
+}
+
+// Event listener for the "Select All" button
+document.getElementById('select-all-btn').addEventListener('click', selectAllCheckboxes);
+
+// Function to deselect all checkboxes
+function deselectAllCheckboxes() {
+    const checkboxes = document.querySelectorAll('#payBillForContainer input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false; // Deselect all checkboxes
+    });
+
+    // Update the total amount after deselecting all
+    updateTotal();
+}
+
+// Event listener for the "Deselect All" button
+document.getElementById('deselect-all-btn').addEventListener('click', deselectAllCheckboxes);
 
 
-// // Handle 'Next' button click for payment summary
-// function handleNextButtonClick() {
-//     const selectedAccount = document.getElementById("selected-account").value;
-//     const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
-//         const billDiv = checkbox.closest('.bill-item');
-//         return {
-//             BillingCompany: billDiv.querySelector('.billing-company').textContent,
-//             BillingAccNo: billDiv.querySelector('.billing-account-number').textContent,
-//             BillAmount: parseFloat(billDiv.querySelector('.amount').textContent.replace('SGD ', ''))
-//         };
-//     });
-
-//     localStorage.setItem("selectedAccount", selectedAccount);
-//     localStorage.setItem("selectedBills", JSON.stringify(selectedBills));
-//     window.location.href = "bill-payment-summary.html";
-// }
-
-// // Attach event listener to 'Next' button
-// document.getElementById('next-button').addEventListener('click', handleNextButtonClick);

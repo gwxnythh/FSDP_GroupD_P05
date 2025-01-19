@@ -65,6 +65,24 @@ const getBillingAccNoByBillingCompanyPrefix = async (req, res) => {
 
 };
 
+const getBillsByAccountID = async (req, res) => {
+    console.log("Request params:", req.params); // Debug log
+    const accountId = req.params.id;
+    console.log("Received AccountID in request:", accountId); // Debug log
+
+    try {
+        const bills = await Bills.getBillsByAccountID(accountId);
+        if (bills === null) {
+            console.log("No bills found for AccountID:", accountId); // Debug log
+            return res.status(404).json({ message: "No bills found" });
+        }
+        res.json(bills);
+    } catch (error) {
+        console.error("Error fetching bills:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 
 
 
@@ -76,6 +94,7 @@ module.exports = {
     getBillingById,
     getBillingCompanyById,
     getBillingAccNoByBillingCompanyPrefix,
-    getBillAmountByBillingCompany   
+    getBillAmountByBillingCompany,
+    getBillsByAccountID   
     
 };

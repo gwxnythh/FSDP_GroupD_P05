@@ -343,23 +343,6 @@ if (document.getElementById("next-button")) {
     });
 }
 
-// if (document.getElementById("submit-button")) {
-//     document.getElementById("submit-button").addEventListener("click", async() => {
-//         console.log('hello world')
-//         // Retrieve values from form inputs
-//         const mobileNumber = document.getElementById('mobile-number').value;
-        
-//         const fromAccountID = document.getElementById("account-dropdown").value;    
-//         const toAccountID =  await fetchCurrentAcc(mobileNumber);
-//         const amount = document.getElementById("amount").value;
-//         const description = document.getElementById("description").value;
-//         console.log("hre");
-//         console.log(fromAccountID,toAccountID,amount,description);
-//         // Call makePayment with the retrieved values
-//         makePayment(fromAccountID, toAccountID, amount, description);
-//     });    
-// }
-
 // Add event listeners to radio buttons
 radioButtons.forEach((radio) => {
     radio.addEventListener('change', (event) => {

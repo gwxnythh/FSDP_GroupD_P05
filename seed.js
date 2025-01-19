@@ -8,13 +8,16 @@ async function seedDatabase() {
 
         // Drop existing tables in the correct order
         await sql.query(`
-            IF OBJECT_ID('dbo.Transactions', 'U') IS NOT NULL DROP TABLE dbo.Transactions;
-            IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
+            -- Drop tables in reverse order of dependencies
             IF OBJECT_ID('dbo.AccountPrefs', 'U') IS NOT NULL DROP TABLE dbo.AccountPrefs;
-            IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
+            IF OBJECT_ID('dbo.Transactions', 'U') IS NOT NULL DROP TABLE dbo.Transactions;
+            IF OBJECT_ID('dbo.Bills', 'U') IS NOT NULL DROP TABLE dbo.Bills;
+            IF OBJECT_ID('dbo.Accounts', 'U') IS NOT NULL DROP TABLE dbo.Accounts;
             IF OBJECT_ID('dbo.RefreshTokens', 'U') IS NOT NULL DROP TABLE dbo.RefreshTokens;
-            IF OBJECT_ID('dbo.Bills', 'U') IS NOT NULL DROP TABLE dbo.Bills; 
+            IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
+            IF OBJECT_ID('dbo.Rewards', 'U') IS NOT NULL DROP TABLE dbo.Rewards;
         `);
+        
 
         // Create the Users table first with updated PIN column type
         await sql.query(`
@@ -41,6 +44,7 @@ async function seedDatabase() {
                 Balance DECIMAL(18, 2) NOT NULL DEFAULT 0,
                 Currency NVARCHAR(10) NOT NULL DEFAULT 'SGD',
                 CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                Points INT NOT NULL DEFAULT 0,      -- Stores reward points for each account
                 FOREIGN KEY (UserID) REFERENCES Users(UserID)
             );
         `);
@@ -65,13 +69,30 @@ async function seedDatabase() {
         await sql.query(`
             CREATE TABLE Bills (
                 BillingID NVARCHAR(10) PRIMARY KEY,
+                AccountID NVARCHAR(10) NOT NULL,
                 BillingCompany VARCHAR(100) NOT NULL,
                 BillAmount DECIMAL(10, 2) NOT NULL,
-                BillingAccNo VARCHAR(50) NOT NULL
+                BillingAccNo VARCHAR(50) NOT NULL,
+                FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)
             );
 
 
+
         `);
+
+        // Create the Rewards table
+        await sql.query(`
+            CREATE TABLE Rewards (
+                RewardID NVARCHAR(10) PRIMARY KEY,  -- Custom ID format like R1, R2, etc.
+                CompanyName NVARCHAR(100) NOT NULL, -- Company offering the reward
+                Description NVARCHAR(255) NOT NULL, -- Description of the reward
+                PointsRequired INT NOT NULL CHECK (PointsRequired > 0), -- Points needed to redeem
+                ExpiryDate DATETIME NOT NULL, -- Expiry date for the reward
+                image_path TEXT
+                
+            );
+        `);
+        
 
         // Create the Billing table
         await sql.query(`
@@ -134,15 +155,17 @@ async function seedDatabase() {
 
         // Insert data into the Accounts table
         await sql.query(`
-            INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt) 
-            VALUES 
-                ('A1', 'U1', 'Access123', '717-154937-001', 'Current', 2500.00, 'SGD', '2024-08-06 15:30:00'),
-                ('A2', 'U1', 'Access123', '717-154937-002', 'Savings', 10000.00, 'SGD', '2024-08-07 16:45:00'),
-                ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 5500.00, 'SGD', '2024-08-08 17:10:00'),
-                ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit', 5000.00, 'SGD', '2024-08-09 18:20:00'),
-                ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 7800.00, 'SGD', '2024-08-10 19:30:00'),
-                ('A6', 'U4', 'Access101', '717-154937-006', 'Current', 3200.00, 'SGD', '2024-08-11 20:25:00'),
-                ('A7', 'U5', 'Access202', '717-154937-007', 'Current', 6500.00, 'SGD', '2024-08-12 21:45:00');
+                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, CreatedAt, Points) 
+                VALUES 
+                    ('A1', 'U1', 'Access123', '717-154937-001', 'Current', 2500.00, 'SGD', '2024-08-06 15:30:00', 650),
+                    ('A2', 'U1', 'Access123', '717-154937-002', 'Savings', 10000.00, 'SGD', '2024-08-07 16:45:00', 650),
+                    ('A3', 'U2', 'Access456', '717-154937-003', 'Current', 5500.00, 'SGD', '2024-08-08 17:10:00', 500),
+                    ('A4', 'U2', 'Access456', '717-154937-004', 'Fixed Deposit', 5000.00, 'SGD', '2024-08-09 18:20:00', 500),
+                    ('A5', 'U3', 'Access789', '717-154937-005', 'Current', 7800.00, 'SGD', '2024-08-10 19:30:00', 800),
+                    ('A6', 'U4', 'Access101', '717-154937-006', 'Current', 3200.00, 'SGD', '2024-08-11 20:25:00', 450),
+                    ('A7', 'U5', 'Access202', '717-154937-007', 'Current', 6500.00, 'SGD', '2024-08-12 21:45:00', 200);
+
+
 
         `);
 
@@ -163,14 +186,31 @@ async function seedDatabase() {
 
         // Insert data into the Billing table
         await sql.query(`
-            INSERT INTO Bills (BillingID, BillingCompany, BillAmount, BillingAccNo) VALUES
-                ('B1', 'PUB', 67.00, 'PUB123456'),
-                ('B2', 'LTA Road Tax', 48.00, 'LTA654321'),
-                ('B3', 'HDB', 55.00, 'HDB987654'),
-                ('B4', 'NTUC Income', 100.00, 'NTUC456789'),
-                ('B5', 'Singtel', 95.25, 'SINGTEL456789');
+            INSERT INTO Bills (BillingID, AccountID, BillingCompany, BillAmount, BillingAccNo) 
+            VALUES
+                ('B1', 'A1', 'PUB', 67.00, 'PUB123456'),
+                ('B2', 'A1', 'LTA Road Tax', 48.00, 'LTA654321'),
+                ('B3', 'A1', 'HDB', 55.00, 'HDB987654'),
+                ('B4', 'A1', 'NTUC Income', 100.00, 'NTUC456789'),
+                ('B5', 'A3', 'Singtel', 95.25, 'SINGTEL456789'),
+                ('B6', 'A3', 'Car Insurance', 300, 'CAR456789'),
+                ('B7', 'A3', 'NUH', 150, 'NUH456789');
+
 
         `);
+
+        await sql.query(`
+            INSERT INTO Rewards (RewardID, CompanyName, Description, PointsRequired, ExpiryDate, image_path) 
+            VALUES
+                ('R1', 'New Moon', '$5 off New Moon Gift Set', 300, '2025-12-31', 'images/NewMoon.png'),
+                ('R2', 'NTUC FairPrice', '15% off NTUC products', 400, '2025-11-30', 'images/ntuc.png'),
+                ('R3', 'Cold Storage', '10% off all items', 350, '2025-10-15', 'images/ColdStorage.png'),
+                ('R4', 'Giant', '$10 off minimum $50 spend', 500, '2025-12-31', 'images/Giant.png'),
+                ('R5', 'Sheng Siong', '$20 off minimum $100 spend', 600, '2025-08-31', 'images/shengsiong.png'),
+                ('R6', 'Starbucks', 'Free Tall Beverage', 450, '2025-09-30', 'images/Starbucks.png');
+
+        `);
+        
         await sql.query(`
             INSERT INTO AccountPrefs (AccountPrefsId, UserID, IsHapticTouch, IsVoiceOver, IsVoiceRecognition)
             VALUES 
