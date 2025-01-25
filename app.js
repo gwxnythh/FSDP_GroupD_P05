@@ -62,7 +62,7 @@ app.delete("/rewards/:rewardId", rewardsController.deleteReward);
 
 
 // Start the server and connect to DB
-app.listen(port, async () => {
+const server = app.listen(port, async () => {
   try {
     // Connect to DB using mssql
     await sql.connect(dbConfig);
@@ -78,6 +78,55 @@ app.listen(port, async () => {
   }
 
   console.log(`Server listening on port ${port}`);
+});
+
+const WebSocket = require("ws");
+//customer service
+const wss = new WebSocket.Server({ server }); // Attach WebSocket to the same server
+let userSocket = null; 
+let staffSocket = null;
+wss.on("connection", (ws) => {
+  console.log("Client connected.");
+
+  ws.on("message", (message) => {
+      const data = JSON.parse(message);
+
+      // Handle roles: User or Staff
+      if (data.role === "user") {
+          console.log("User connected.");
+          userSocket = ws;
+      } else if (data.role === "staff") {
+          console.log("Staff connected.");
+          staffSocket = ws;
+
+          // Notify staff that a call is ringing if a user has already initiated
+          if (userSocket) {
+              staffSocket.send(JSON.stringify({ action: "ringing" }));
+          }
+      }
+
+      // Handle signaling for WebRTC
+      if (data.offer && staffSocket) {
+          console.log("Sending offer to staff.");
+          staffSocket.send(JSON.stringify({ offer: data.offer }));
+      } else if (data.answer && userSocket) {
+          console.log("Sending answer to user.");
+          userSocket.send(JSON.stringify({ answer: data.answer }));
+      } else if (data.candidate) {
+          console.log("Sending ICE candidate.");
+          if (data.target === "staff" && staffSocket) {
+              staffSocket.send(JSON.stringify({ candidate: data.candidate }));
+          } else if (data.target === "user" && userSocket) {
+              userSocket.send(JSON.stringify({ candidate: data.candidate }));
+          }
+      }
+  });
+
+  ws.on("close", () => {
+      console.log("Client disconnected.");
+      if (ws === userSocket) userSocket = null;
+      if (ws === staffSocket) staffSocket = null;
+  });
 });
 
 // Gracefully handle shutdown by closing DB connection pool on SIGINT signal

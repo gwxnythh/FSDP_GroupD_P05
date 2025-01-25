@@ -1,10 +1,11 @@
+<!-- Home Page -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OCBC - Transactions</title>
+    <title>OCBC</title>
     <!-- ============ Favicon ============ -->
     <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
     <!-- ============ Styles ============ -->
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+
 
 <body>
     <!-- ============ Navigation Bar ============ -->
@@ -52,7 +54,7 @@
             <a href="transfers.html">Transfers</a>
             <a href="bill-payment.html">Bill Payment</a>
             <a href="transaction.html">Transactions</a>
-            <a href="customer-service.html">Customer Service</a>
+            <a href="#">Customer Service</a>
             <a href="rewards.html">Rewards</a>
         </div>
 
@@ -69,7 +71,7 @@
         <a href="transfers.html">Transfers</a>
         <a href="bill-payment.html">Bill Payment</a>
         <a href="transaction.html">Transactions</a>
-        <a href="#">Customer Service</a>
+        <a href="customer-service.html">Customer Service</a>
         <a href="rewards.html">Rewards</a>
         <!-- <a class="mobile-logout" href="login.html"><button id="sidenav-logout-btn" class="logout-btn">Logout</button></a> -->
         <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
@@ -103,53 +105,24 @@
         </div>
     </section>
 
-    <section class="rewards-section">
-        <div class="rewards-container">
-            <!-- Total Points Card -->
-            <div class="balance-card">
-                <div class="balance-info" id="balanceInfo">
-                    <h3>Total Points Accumulated</h3>
-                    <h4 id="balanceAmount">150</h4>
-                </div>
-                <button class="pay-now-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3" />
-                    </svg>
-                    PayNow
-                </button>
-            </div>
-
-            <!-- Vouchers Section -->
-            <div class="transactions" id="myaccounts-mbottom">
-                <h2>Vouchers Available</h2>
-                <div class="vouchers-grid">
-                    <!-- Voucher cards will be added dynamically by JavaScript -->
-                </div>
-
-            </div>
+    <section class="customer-section">
+        <div class="customer-container">
+            <h2>Call Staff</h2>
+            <button id="start-call">Start Call</button>
         </div>
-
-        <!-- Modal for QR Code -->
-        <div id="qrModal" class="modal">
-            <div class="modal-content">
-                <img id="qrCodeImage" src="" alt="QR Code" />
-            </div>
+    
+        <!-- Videos -->
+        <div id="video-call">
+            <h2>Your Video</h2>
+            <video id="local-video" autoplay muted></video>
         </div>
-
-        <!-- Success Message Modal -->
-        <div id="successModal" class="modal">
-            <div class="modal-content success-popup">
-                <button id="closeSuccessModal" class="close-btn">&times;</button>
-                <i class="checkmark-icon">&#10003;</i>
-                <h2>Redemption Successful!</h2>
-                <p>Your voucher has been redeemed successfully. You can now use it in the store.</p>
-            </div>
+    
+        <!-- Controls -->
+        <div id="controls">
+            <button id="share-screen" style="display: none;">Share Screen</button>
+            <button id="toggle-camera" style="display: none;">Toggle Camera</button>
+            <button id="end-call" style="display: none;">End Call</button>
         </div>
-
-
-
-
-
     </section>
 
 
@@ -159,19 +132,18 @@
         </p>
     </footer>
 
-</body>
-<!-- ============ Scripts ============ -->
-<script src="scripts/languages.js"></script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-    defer></script>
-<script src="scripts/script.js"></script>
-<script src="scripts/voicereco.js"></script>
-<script src="scripts/login.js"></script>
-<script src="scripts/haptictouch.js"></script>
-
-<script src="scripts/voiceover.js"></script>
-<script src="scripts/color-blind-mode.js"></script>
-<script src="scripts/rewards.js"></script>
+    <!-- ============ Scripts ============ -->
+    <script src="scripts/languages.js"></script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/viewBalance.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/haptictouch.js"></script>
+    <script src="scripts/voicereco.js"></script>
+    <script src="scripts/voiceover.js"></script>
+    <script src="scripts/color-blind-mode.js"></script>
+    <script src="scripts/customer-service.js"></script>
 </body>
 
 </html>

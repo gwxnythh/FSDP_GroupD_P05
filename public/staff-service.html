@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Interface</title>
+
+    <style>
+        video {
+            width: 1000px;
+            height: auto;
+            margin: 10px;
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        #waiting-message {
+            color: blue;
+            font-size: 16px;
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Staff Interface</h1>
+
+    <!-- Videos -->
+    <div>
+        <h2>Customer Video</h2>
+        <video id="remote-video" autoplay></video>
+    </div>
+
+    <!-- Status Message -->
+    <div id="waiting-message">Waiting for user to call...</div>
+
+    <!-- Controls -->
+    <div id="controls">
+        <button id="join-call" style="display: none;">Join Call</button>
+        <button id="end-call" style="display: none;">End Call</button>
+    </div>
+
+    
+    <script src="scripts/staff-service.js"></script>
+</body>
+</html>
