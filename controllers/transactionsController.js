@@ -53,7 +53,7 @@ const createTransaction = async (req, res) => {
 
     try {
         const status = await Transactions.createTransaction(FromAccountID, ToAccountID, parsedAmount, Description);
-        res.status(201).json( status  );
+        res.status(201).json(status);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error creating transaction");

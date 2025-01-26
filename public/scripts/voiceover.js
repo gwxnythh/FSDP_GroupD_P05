@@ -33,7 +33,8 @@ window.addEventListener("load", () => {  // Changed from DOMContentLoaded to loa
         { selector: "a[href='transfers.html']", text: "Transfers" },
         { selector: "a[href='bill-payment.html']", text: "Bill Payment" },
         { selector: "a[href='transaction.html']", text: "Transactions" },
-        { selector: "a[href='paynow.html']", text: "PayNow" }
+        { selector: "a[href='paynow.html']", text: "PayNow" },
+        { selector: "a[href='latest-payment.html']", text: "Latest Payment" }
     ];
 
     // Handle navigation links for voiceover and navigation
