@@ -38,27 +38,56 @@ const getTransactionsByAccountId = async (req, res) => {
 };
 
 const createTransaction = async (req, res) => {
-    const { FromAccountID, ToAccountID, Amount, Description } = req.body;
+    let { FromAccountID, ToAccountID, Amount, Description } = req.body;
 
-    // Validation
-    if (!FromAccountID || !ToAccountID || !Amount) {
-        return res.status(400).send("Missing required fields");
+    ToAccountID = ToAccountID || 'BILL_PAYMENT';
+
+    if (!FromAccountID || !Amount || !Description) {
+        return res.status(400).send("Missing required fields: FromAccountID, Amount, or Description.");
     }
+
     const parsedAmount = parseFloat(Amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
-        return res.status(400).send("Invalid amount value");
+        return res.status(400).send("Invalid amount value.");
     }
 
-    console.log('create transaction: ', req.body)
+    console.log('Processing transaction:', req.body);
 
     try {
-        const status = await Transactions.createTransaction(FromAccountID, ToAccountID, parsedAmount, Description);
-        res.status(201).json(status);
+        const result = await Transactions.createTransaction(FromAccountID, ToAccountID, parsedAmount, Description);
+        console.log("Transaction result:", result);
+
+        res.status(201).json(result);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error creating transaction");
+        console.error("Error in createTransaction controller:", error);
+        res.status(500).send(error.message || "Error creating transaction.");
     }
 };
+
+
+
+// const createTransaction = async (req, res) => {
+//     const { FromAccountID, ToAccountID, Amount, Description } = req.body;
+
+//     // Validation
+//     if (!FromAccountID || !ToAccountID || !Amount) {
+//         return res.status(400).send("Missing required fields");
+//     }
+//     const parsedAmount = parseFloat(Amount);
+//     if (isNaN(parsedAmount) || parsedAmount <= 0) {
+//         return res.status(400).send("Invalid amount value");
+//     }
+
+//     console.log('create transaction: ', req.body)
+
+//     try {
+//         const status = await Transactions.createTransaction(FromAccountID, ToAccountID, parsedAmount, Description);
+//         res.status(201).json(status);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Error creating transaction");
+//     }
+// };
 
 const summarizeTransaction = async (req, res) => {
     const { TransferType, TransferTo, FromAccountID, FromAccountTextContent, Amount, Description } = req.body;

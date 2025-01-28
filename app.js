@@ -52,12 +52,20 @@ app.get('/bills/company/:id', billsController.getBillingCompanyById);
 app.get('/bills/amount/:company', billsController.getBillAmountByBillingCompany);
 app.get('/bills/account/:company', billsController.getBillingAccNoByBillingCompanyPrefix);
 app.get('/bills/account/:id', billsController.getBillsByAccountID);
+app.put('/bills/:id/paid', billsController.markBillAsPaid);
+app.delete('/bills/:id', billsController.deleteBill);
+app.put('/bills/mark-paid-batch', billsController.markBillsAsPaidBatch);
+
+// app.post('/bills/pay', billsController.payBills); // Pay multiple bills at once
+
 
 //Rewards Routes
 app.get('/rewards', rewardsController.getAllRewards);
 app.get('/rewards/:id', rewardsController.getRewardsById);
 app.post("/rewards/redeem", rewardsController.redeemReward);
 app.delete("/rewards/:rewardId", rewardsController.deleteReward);
+
+
 
 
 

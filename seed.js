@@ -36,7 +36,7 @@ async function seedDatabase() {
         // Create the Accounts table
         await sql.query(`
             CREATE TABLE Accounts (
-                AccountID NVARCHAR(10) PRIMARY KEY, -- Use custom ID format like A1, A2, etc.
+                AccountID NVARCHAR(20) PRIMARY KEY, -- Use custom ID format like A1, A2, etc.
                 UserID NVARCHAR(10) NOT NULL, -- Reference UserID from Users
                 AccessCode NVARCHAR(14) NOT NULL,
                 AccountNumber NVARCHAR(15) NOT NULL UNIQUE CHECK (AccountNumber LIKE '717-%[0-9][0-9][0-9][0-9][0-9][0-9]-%[0-9][0-9][0-9]'),
@@ -53,26 +53,28 @@ async function seedDatabase() {
         await sql.query(`
             CREATE TABLE Transactions (
                 TransactionID NVARCHAR(10) PRIMARY KEY, -- Use custom ID format like T1, T2, etc.
-                FromAccountID NVARCHAR(10) NOT NULL,
-                ToAccountID NVARCHAR(10) NOT NULL,
+                FromAccountID NVARCHAR(20) NOT NULL,
+                ToAccountID NVARCHAR(20) NULL, -- No FOREIGN KEY constraint
                 Amount DECIMAL(18, 2) NOT NULL,
                 TransactionDate DATETIME NOT NULL DEFAULT GETDATE(),
                 Status NVARCHAR(50) NOT NULL CHECK (Status IN ('Completed', 'Pending', 'Failed')),
                 Description NVARCHAR(255),
                 ReferenceNo CHAR(7),
-                FOREIGN KEY (FromAccountID) REFERENCES Accounts(AccountID),
-                FOREIGN KEY (ToAccountID) REFERENCES Accounts(AccountID)
+                FOREIGN KEY (FromAccountID) REFERENCES Accounts(AccountID)
             );
+
+
         `);
 
         // Create the Billing table
         await sql.query(`
             CREATE TABLE Bills (
                 BillingID NVARCHAR(10) PRIMARY KEY,
-                AccountID NVARCHAR(10) NOT NULL,
+                AccountID NVARCHAR(20) NOT NULL,
                 BillingCompany VARCHAR(100) NOT NULL,
                 BillAmount DECIMAL(10, 2) NOT NULL,
                 BillingAccNo VARCHAR(50) NOT NULL,
+                IsPaid BIT DEFAULT 0, -- New column to track payment status
                 FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)
             );
 
@@ -186,15 +188,15 @@ async function seedDatabase() {
 
         // Insert data into the Billing table
         await sql.query(`
-            INSERT INTO Bills (BillingID, AccountID, BillingCompany, BillAmount, BillingAccNo) 
+            INSERT INTO Bills (BillingID, AccountID, BillingCompany, BillAmount, BillingAccNo, IsPaid) 
             VALUES
-                ('B1', 'A1', 'PUB', 67.00, 'PUB123456'),
-                ('B2', 'A1', 'LTA Road Tax', 48.00, 'LTA654321'),
-                ('B3', 'A1', 'HDB', 55.00, 'HDB987654'),
-                ('B4', 'A1', 'NTUC Income', 100.00, 'NTUC456789'),
-                ('B5', 'A3', 'Singtel', 95.25, 'SINGTEL456789'),
-                ('B6', 'A3', 'Car Insurance', 300, 'CAR456789'),
-                ('B7', 'A3', 'NUH', 150, 'NUH456789');
+                ('B1', 'A1', 'PUB', 67.00, 'PUB123456', 0),
+                ('B2', 'A1', 'LTA Road Tax', 48.00, 'LTA654321', 0),
+                ('B3', 'A1', 'HDB', 55.00, 'HDB987654', 0),
+                ('B4', 'A1', 'NTUC Income', 100.00, 'NTUC456789', 0),
+                ('B5', 'A3', 'Singtel', 95.25, 'SINGTEL456789', 0),
+                ('B6', 'A3', 'Car Insurance', 300, 'CAR456789', 0),
+                ('B7', 'A3', 'NUH', 150, 'NUH456789', 0);
 
 
         `);

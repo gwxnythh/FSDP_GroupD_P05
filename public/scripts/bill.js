@@ -1,4 +1,3 @@
-
 // Fetch and display accounts
 async function fetchAccounts() {
     const accessCode = sessionStorage.getItem('accessCode');
@@ -58,6 +57,7 @@ async function fetchAndDisplayBills() {
             `;
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
+            checkbox.dataset.billingId = bill.BillingID; // Store billing ID
             checkbox.addEventListener('change', updateTotal); // Update total on checkbox change
             billDiv.prepend(checkbox);
             container.appendChild(billDiv);
@@ -83,37 +83,33 @@ function updateTotal() {
     document.getElementById('total-amount').textContent = `Total: SGD ${total.toFixed(2)}`;
 }
 
-// Save payment summary to localStorage
-function savePaymentSummary() {
-    const selectedAccount = document.getElementById('account-dropdown').value;
-    const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => {
-        const billItem = checkbox.closest('.bill-item');
-        
-        // Correctly capture the full billing account number (including the prefix like "HDB")
-        const companyName = billItem.querySelector('strong').textContent;
-        const accountNumber = billItem.querySelector('label').textContent.match(/Account Number:\s*(\S+)/)[1];  // This captures the full account number with prefix
-        
-        const amountText = billItem.querySelector('.amount').textContent;
-        const amount = `SGD ${parseFloat(amountText.replace('SGD ', '')).toFixed(2)}`;
+// Process payment for selected bills
+async function processPayment() {
+    const selectedBills = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.dataset.billingId);
 
-        return {
-            companyName: companyName,
-            accountNumber: accountNumber,  // Store the full account number, including the prefix
-            amount: amount
-        };
-    });
+    if (selectedBills.length === 0) {
+        alert("Please select at least one bill to pay.");
+        return;
+    }
 
-    localStorage.setItem("selectedAccount", selectedAccount);
-    localStorage.setItem("paymentData", JSON.stringify(selectedBills));
+    try {
+        for (const billId of selectedBills) {
+            await fetch(`/bills/${billId}/paid`, { method: 'PUT' });
+        }
+
+        alert("Bills paid successfully!");
+        await fetchAndDisplayBills(); // Refresh the bill list
+    } catch (error) {
+        console.error("Error processing payment:", error);
+        alert("Failed to process payment.");
+    }
 }
 
+// Attach the processPayment function to the Next button
+document.getElementById('next-button').addEventListener('click', processPayment);
+document.addEventListener('DOMContentLoaded', fetchAndDisplayBills);
 
-// Event listener for saving payment summary and redirecting to next page
-document.addEventListener('DOMContentLoaded', () => {
-    fetchAccounts();  // Fetch accounts data
-    fetchAndDisplayBills(); // Fetch bills data
-});
-
+// Save payment summary to localStorage
 function handleNextButtonClick() {
     // Get the selected account
     const selectedAccount = document.getElementById("account-dropdown").value;
@@ -133,7 +129,8 @@ function handleNextButtonClick() {
         return {
             companyName: companyName,
             accountNumber: accountNumber,
-            amount: `SGD ${amount}`
+            amount: `SGD ${amount}`,
+            billingId: checkbox.dataset.billingId,
         };
     });
 
@@ -187,4 +184,8 @@ function deselectAllCheckboxes() {
 // Event listener for the "Deselect All" button
 document.getElementById('deselect-all-btn').addEventListener('click', deselectAllCheckboxes);
 
-
+// Event listener for saving payment summary and redirecting to next page
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAccounts();  // Fetch accounts data
+    fetchAndDisplayBills(); // Fetch bills data
+});

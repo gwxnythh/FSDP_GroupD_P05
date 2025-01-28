@@ -73,9 +73,10 @@ function renderRewards(rewards) {
     vouchersGrid.innerHTML = ''; // Clear existing content
 
     rewards.forEach(reward => {
-        // Create the voucher card dynamically
+        const isRedeemed = reward.IsRedeemed; // Assume the backend provides this flag
         const voucherCard = document.createElement('div');
         voucherCard.classList.add('voucher-card');
+        if (isRedeemed) voucherCard.classList.add('redeemed');
 
         voucherCard.innerHTML = `
             <img src="${reward.image_path}" alt="${reward.CompanyName}" class="voucher-image">
@@ -84,15 +85,16 @@ function renderRewards(rewards) {
                 <p class="voucher-description">Offered by: ${reward.CompanyName}</p>
                 <p class="voucher-points">Redeem for <strong>${reward.PointsRequired} points</strong></p>
                 <p class="voucher-expiration">Expires on: <strong>${new Date(reward.ExpiryDate).toLocaleDateString()}</strong></p>
-                <button class="redeem-btn" data-reward-id="${reward.RewardID}">Redeem Now</button>
+                <button class="redeem-btn" data-reward-id="${reward.RewardID}" ${isRedeemed ? 'disabled' : ''}>
+                    ${isRedeemed ? 'Redeemed' : 'Redeem Now'}
+                </button>
             </div>
         `;
 
         vouchersGrid.appendChild(voucherCard);
     });
 
-    // Add click listeners to all "Redeem Now" buttons
-    document.querySelectorAll('.redeem-btn').forEach(button => {
+    document.querySelectorAll('.redeem-btn:not([disabled])').forEach(button => {
         button.addEventListener('click', async (event) => {
             const rewardId = event.target.dataset.rewardId;
             await handleRewardRedemption(rewardId);
@@ -110,9 +112,7 @@ async function handleRewardRedemption(rewardId) {
     try {
         const response = await fetch('/rewards/redeem', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ accountId, rewardId })
         });
 
@@ -128,13 +128,30 @@ async function handleRewardRedemption(rewardId) {
             displayQRCode(result.qrCode);
         }
 
-        // Update points balance after redemption
+        // Save redemption status to localStorage
+        const redeemedRewards = JSON.parse(localStorage.getItem('redeemedRewards')) || [];
+        if (!redeemedRewards.includes(rewardId)) {
+            redeemedRewards.push(rewardId);
+            localStorage.setItem('redeemedRewards', JSON.stringify(redeemedRewards));
+        }
+
+        // Update UI
+        const redeemButton = document.querySelector(`.redeem-btn[data-reward-id="${rewardId}"]`);
+        if (redeemButton) {
+            const voucherCard = redeemButton.closest('.voucher-card');
+            voucherCard.classList.add('redeemed');
+            redeemButton.disabled = true;
+            redeemButton.textContent = 'Redeemed';
+        }
+
+        // Update points balance
         await getCurrentAccountPoints(accountId);
     } catch (error) {
         console.error("Error redeeming reward:", error);
         alert("Failed to redeem reward. Please try again.");
     }
 }
+
 
 
 function displayQRCode(qrCodeBase64) {

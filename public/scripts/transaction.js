@@ -1,3 +1,4 @@
+//transaction.js
 document.addEventListener('DOMContentLoaded', async () => {
     const accessCode = sessionStorage.getItem('accessCode');
     
@@ -119,4 +120,21 @@ function populateTransactionTable(transactions) {
         `;
         tableBody.appendChild(row);
     });
+}
+
+function addNewTransactionRow(transaction) {
+    const tableBody = document.getElementById('transaction-table-body');
+    const newRow = document.createElement('tr');
+
+    newRow.innerHTML = `
+        <td>${formatDate(transaction.TransactionDate)}</td>
+        <td>${transaction.Description}</td>
+        <td>${transaction.ReferenceNo}</td>
+        <td><span class="transaction-status">${transaction.Status}</span></td>
+        <td class="transaction-amount ${transaction.Status === 'Completed' ? 'amount-positive' : 'amount-negative'}">
+            ${transaction.Amount > 0 ? `+SGD ${transaction.Amount.toFixed(2)}` : `-SGD ${Math.abs(transaction.Amount).toFixed(2)}`}
+        </td>
+    `;
+
+    tableBody.appendChild(newRow);
 }

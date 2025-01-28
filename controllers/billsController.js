@@ -83,9 +83,68 @@ const getBillsByAccountID = async (req, res) => {
     }
 };
 
+// const markBillAsPaid = async (req, res) => {
+//     const { id } = req.params;
+//     try {
+//         const result = await Bills.markAsPaid(id);
+//         if (result) {
+//             res.status(200).json({ message: "Bill marked as paid." });
+//         } else {
+//             res.status(404).json({ message: "Bill not found." });
+//         }
+//     } catch (error) {
+//         console.error("Error marking bill as paid:", error);
+//         res.status(500).json({ message: "Internal server error." });
+//     }
+// };
 
+const markBillAsPaid = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await Bills.markAsPaid(id);
+        if (result) {
+            res.status(200).json({ message: "Bill marked as paid." });
+        } else {
+            res.status(404).json({ message: "Bill not found." });
+        }
+    } catch (error) {
+        console.error("Error marking bill as paid:", error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+};
 
+const deleteBill = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await Bills.deleteById(id);
+        if (result) {
+            res.status(200).json({ message: "Bill deleted successfully." });
+        } else {
+            res.status(404).json({ message: "Bill not found." });
+        }
+    } catch (error) {
+        console.error("Error deleting bill:", error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+};
 
+const markBillsAsPaidBatch = async (req, res) => {
+    const { billIds } = req.body;
+    if (!Array.isArray(billIds)) {
+        return res.status(400).json({ message: "Invalid bill IDs" });
+    }
+
+    try {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `UPDATE Bills SET IsPaid = 1 WHERE BillingID IN (${billIds.map(id => `'${id}'`).join(",")})`;
+        await connection.request().query(sqlQuery);
+        connection.close();
+        res.status(200).json({ message: "Bills marked as paid." });
+    } catch (error) {
+        console.error("Error in markBillsAsPaidBatch:", error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+};
 
 
 
@@ -95,6 +154,9 @@ module.exports = {
     getBillingCompanyById,
     getBillingAccNoByBillingCompanyPrefix,
     getBillAmountByBillingCompany,
-    getBillsByAccountID   
+    getBillsByAccountID,
+    markBillAsPaid,
+    deleteBill, 
+    markBillsAsPaidBatch
     
 };
