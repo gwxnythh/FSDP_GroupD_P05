@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter - OCBC</title>
+  <!-- ============ Favicon ============ -->
+  <link rel="icon" type="image/x-icon" href="images/ocbc_icon.png">
+  <!-- ============ Styles ============ -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <!-- ============ Navigation Bar ============ -->
+  <header>
+    <!-- Top row -->
+    <div class="header-top">
+      <!-- Logo -->
+      <div class="header-logo">
+        <img id="logo" src="images/ocbc_logo.png" alt="OCBC Logo">
+      </div>
+
+      <!-- ============ Right Side of Navbar ============ -->
+      <div class="header-icons">
+        <div class="header-welcome">
+          <p>Welcome, <span id="user-name">Guest</span></p>
+        </div>
+
+        <!-- Notification -->
+        <i class='bx bxs-bell'></i>
+        <!-- Help -->
+        <i class='bx bxs-help-circle'></i>
+        <!-- Settings -->
+        <a href="settings.html"><i class='bx bxs-cog'></i></a>
+
+        <!-- Language Dropdown -->
+        <div id="google_translate_element"></div>
+        <!-- Logout Button -->
+        <a href="login.html"><button id="header-logout-btn" class="logout-btn"><i class='bx bx-log-out'></i>Logout</button></a>
+        <!-- Dark mode toggle button -->
+        <button id="darkModeToggle" class="dark-mode-toggle"><i class='bx bx-moon'></i></button>
+      </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="header-bottom">
+      <a href="index.html">View Accounts</a>
+      <a href="transfers.html">Transfers</a>
+      <a href="bill-payment.html">Bill Payment</a>
+      <a href="transaction.html">Transactions</a>
+      <a href="#">Customer Service</a>
+      <a href="rewards.html">Rewards</a>
+    </div>
+
+    <!-- Hamburger Icon for Mobile View -->
+    <div class="hamburger-menu">
+      <i class="bx bx-menu" onclick="openNav()"></i>
+    </div>
+  </header>
+
+  <!-- Side Navigation Menu -->
+  <div id="sideNav" class="side-nav">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="index.html">View Accounts</a>
+    <a href="transfers.html">Transfers</a>
+    <a href="bill-payment.html">Bill Payment</a>
+    <a href="transaction.html">Transactions</a>
+    <a href="#">Customer Service</a>
+    <a href="rewards.html">Rewards</a>
+    <button id="sidenav-logout-btn" class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+  </div>
+
+  <!-- Currency Converter -->
+<div class="currency-converter-container">
+  <h1>Currency Converter</h1>
+  <form id="converterForm">
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount" required>
+
+    <label for="fromCurrency">From Currency:</label>
+    <select id="fromCurrency"></select>
+
+    <label for="recipient">Recipient's Phone Number or NRIC:</label>
+    <input type="text" id="recipient" placeholder="Enter phone number (e.g., 91234567) or NRIC (e.g., S1234567A)" required>
+    <div id="recipientError" class="currency-converter-error" style="display: none;">Invalid phone number or NRIC.</div>
+
+    <label for="toCurrency">Recipient's Currency:</label>
+    <select id="toCurrency"></select>
+
+    <button type="button" id="convertButton">Convert</button>
+
+    <div id="confirmation" class="currency-converter-confirmation" style="display: none;">
+      <p>Please confirm the exchange rate before proceeding:</p>
+      <div id="rateInfo"></div>
+      <div id="result"></div>
+      <button type="button" id="confirmButton">Confirm Transfer</button>
+    </div>
+  </form>
+</div>
+
+
+  <!-- ============ Footer Section ============ -->
+  <footer>
+    <p>© Group D [Ngee Ann Polytechnic, Diploma in Information Technology] Sponsored by OCBC. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ============ Scripts ============ -->
+  <script src="scripts/languages.js"></script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/voicereco.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/haptictouch.js"></script>
+    <script src="scripts/voiceover.js"></script>
+    <script src="scripts/color-blind-mode.js"></script>
+    <script src="scripts/foreign.js"></script>
+</body>
+</html>
