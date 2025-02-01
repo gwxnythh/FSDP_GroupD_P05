@@ -140,9 +140,9 @@ class Users {
             
             // create account if doesn't exist, create user
             const accountCurrentAccCreationQuery = `
-                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
+                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, Points) 
                 VALUES 
-                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Current', 1000.00, 'SGD');
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Current', 1000.00, 'SGD', 400);
             `;
             const accountCurAccRequest = connection.request();
             accountCurAccRequest.input("UserId", userResult.recordset[0].UserID);
@@ -151,9 +151,9 @@ class Users {
             const accountCurAccResult = await accountCurAccRequest.query(accountCurrentAccCreationQuery);
             
             const accountCreationQuery = `
-                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
+                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency, Points) 
                 VALUES 
-                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD');
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD', 400);
             `;
             const accountRequest = connection.request();
             accountRequest.input("UserId", userResult.recordset[0].UserID);
