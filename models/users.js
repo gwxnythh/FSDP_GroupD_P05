@@ -139,17 +139,6 @@ class Users {
             const userResult = await userRequest.query(userCreationQuery);
             
             // create account if doesn't exist, create user
-            const accountCreationQuery = `
-                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
-                VALUES 
-                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD');
-            `;
-            const accountRequest = connection.request();
-            accountRequest.input("UserId", userResult.recordset[0].UserID);
-            accountRequest.input("AccessCode", userForm.nric);
-            accountRequest.input("AccountNumber", this.generateAccountNumber(userForm.nric));
-            const accountResult = await accountRequest.query(accountCreationQuery);
-
             const accountCurrentAccCreationQuery = `
                 INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
                 VALUES 
@@ -160,6 +149,17 @@ class Users {
             accountCurAccRequest.input("AccessCode", userForm.nric);
             accountCurAccRequest.input("AccountNumber", this.generateAccountNumber(userForm.nric));
             const accountCurAccResult = await accountCurAccRequest.query(accountCurrentAccCreationQuery);
+            
+            const accountCreationQuery = `
+                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
+                VALUES 
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD');
+            `;
+            const accountRequest = connection.request();
+            accountRequest.input("UserId", userResult.recordset[0].UserID);
+            accountRequest.input("AccessCode", userForm.nric);
+            accountRequest.input("AccountNumber", this.generateAccountNumber(userForm.nric));
+            const accountResult = await accountRequest.query(accountCreationQuery);
 
             // create account if doesn't exist, create user
             const accountPrefCreationQuery = `
