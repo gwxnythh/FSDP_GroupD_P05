@@ -29,6 +29,9 @@ async function seedDatabase() {
                 Email NVARCHAR(100),
                 MobileNumber CHAR(8) NOT NULL CHECK (MobileNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'), -- Must be 8 digits,
                 IsActive BIT NOT NULL DEFAULT 1,
+                Verified BIT NOT NULL DEFAULT 0,
+                VerificationToken NVARCHAR(50),
+                ExpiryTokenDate DATETIME DEFAULT GETDATE(),
                 CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
             );
         `);

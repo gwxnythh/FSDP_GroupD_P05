@@ -53,8 +53,8 @@ function generateCaptcha() {
               // Trigger voice output with user's full name
               speak(`Welcome ${data.fullname}`);
           }
-          // Redirect to index.html on successful login
-          window.location.href = 'index.html';
+          // Redirect to login.html on successful login
+          window.location.href = 'login.html';
       } else {
           alert(data.message); // Display error message if login fails
           throw new Error('Failed to sign up');

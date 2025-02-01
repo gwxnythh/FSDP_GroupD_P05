@@ -29,6 +29,8 @@ app.post("/login", usersController.login);
 app.post("/signup", usersController.signUp);
 app.get("/users/preference", usersController.getUserPreference);
 app.post("/users/preference", usersController.setUserPreference);
+app.get("/users/verifyemail/:verificationToken", usersController.verifyToken);
+
 // Accounts routes
 app.get("/accounts/:id", accountsController.getAccountById);
 app.put("/accounts/:id",accountsController.updateBalance);
@@ -37,7 +39,6 @@ app.get("/accounts", accountsController.getAccountByAccessCode);
 app.get("/accounts/mobile/:mobileNumber", accountsController.getCurrentAccountByMobile);
 app.get("/accounts/balance/:id", accountsController.getAccountBalance);
 app.get("/accounts/points/:id", accountsController.getAccountPoints);
-
 
 //Transactions routes
 app.get('/transactions', transactionsController.getAllTransactions);

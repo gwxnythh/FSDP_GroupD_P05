@@ -1,21 +1,26 @@
 // models/users.js
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 class Users {
-    constructor(UserID, FullName, AccessCode, PIN, IsActive) {
+    constructor(UserID, FullName, AccessCode, PIN, IsActive, Verified, VerificationToken, ExpiryTokenDate) {
         this.UserID = UserID;
         this.FullName = FullName;
         this.AccessCode = AccessCode;
         this.PIN = PIN;
         this.IsActive = IsActive;
+        this.Verified = Verified;
+        this.VerificationToken = VerificationToken;
+        this.ExpiryTokenDate = ExpiryTokenDate
     }
 
     static async login(accessCode, pin) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-            SELECT u.UserID, u.FullName, a.AccountNumber, a.Balance, ap.IsHapticTouch, ap.IsVoiceOver, ap.IsVoiceRecognition
+            SELECT u.UserID, u.FullName, a.AccountNumber, a.Balance, ap.IsHapticTouch, ap.IsVoiceOver, ap.IsVoiceRecognition, u.Verified
             FROM Users u
             JOIN Accounts a ON u.UserID = a.UserID
             JOIN AccountPrefs ap ON a.UserID = ap.UserID
@@ -112,30 +117,49 @@ class Users {
         try {
             // create account if doesn't exist, create user
             const userCreationQuery = `
-                INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber)
+                INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber, Verified, VerificationToken, ExpiryTokenDate)
                 OUTPUT INSERTED.UserID
                 VALUES 
-                    ('U' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(UserID, 2, LEN(UserID)) AS INT)) FROM Users) AS INT) + 1 AS NVARCHAR(10)), @AccessCode, @Pin, @Fullname, @Email, @MobileNumber);
+                    ('U' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(UserID, 2, LEN(UserID)) AS INT)) FROM Users) AS INT) + 1 AS NVARCHAR(10)), @AccessCode, @Pin, @Fullname, @Email, @MobileNumber, @Verified, @VerificationToken, @ExpiryTokenDate);
             `;
+
+            // get verification code
+            const verificationToken = Users.generateVerificationToken();
+            const tokenExpiry = new Date((new Date).getTime() + 30 * 60 * 1000);
+
             const userRequest = connection.request();
             userRequest.input("AccessCode", userForm.nric);
             userRequest.input("PIN", userForm.pin);
             userRequest.input("Fullname", userForm.fullname);
             userRequest.input("Email", userForm.email);
             userRequest.input("MobileNumber", userForm.mobileNumber);
+            userRequest.input("Verified", 0);
+            userRequest.input("VerificationToken", verificationToken);
+            userRequest.input("ExpiryTokenDate", tokenExpiry.toISOString().slice(0, 19).replace('T', ' '));
             const userResult = await userRequest.query(userCreationQuery);
             
             // create account if doesn't exist, create user
             const accountCreationQuery = `
                 INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
                 VALUES 
-                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 2000.00, 'SGD');
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Savings', 1000.00, 'SGD');
             `;
             const accountRequest = connection.request();
             accountRequest.input("UserId", userResult.recordset[0].UserID);
             accountRequest.input("AccessCode", userForm.nric);
             accountRequest.input("AccountNumber", this.generateAccountNumber(userForm.nric));
             const accountResult = await accountRequest.query(accountCreationQuery);
+
+            const accountCurrentAccCreationQuery = `
+                INSERT INTO Accounts (AccountID, UserID, AccessCode, AccountNumber, AccountType, Balance, Currency) 
+                VALUES 
+                    ('A' + CAST(CAST((SELECT MAX(CAST(SUBSTRING(AccountID, 2, LEN(AccountID)) AS INT)) FROM Accounts) AS INT) + 1 AS NVARCHAR(10)), @UserId, @AccessCode, @AccountNumber, 'Current', 1000.00, 'SGD');
+            `;
+            const accountCurAccRequest = connection.request();
+            accountCurAccRequest.input("UserId", userResult.recordset[0].UserID);
+            accountCurAccRequest.input("AccessCode", userForm.nric);
+            accountCurAccRequest.input("AccountNumber", this.generateAccountNumber(userForm.nric));
+            const accountCurAccResult = await accountCurAccRequest.query(accountCurrentAccCreationQuery);
 
             // create account if doesn't exist, create user
             const accountPrefCreationQuery = `
@@ -152,11 +176,54 @@ class Users {
 
             // await this.setUserPreference(userResult.UserID, userForm.isHapticTouch, userForm.isVoiceOver, userForm.isVoiceRecognition)
 
+            // Send verification email if successfully
+            if (userResult) {
+                const verificationUrl = `http://localhost:3000/users/verifyemail/${verificationToken}`;
+                const message = `Please verify your email by clicking the following link: ${verificationUrl}`;
+                await Users.sendVerificationEmail({
+                    email: userForm.email,
+                    subject: 'Email Verification',
+                    message,
+                })
+            }
+
             return userResult;
         } finally {
             connection.close(); // Ensure connection is closed
         }
     }
+    
+    static async sendVerificationEmail(options) {
+        const transporter = nodemailer.createTransport({
+            service: process.env.EMAIL_SERVICE,
+            host: process.env.EAMIL_HOST,
+            auth: {
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+        });
+    
+        const mailOptions = {
+            from: `${process.env.EMAIL_FROM}`,
+            to: options.email,
+            subject: options.subject,
+            text: options.message,
+        };
+    
+        await transporter.sendMail(mailOptions);
+    }
+
+    static generateVerificationToken() {
+        const token = crypto.randomBytes(20).toString('hex');
+
+        const verificationToken = crypto
+          .createHash('sha256')
+          .update(token)
+          .digest('hex');
+      
+        return token;
+    }
+
 
     static removeAlphaAndTruncate(input) {
         // Remove all alphabetic characters
@@ -190,6 +257,41 @@ class Users {
             connection.close(); // Ensure connection is closed
         }
     }
+
+    static async getAccountByVerificationToken(verificationToken) {
+        const connection = await sql.connect(dbConfig);
+        try {
+            const sqlQuery = `SELECT * FROM Users WHERE VerificationToken = @verificationToken `;
+            const request = connection.request();
+            request.input("verificationToken", sql.NVarChar, verificationToken);
+            const result = await request.query(sqlQuery);
+    
+            // Check if a record was found
+            if (result.recordset.length === 0) {
+                return null; // Return null if no account was found
+            }
+            return result.recordset[0];
+        } catch (error) {
+            console.error('Error in getAccountBalance:', error);
+            throw error; // Let the controller handle the error
+        } finally {
+            connection.close();
+        }
+    }
+    
+    static async updateVerificationStatus(verificationToken) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Users SET Verified = @verified WHERE VerificationToken = @verificationToken`;
+        const request = connection.request();
+        request.input("verified", 1);
+        request.input("verificationToken", verificationToken);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }    
 }
 
 module.exports = Users;

@@ -10,6 +10,11 @@ const login = async (req, res) => {
         console.log("Login result:", result);  // Debug log
 
         if (result.length > 0) {
+            if (!result[0].Verified) {
+                res.status(401).json({ message: 'Account is not verified' });
+                return;
+            }
+
             res.status(200).json({
                 message: 'Login successful',
                 user: result[0].FullName,
@@ -114,5 +119,22 @@ const setUserPreference = async (req, res) => {
     }
 };
 
+const verifyToken = async (req, res) => {
+    const { verificationToken } = req.params;
 
-module.exports = { login, signUp, getUserByMobile, getUserById, getUserPreference, setUserPreference };
+    try {
+        const account = await Users.getAccountByVerificationToken(verificationToken);
+        if (!account) {
+            return res.status(404).json({ message: "No current account found for this mobile number." });
+        }
+        // res.json(account);
+        Users.updateVerificationStatus(verificationToken);
+        res.redirect('/login.html');
+    } catch (error) {
+        console.error("Error fetching current account by mobile number:", error);
+        res.status(500).json({ message: "Error fetching account" });
+    }
+}
+
+
+module.exports = { login, signUp, getUserByMobile, getUserById, getUserPreference, setUserPreference, verifyToken};
