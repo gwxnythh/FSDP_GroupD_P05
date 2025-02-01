@@ -146,6 +146,7 @@
         width: 60%;
         margin: 0 20%;
         /* padding: 40px 0; */
+        
     }
 
     .shortcuts {
@@ -1159,6 +1160,7 @@
         background-color: var(--payment-container-color);
         border-radius: 5px;
         font-size: calc(16px * var(--font-scale));
+        
     }
 
     .settings-container .section-header {
@@ -1485,19 +1487,18 @@
         cursor: pointer;
     }
 
+
+    
+
+    /* Footer */
     footer {
-        /*margin-top: 20px;*/
+        
+        color: #fff;
+        text-align: center;
+        padding: 10px;
         margin-top: auto;
         background-color: var(--tertiary-color);
         height: fit-content;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        position: fixed;
-        /* position: relative; */
-        bottom: 0;
-        left: 0;
-        width: 100%;
     }
 
     #next-button {
