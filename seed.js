@@ -186,12 +186,12 @@ async function seedDatabase() {
                 ('T5', 'A6', 'A5', 75.00, '2025-08-17 11:20:00', 'Completed', 'Birthday gift', '1090005'),
                 ('T6', 'A7', 'A1', 500.00, '2025-08-18 14:30:00', 'Completed', 'Personal Loan Payment to John', '1090006'),
                 ('T7', 'A3', 'A7', 600.00, '2025-08-19 18:35:00', 'Completed', 'Payment for Furniture', '1090007'),
-                ('T8', 'A1', 'A5', 50.00, '2025-08-20 16:50:00', 'Completed', 'Book purchase', '1090008'),
+                ('T8', 'A1', 'A5', 200.00, '2025-02-06 11:50:00', 'Completed', 'Overseas Transfer', '1090008'),
                 ('T9', 'A7', 'A6', 120.00, '2025-08-21 13:35:00', 'Completed', 'Repayment for dinner', '1090009'),
                 ('T10', 'A1', 'A6', 250.00, '2024-04-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
                 ('T11', 'A1', 'A6', 250.00, '2024-08-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
                 ('T12', 'A1', 'A6', 650.00, '2024-11-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002');
-        `);
+`);
 
         // Insert data into the Billing table
         await sql.query(`

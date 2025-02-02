@@ -2523,3 +2523,23 @@
         border-left: 5px solid #d8232a;
         border-radius: 5px;
     }
+    .currency-converter-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background: #d8232a;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+    
+    .currency-converter-button:hover {
+        background: #b71d24;
+    }
+
+    
