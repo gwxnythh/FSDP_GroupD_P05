@@ -133,6 +133,7 @@
     }
 
     /* Common container styling for all sections */
+    .customer-section,
     .bill-payment-summary-section,
     .bill-payment-section,
     .settings-section,
@@ -146,7 +147,7 @@
         width: 60%;
         margin: 0 20%;
         /* padding: 40px 0; */
-        
+
     }
 
     .shortcuts {
@@ -418,18 +419,18 @@
         line-height: 1.5;
     }
 
-    .banner-details > li {
-        list-style-type: none; 
+    .banner-details>li {
+        list-style-type: none;
         padding-left: 0;
     }
 
-    .banner-details li > ul {
+    .banner-details li>ul {
         list-style-type: disc;
         padding-left: 20px;
     }
 
-    .banner-details li > ul li {
-        margin-bottom: 5px; 
+    .banner-details li>ul li {
+        margin-bottom: 5px;
     }
 
     .learn-more {
@@ -450,20 +451,25 @@
     /* Responsive styling for smaller screens */
     @media (max-width: 768px) {
         .banner-content {
-            flex-direction: column; /* Stack content vertically */
-            gap: 20px; /* Reduce gap */
+            flex-direction: column;
+            /* Stack content vertically */
+            gap: 20px;
+            /* Reduce gap */
         }
 
         .banner h2 {
-            font-size: calc(24px * var(--font-scale)); /* Adjust heading size */
+            font-size: calc(24px * var(--font-scale));
+            /* Adjust heading size */
         }
 
         .banner p {
-            font-size: calc(14px * var(--font-scale)); /* Adjust paragraph size */
+            font-size: calc(14px * var(--font-scale));
+            /* Adjust paragraph size */
         }
 
         .learn-more {
-            padding: 8px 16px; /* Smaller button for smaller screens */
+            padding: 8px 16px;
+            /* Smaller button for smaller screens */
         }
     }
 
@@ -979,7 +985,8 @@
 
     /* Log In button */
     .login-buttons button:first-child {
-        flex-grow: 1; /* Makes the "Log In" button take up most of the space */
+        flex-grow: 1;
+        /* Makes the "Log In" button take up most of the space */
         padding: 10px;
         font-size: 16px;
         cursor: pointer;
@@ -990,13 +997,16 @@
 
     /* Biometric button */
     .login-buttons button:last-child {
-        width: 40px; /* Fixed width for the biometric button */
-        height: 40px; /* Fixed height for the biometric button */
+        width: 40px;
+        /* Fixed width for the biometric button */
+        height: 40px;
+        /* Fixed height for the biometric button */
         display: flex;
         align-items: center;
         justify-content: center;
         border: none;
-        border-radius: 50%; /* Makes it a circle */
+        border-radius: 50%;
+        /* Makes it a circle */
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
@@ -1021,9 +1031,9 @@
 
     /*============== Transaction Page ==============*/
     .transaction-container {
-        max-width: 1200px;
-        margin: 0px auto;
-        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
     .transaction-container .balance-card {
@@ -1146,8 +1156,12 @@
 
     /*============== Settings page ==============*/
     .settings-container {
-        max-width: 1200px;
-        padding: 0px 20px;
+        /*max-width: 1200px;
+        padding: 0px 20px;*/
+
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
     .settings-container h2 {
@@ -1160,7 +1174,7 @@
         background-color: var(--payment-container-color);
         border-radius: 5px;
         font-size: calc(16px * var(--font-scale));
-        
+
     }
 
     .settings-container .section-header {
@@ -1488,17 +1502,18 @@
     }
 
 
-    
+
 
     /* Footer */
     footer {
-        
         color: #fff;
         text-align: center;
         padding: 10px;
-        margin-top: auto;
         background-color: var(--tertiary-color);
         height: fit-content;
+        position: relative;
+        bottom: 0;
+        width: 100%;
     }
 
     #next-button {
@@ -1514,11 +1529,12 @@
         max-width: 1200px;
         /* margin: 0 20%; */
         padding: 0px 20px;
-        
+
     }
 
     .bill-payment-section {
-        margin-bottom: 100px; /* Adds space below the bill payment container */
+        margin-bottom: 100px;
+        /* Adds space below the bill payment container */
     }
 
     .bill-payment-container .section-header {
@@ -1726,6 +1742,12 @@
         align-content: center;
     }
 
+    .bill-payment-summary-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
     .bill-payment-summary-container .alert {
         background-color: #f9f1d6;
         padding: 15px;
@@ -1814,6 +1836,7 @@
         width: 100%;
         border: none;
     }
+
     .bill-payment-summary-container .bill-output {
         display: flex;
         flex-direction: column;
@@ -1849,7 +1872,8 @@
     }
 
     /*============== SignUp Page ==============*/
-    .signup-body, .signup-html {
+    .signup-body,
+    .signup-html {
         height: 100%;
         margin: 0;
         overflow: hidden;
@@ -1873,16 +1897,19 @@
     }
 
     .signup-body .background_1 {
-        z-index: 1; /* Bottom layer */
+        z-index: 1;
+        /* Bottom layer */
     }
 
     .signup-body .background_2 {
-        z-index: 2; /* Middle layer */
+        z-index: 2;
+        /* Middle layer */
         overflow: hidden;
     }
 
     .signup-body .background_3 {
-        z-index: 3; /* Top layer */
+        z-index: 3;
+        /* Top layer */
         text-align: right;
     }
 
@@ -1920,6 +1947,7 @@
         0% {
             transform: translateX(0);
         }
+
         100% {
             transform: translateX(-50%);
         }
@@ -2046,7 +2074,8 @@
         font-size: calc(20px * var(--font-scale));
         font-weight: bold;
         text-align: center;
-        min-width: 70px; /* Adjust as needed for code length */
+        min-width: 70px;
+        /* Adjust as needed for code length */
         min-height: 35px;
         display: flex;
         align-items: center;
@@ -2073,7 +2102,8 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            padding: 15px; /* Added padding for better spacing on smaller screens */
+            padding: 15px;
+            /* Added padding for better spacing on smaller screens */
         }
 
         .signup-container .logo img {
@@ -2081,7 +2111,8 @@
         }
 
         .signup-body .background-container {
-            height: auto; /* Allow background to adapt */
+            height: auto;
+            /* Allow background to adapt */
         }
     }
 
@@ -2097,7 +2128,8 @@
         }
 
         .signup-body .cloud-container {
-            animation: moveClouds 60s linear infinite; /* Slower cloud movement on small screens */
+            animation: moveClouds 60s linear infinite;
+            /* Slower cloud movement on small screens */
         }
     }
 
@@ -2246,7 +2278,8 @@
     /* Add this to your style.css */
     .voucher-card.redeemed {
         opacity: 0.5;
-        pointer-events: none; /* Prevent clicks */
+        pointer-events: none;
+        /* Prevent clicks */
         background-color: #f5f5f5;
     }
 
@@ -2265,7 +2298,8 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Dimmed background */
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Dimmed background */
         justify-content: center;
         align-items: center;
     }
@@ -2317,7 +2351,8 @@
     /* Checkmark Icon */
     .checkmark-icon {
         font-size: 50px;
-        color: #4CAF50; /* Green color for success */
+        color: #4CAF50;
+        /* Green color for success */
         margin-bottom: 15px;
     }
 
@@ -2423,61 +2458,61 @@
         gap: 0.5rem;
     }
 
-/* Currency Converter Styles */
-.currency-converter-container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+    /* Currency Converter Styles */
+    .currency-converter-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.currency-converter-container h1 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+    .currency-converter-container h1 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-.currency-converter-container label {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-}
+    .currency-converter-container label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
 
-.currency-converter-container input,
-.currency-converter-container select,
-.currency-converter-container button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
+    .currency-converter-container input,
+    .currency-converter-container select,
+    .currency-converter-container button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
 
-.currency-converter-container button {
-    background: #d8232a;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+    .currency-converter-container button {
+        background: #d8232a;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
 
-.currency-converter-container button:hover {
-    background: #b71d24;
-}
+    .currency-converter-container button:hover {
+        background: #b71d24;
+    }
 
-.currency-converter-error {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
+    .currency-converter-error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
 
-.currency-converter-confirmation {
-    margin-top: 20px;
-    padding: 15px;
-    background: #e9ecef;
-    border-left: 5px solid #d8232a;
-    border-radius: 5px;
-}
+    .currency-converter-confirmation {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e9ecef;
+        border-left: 5px solid #d8232a;
+        border-radius: 5px;
+    }
