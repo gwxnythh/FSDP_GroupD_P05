@@ -17,7 +17,7 @@ async function seedDatabase() {
             IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL DROP TABLE dbo.Users;
             IF OBJECT_ID('dbo.Rewards', 'U') IS NOT NULL DROP TABLE dbo.Rewards;
         `);
-        
+
 
         // Create the Users table first with updated PIN column type
         await sql.query(`
@@ -97,7 +97,7 @@ async function seedDatabase() {
                 
             );
         `);
-        
+
 
         // Create the Billing table
         await sql.query(`
@@ -118,7 +118,7 @@ async function seedDatabase() {
                     token_id INT PRIMARY KEY IDENTITY(1,1),
                     refreshToken VARCHAR(255) NOT NULL UNIQUE
                 );
-        `)    
+        `)
         /*
 
     // Hash passwords
@@ -149,13 +149,14 @@ async function seedDatabase() {
 */
         // Insert data into the Users table
         await sql.query(`
-            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber, CreatedAt)
+            INSERT INTO Users (UserID, AccessCode, PIN, FullName, Email, MobileNumber, CreatedAt, Verified)
             VALUES 
-                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567', '2024-08-01 08:30:00'),
-                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432', '2024-08-02 09:45:00'),
-                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com', '87654321', '2024-08-03 10:15:00'),
-                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com', '96543210', '2024-08-04 11:00:00'),
-                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com', '95432109', '2024-08-05 14:25:00');
+                ('U1', 'Access123', '123456', 'John Doe', 'john@example.com', '91234567', '2024-08-01 08:30:00', 1),
+                ('U2', 'Access456', '654321', 'Jane Smith', 'jane@example.com', '98765432', '2024-08-02 09:45:00', 1),
+                ('U3', 'Access789', '789123', 'Michael Brown', 'michael@example.com', '87654321', '2024-08-03 10:15:00', 1),
+                ('U4', 'Access101', '101010', 'Emily Davis', 'emily@example.com', '96543210', '2024-08-04 11:00:00', 1),
+                ('U5', 'Access202', '202020', 'David Wilson', 'david@example.com', '95432109', '2024-08-05 14:25:00', 1),
+                ('U6', 'S12345678A', 'S12345678A', 'David Wilson', 'david@example.com', '95432109', '2024-08-05 14:25:00', 1);
         `);
 
         // Insert data into the Accounts table
@@ -178,15 +179,18 @@ async function seedDatabase() {
         await sql.query(`
             INSERT INTO Transactions (TransactionID, FromAccountID, ToAccountID, Amount, TransactionDate, Status, Description, ReferenceNo)
             VALUES 
-                ('T1', 'A1', 'A3', 200.00, '2024-08-13 09:00:00', 'Completed', 'Lunch with Jane', '1090001'),
-                ('T2', 'A1', 'A6', 50.00, '2024-08-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
-                ('T3', 'A3', 'A1', 150.00, '2024-08-15 15:45:00', 'Completed', 'Shared gift for friend', '1090003'),
-                ('T4', 'A5', 'A3', 300.00, '2024-08-16 17:10:00', 'Completed', 'Reimbursement for Event Tickets', '1090004'),
-                ('T5', 'A6', 'A5', 75.00, '2024-08-17 11:20:00', 'Completed', 'Birthday gift', '1090005'),
-                ('T6', 'A7', 'A1', 500.00, '2024-08-18 14:30:00', 'Completed', 'Personal Loan Payment to John', '1090006'),
-                ('T7', 'A3', 'A7', 600.00, '2024-08-19 18:35:00', 'Completed', 'Payment for Furniture', '1090007'),
-                ('T8', 'A1', 'A5', 50.00, '2024-08-20 16:50:00', 'Completed', 'Book purchase', '1090008'),
-                ('T9', 'A7', 'A6', 120.00, '2024-08-21 13:35:00', 'Completed', 'Repayment for dinner', '1090009');
+                ('T1', 'A1', 'A3', 200.00, '2025-01-13 09:00:00', 'Completed', 'Lunch with Jane', '1090001'),
+                ('T2', 'A1', 'A6', 50.00, '2025-01-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
+                ('T3', 'A3', 'A1', 150.00, '2025-08-15 15:45:00', 'Completed', 'Shared gift for friend', '1090003'),
+                ('T4', 'A5', 'A3', 300.00, '2025-08-16 17:10:00', 'Completed', 'Reimbursement for Event Tickets', '1090004'),
+                ('T5', 'A6', 'A5', 75.00, '2025-08-17 11:20:00', 'Completed', 'Birthday gift', '1090005'),
+                ('T6', 'A7', 'A1', 500.00, '2025-08-18 14:30:00', 'Completed', 'Personal Loan Payment to John', '1090006'),
+                ('T7', 'A3', 'A7', 600.00, '2025-08-19 18:35:00', 'Completed', 'Payment for Furniture', '1090007'),
+                ('T8', 'A1', 'A5', 50.00, '2025-08-20 16:50:00', 'Completed', 'Book purchase', '1090008'),
+                ('T9', 'A7', 'A6', 120.00, '2025-08-21 13:35:00', 'Completed', 'Repayment for dinner', '1090009'),
+                ('T10', 'A1', 'A6', 250.00, '2024-04-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
+                ('T11', 'A1', 'A6', 250.00, '2024-08-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002'),
+                ('T12', 'A1', 'A6', 650.00, '2024-11-14 12:30:00', 'Completed', 'Payment for Shared Ride', '1090002');
         `);
 
         // Insert data into the Billing table
@@ -215,7 +219,7 @@ async function seedDatabase() {
                 ('R6', 'Starbucks', 'Free Tall Beverage', 450, '2025-09-30', 'images/Starbucks.png');
 
         `);
-        
+
         await sql.query(`
             INSERT INTO AccountPrefs (AccountPrefsId, UserID, IsHapticTouch, IsVoiceOver, IsVoiceRecognition)
             VALUES 
@@ -224,7 +228,7 @@ async function seedDatabase() {
                 ('P3', 'U3', 1, 0, 1), -- User U3 prefers Haptic Touch and VoiceRecognition
                 ('P4', 'U4', 0, 0, 0), -- User U4 has no preferences enabled
                 ('P5', 'U5', 1, 1, 1); -- User U5 prefers all features
-        `);        
+        `);
 
         console.log('Sample data inserted successfully.');
 

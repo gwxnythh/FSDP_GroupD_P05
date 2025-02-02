@@ -83,7 +83,6 @@ class Accounts {
         }
     }
     
-
     static async getCurrentAccountByMobileNumber(mobileNumber) {
         let connection;
 

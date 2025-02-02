@@ -1,5 +1,7 @@
 // controllers/accountsController.js
+const { Transaction } = require("mssql");
 const Accounts = require("../models/accounts");
+const Transactions = require("../models/transactions");
 
 const getAccountById = async (req, res) => {
     const id = req.params.id;
@@ -127,6 +129,66 @@ const getAccountPoints = async (req, res) => {
     }
 };
 
+const getAccountSpending = async (req, res) => {
+    const userId = req.params.id;
+    console.log("Retrieving spending for account:", userId); // Debug log
+
+    try {
+        const spending = await Transactions.getTransactionsSpendingByUserId(userId);
+
+        if (spending === null) {
+            console.log("No spending found for AccountID:", userId); // Debug log
+            return res.status(404).json({ message: "No spending found" });
+        }
+
+        // console.log("Spending found for userId:", userId, "Spending:", spending); // Debug log
+        const updatedSpendingData = addMissingMonths(spending);
+        res.json({ updatedSpendingData });
+    } catch (error) {
+        console.error("Error in controller:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+function generateFullMonthsList() {
+    const months = [];
+    const currentDate = new Date();
+    
+    for (let i = 0; i < 12; i++) {
+      const date = new Date(currentDate);
+      date.setMonth(currentDate.getMonth() - i);
+      months.push({
+        Year: date.getFullYear(),
+        Month: date.getMonth() + 1 
+      });
+    }
+    
+    return months.reverse();
+  }
+  
+  function addMissingMonths(spending) {
+    const fullMonthsList = generateFullMonthsList();
+    const updatedSpending = [];
+  
+    fullMonthsList.forEach(month => {
+      const found = spending.find(
+        entry => entry.Year === month.Year && entry.Month === month.Month
+      );
+      
+      if (found) {
+        updatedSpending.push(found);
+      } else {
+        updatedSpending.push({
+          Year: month.Year,
+          Month: month.Month,
+          TotalSpending: 0
+        });
+      }
+    });
+  
+    return updatedSpending;
+  }
+
 /*
 const getAccountPoints = async (req, res) => { 
     const accountId = req.params.id;
@@ -153,5 +215,6 @@ module.exports = {
     getCurrentAccountByMobile,
     getAccountBalance,
     updatePoints,
-    getAccountPoints
+    getAccountPoints,
+    getAccountSpending
 };

@@ -958,6 +958,7 @@
         margin-bottom: 20px;
     }
 
+    .signup-container .signup-content a,
     .login-container .login-content a {
         font-size: calc(12px * var(--font-scale));
         text-decoration: none;
@@ -1514,6 +1515,7 @@
         position: relative;
         bottom: 0;
         width: 100%;
+        margin-top: 210px;
     }
 
     #next-button {
@@ -2384,9 +2386,13 @@
     }
 
     #video-call video {
-        width: 500px;
+        width: 900px;
         height: auto;
         margin: 10px;
+    }
+
+    #controls {
+        margin-bottom: 150px;
     }
 
     #controls #share-screen {
@@ -2466,6 +2472,7 @@
         background: #f8f9fa;
         border-radius: 10px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 260px;
     }
 
     .currency-converter-container h1 {

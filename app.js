@@ -39,6 +39,7 @@ app.get("/accounts", accountsController.getAccountByAccessCode);
 app.get("/accounts/mobile/:mobileNumber", accountsController.getCurrentAccountByMobile);
 app.get("/accounts/balance/:id", accountsController.getAccountBalance);
 app.get("/accounts/points/:id", accountsController.getAccountPoints);
+app.get("/accounts/spending/:id", accountsController.getAccountSpending);
 
 //Transactions routes
 app.get('/transactions', transactionsController.getAllTransactions);
